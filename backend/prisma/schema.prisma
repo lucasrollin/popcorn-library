@@ -23,4 +23,56 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+  lists     List[]
+  ratings   Rating[]
+}
+
+model Film {
+  id             String     @id @default(uuid())
+  tmdbId         Int        @unique
+  imdbId         String?
+  title          String
+  overview       String?
+  posterUrl      String?
+  releaseYear    Int?
+  tmdbRating     Float?
+  tmdbVotesCount Int?
+  listFilms      ListFilm[]
+  ratings        Rating[]
+}
+
+model List {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  isPublic    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  listFilms   ListFilm[]
+}
+
+model ListFilm {
+  id      String   @id @default(uuid())
+  addedAt DateTime @default(now())
+  listId  String
+  list    List     @relation(fields: [listId], references: [id])
+  filmId  String
+  film    Film     @relation(fields: [filmId], references: [id])
+
+  @@unique([listId, filmId])
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  filmId    String
+  film      Film     @relation(fields: [filmId], references: [id])
+
+  @@unique([userId, filmId])
 }
