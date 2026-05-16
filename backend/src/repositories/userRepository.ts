@@ -16,3 +16,9 @@ export async function createUser(data: {
   });
   return createdUser;
 }
+
+export async function findUserByUsername(username: string) {
+  const user = await prisma.user.findUnique({ where: { username } });
+
+  return user;
+}
