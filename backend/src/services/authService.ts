@@ -6,7 +6,7 @@ import {
   createUser,
 } from '../repositories/userRepository';
 
-type RegisterInput = {
+export type RegisterInput = {
   email: string;
   username: string;
   password: string;
