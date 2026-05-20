@@ -25,6 +25,7 @@ model User {
   deletedAt DateTime?
   lists     List[]
   ratings   Rating[]
+  sessions  Session[]
 }
 
 model Film {
@@ -75,4 +76,13 @@ model Rating {
   film      Film     @relation(fields: [filmId], references: [id])
 
   @@unique([userId, filmId])
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
