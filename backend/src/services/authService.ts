@@ -5,6 +5,9 @@ import {
   findUserByUsername,
   createUser,
 } from '../repositories/userRepository';
+import { UnauthorizedError } from '../errors/UnauthorizedError';
+import { generateToken, hashToken } from '../utils/sessionToken';
+import { createSession } from '../repositories/sessionRepository';
 
 export type RegisterInput = {
   email: string;
@@ -40,4 +43,43 @@ export const register = async (data: RegisterInput) => {
   const { password: _password, ...rest } = newUser;
 
   return rest;
+};
+
+export type LoginInput = {
+  email: string;
+  password: string;
+};
+
+export const loginUser = async (data: LoginInput) => {
+  const user = await findUserByEmail(data.email);
+
+  if (!user) {
+    throw new UnauthorizedError(
+      'INVALID_CREDENTIALS',
+      'Invalid email or password',
+    );
+  }
+
+  const passwordIsValid = await argon2.verify(user.password, data.password);
+
+  if (!passwordIsValid) {
+    throw new UnauthorizedError(
+      'INVALID_CREDENTIALS',
+      'Invalid email or password',
+    );
+  }
+
+  const rawToken = generateToken();
+  const tokenHash = hashToken(rawToken);
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  await createSession({
+    userId: user.id,
+    tokenHash,
+    expiresAt,
+  });
+
+  const { password: _password, ...rest } = user;
+
+  return { user: rest, token: rawToken };
 };
