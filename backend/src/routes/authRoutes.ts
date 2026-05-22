@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { Router } from 'express';
 import { validateBody } from '../middlewares/validate';
-import { register } from '../controllers/authController';
+import { login, register } from '../controllers/authController';
+const router = Router();
 
 const registerSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -14,8 +15,12 @@ const registerSchema = z.object({
   password: z.string().min(8).max(128),
 });
 
-const router = Router();
+const loginSchema = z.object({
+  email: z.string().trim().toLowerCase().email(),
+  password: z.string(),
+});
 
 router.post('/register', validateBody(registerSchema), register);
+router.post('/login', validateBody(loginSchema), login);
 
 export default router;
