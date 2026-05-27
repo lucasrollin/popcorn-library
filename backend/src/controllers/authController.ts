@@ -19,13 +19,13 @@ export const login = async (
   req: Request<{}, {}, LoginInput>,
   res: Response,
 ) => {
-  const { user, token } = await loginService(req.body);
+  const { user, token, expiresAt } = await loginService(req.body);
 
   res.cookie('session', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: expiresAt.getTime() - Date.now(),
   });
 
   res.status(200).json(user);

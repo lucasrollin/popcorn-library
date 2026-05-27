@@ -85,7 +85,7 @@ export const loginUser = async (data: LoginInput) => {
 
   const { password: _password, ...rest } = user;
 
-  return { user: rest, token: rawToken };
+  return { user: rest, token: rawToken, expiresAt };
 };
 
 export const logout = async (tokenHash: string) => {
