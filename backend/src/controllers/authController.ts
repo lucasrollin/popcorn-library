@@ -28,7 +28,7 @@ export const login = async (
     maxAge: expiresAt.getTime() - Date.now(),
   });
 
-  res.status(200).json(user);
+  res.json(user);
 };
 
 export const getMe = async (req: Request, res: Response) => {
