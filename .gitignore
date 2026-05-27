@@ -144,3 +144,5 @@ vite.config.ts.timestamp-*
 
 # Claude Code
 CLAUDE.md
+
+cookies.txt
