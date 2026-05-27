@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { Router } from 'express';
 import { validateBody } from '../middlewares/validate';
-import { login, register } from '../controllers/authController';
+import { getMe, login, register } from '../controllers/authController';
+import { authenticate } from '../middlewares/authenticate';
 const router = Router();
 
 const registerSchema = z.object({
@@ -20,6 +21,7 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+router.get('/me', authenticate, getMe);
 router.post('/register', validateBody(registerSchema), register);
 router.post('/login', validateBody(loginSchema), login);
 
