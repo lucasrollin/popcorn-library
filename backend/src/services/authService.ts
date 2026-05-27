@@ -74,7 +74,8 @@ export const loginUser = async (data: LoginInput) => {
 
   const rawToken = generateToken();
   const tokenHash = hashToken(rawToken);
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const days = Number(process.env.SESSION_EXPIRES_IN_DAYS ?? 7);
+  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 
   await createSession({
     userId: user.id,
