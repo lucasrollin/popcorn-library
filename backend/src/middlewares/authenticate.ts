@@ -34,5 +34,7 @@ export const authenticate: RequestHandler = async (req, _res, next) => {
     username: session.user.username,
   };
 
+  req.sessionTokenHash = tokenHash;
+
   next();
 };

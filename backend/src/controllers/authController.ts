@@ -4,6 +4,7 @@ import {
   RegisterInput,
   LoginInput,
   loginUser as loginService,
+  logout as logoutService,
 } from '../services/authService';
 
 export const register = async (
@@ -33,4 +34,15 @@ export const login = async (
 export const getMe = async (req: Request, res: Response) => {
   const user = req.user;
   res.json(user);
+};
+
+export const logout = async (req: Request, res: Response) => {
+  await logoutService(req.sessionTokenHash!);
+  res.clearCookie('session', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+  res.status(204).end();
 };

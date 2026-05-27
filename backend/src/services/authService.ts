@@ -7,7 +7,10 @@ import {
 } from '../repositories/userRepository';
 import { UnauthorizedError } from '../errors/UnauthorizedError';
 import { generateToken, hashToken } from '../utils/sessionToken';
-import { createSession } from '../repositories/sessionRepository';
+import {
+  createSession,
+  deleteSessionByTokenHash,
+} from '../repositories/sessionRepository';
 
 export type RegisterInput = {
   email: string;
@@ -82,4 +85,8 @@ export const loginUser = async (data: LoginInput) => {
   const { password: _password, ...rest } = user;
 
   return { user: rest, token: rawToken };
+};
+
+export const logout = async (tokenHash: string) => {
+  await deleteSessionByTokenHash(tokenHash);
 };

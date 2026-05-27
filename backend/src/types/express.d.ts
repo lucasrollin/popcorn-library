@@ -6,6 +6,7 @@ declare global {
         email: string;
         username: string;
       };
+      sessionTokenHash?: string;
     }
   }
 }
