@@ -1,16 +1,9 @@
 import argon2 from 'argon2';
 import { ConflictError } from '../errors/ConflictError';
-import {
-  findUserByEmail,
-  findUserByUsername,
-  createUser,
-} from '../repositories/userRepository';
+import { findUserByEmail, findUserByUsername, createUser } from '../repositories/userRepository';
 import { UnauthorizedError } from '../errors/UnauthorizedError';
 import { generateToken, hashToken } from '../utils/sessionToken';
-import {
-  createSession,
-  deleteSessionByTokenHash,
-} from '../repositories/sessionRepository';
+import { createSession, deleteSessionByTokenHash } from '../repositories/sessionRepository';
 
 export type RegisterInput = {
   email: string;
@@ -21,19 +14,11 @@ export type RegisterInput = {
 export const register = async (data: RegisterInput) => {
   const existingUser = await findUserByEmail(data.email);
 
-  if (existingUser)
-    throw new ConflictError(
-      'EMAIL_ALREADY_TAKEN',
-      'This email is already registered',
-    );
+  if (existingUser) throw new ConflictError('EMAIL_ALREADY_TAKEN', 'This email is already registered');
 
   const userWithUsername = await findUserByUsername(data.username);
 
-  if (userWithUsername)
-    throw new ConflictError(
-      'USERNAME_ALREADY_TAKEN',
-      'This username is already taken',
-    );
+  if (userWithUsername) throw new ConflictError('USERNAME_ALREADY_TAKEN', 'This username is already taken');
 
   const passwordHash = await argon2.hash(data.password);
 
@@ -57,19 +42,13 @@ export const loginUser = async (data: LoginInput) => {
   const user = await findUserByEmail(data.email);
 
   if (!user) {
-    throw new UnauthorizedError(
-      'INVALID_CREDENTIALS',
-      'Invalid email or password',
-    );
+    throw new UnauthorizedError('INVALID_CREDENTIALS', 'Invalid email or password');
   }
 
   const passwordIsValid = await argon2.verify(user.password, data.password);
 
   if (!passwordIsValid) {
-    throw new UnauthorizedError(
-      'INVALID_CREDENTIALS',
-      'Invalid email or password',
-    );
+    throw new UnauthorizedError('INVALID_CREDENTIALS', 'Invalid email or password');
   }
 
   const rawToken = generateToken();
