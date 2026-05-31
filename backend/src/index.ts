@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoutes';
+import filmRouter from './routes/filmRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -16,6 +17,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/films', filmRouter);
 
 app.use(errorHandler);
 
