@@ -9,6 +9,7 @@ export const validateBody = (schema: ZodType): RequestHandler => {
         error: 'VALIDATION_ERROR',
         message: 'Request body is invalid',
       });
+
       return;
     }
     req.body = result.data;
