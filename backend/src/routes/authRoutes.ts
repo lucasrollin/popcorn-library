@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { validateBody } from '../middlewares/validate';
 import { getMe, login, logout, register } from '../controllers/authController';
 import { authenticate } from '../middlewares/authenticate';
+
 const router = Router();
 
 const registerSchema = z.object({
