@@ -1,4 +1,4 @@
-import { createList } from '../repositories/listRepository';
+import { createList, findListsByUserId, findPublicLists } from '../repositories/listRepository';
 
 export type CreateListInput = {
   name: string;
@@ -9,4 +9,12 @@ export type CreateListInput = {
 
 export const createListService = async (data: CreateListInput) => {
   return await createList(data);
+};
+
+export const findListsByUserIdService = async (userId: string) => {
+  return await findListsByUserId(userId);
+};
+
+export const findPublicListsService = async () => {
+  return await findPublicLists();
 };

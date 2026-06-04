@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createListService } from '../services/listService';
+import { createListService, findListsByUserIdService, findPublicListsService } from '../services/listService';
 
 export const createListController = async (
   req: Request<
@@ -23,4 +23,18 @@ export const createListController = async (
   const result = await createListService(data);
 
   res.status(201).json(result);
+};
+
+export const getMyListsController = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+
+  const result = await findListsByUserIdService(userId);
+
+  res.json(result);
+};
+
+export const getPublicListsController = async (_req: Request, res: Response) => {
+  const result = await findPublicListsService();
+
+  res.json(result);
 };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createListController } from '../controllers/listController';
+import { createListController, getMyListsController, getPublicListsController } from '../controllers/listController';
 import { z } from 'zod';
 import { validateBody } from '../middlewares/validate';
 import { authenticate } from '../middlewares/authenticate';
@@ -12,6 +12,8 @@ const createListSchema = z.object({
   isPublic: z.boolean().default(false),
 });
 
+router.get('/me', authenticate, getMyListsController);
 router.post('/', authenticate, validateBody(createListSchema), createListController);
+router.get('/', getPublicListsController);
 
 export default router;

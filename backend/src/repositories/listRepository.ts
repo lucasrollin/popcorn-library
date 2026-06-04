@@ -6,3 +6,15 @@ export async function createList(data: CreateListInput) {
 
   return createdList;
 }
+
+export const findListsByUserId = async (userId: string) => {
+  const lists = await prisma.list.findMany({ where: { userId } });
+
+  return lists;
+};
+
+export const findPublicLists = async () => {
+  const publicLists = await prisma.list.findMany({ where: { isPublic: true } });
+
+  return publicLists;
+};
