@@ -1,5 +1,11 @@
 import { Request, Response } from 'express';
-import { createListService, findListsByUserIdService, findPublicListsService } from '../services/listService';
+import {
+  createListService,
+  findListsByUserIdService,
+  findPublicListsService,
+  getListByIdService,
+} from '../services/listService';
+import { z } from 'zod';
 
 export const createListController = async (
   req: Request<
@@ -37,4 +43,23 @@ export const getPublicListsController = async (_req: Request, res: Response) => 
   const result = await findPublicListsService();
 
   res.json(result);
+};
+
+export const getListController = async (req: Request, res: Response) => {
+  const schema = z.object({ id: z.uuid() });
+
+  const result = schema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: 'VALIDATION_ERROR',
+      message: 'List id is invalid',
+    });
+
+    return;
+  }
+
+  const list = await getListByIdService(result.data.id, req.user?.id);
+
+  res.json(list);
 };

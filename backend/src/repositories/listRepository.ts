@@ -18,3 +18,12 @@ export const findPublicLists = async () => {
 
   return publicLists;
 };
+
+export const findListById = async (listId: string) => {
+  const list = await prisma.list.findUnique({
+    where: { id: listId },
+    include: { listFilms: { include: { film: true } } },
+  });
+
+  return list;
+};
