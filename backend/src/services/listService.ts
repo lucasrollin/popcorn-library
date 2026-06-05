@@ -1,6 +1,7 @@
 import { NotFoundError } from '../errors/NotFoundError';
 import {
   createList,
+  deleteList,
   findListById,
   findListsByUserId,
   findPublicLists,
@@ -48,4 +49,12 @@ export const updateListService = async (listId: string, requestingUserId: string
   if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
 
   return await updateList(listId, data);
+};
+
+export const deleteListService = async (listId: string, requestingUserId: string) => {
+  const list = await findListById(listId);
+  if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+  if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+
+  await deleteList(listId);
 };

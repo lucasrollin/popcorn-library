@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createListController,
+  deleteListController,
   getListController,
   getMyListsController,
   getPublicListsController,
@@ -30,5 +31,6 @@ router.post('/', authenticate, validateBody(createListSchema), createListControl
 router.get('/', getPublicListsController);
 router.get('/:id', optionalAuthenticate, getListController);
 router.patch('/:id', authenticate, validateBody(updateListSchema), updateListController);
+router.delete('/:id', authenticate, deleteListController);
 
 export default router;

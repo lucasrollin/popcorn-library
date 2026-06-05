@@ -36,3 +36,12 @@ export const updateList = async (listId: string, data: UpdateListInput) => {
 
   return updatedList;
 };
+
+export const deleteList = async (listId: string) => {
+  const deletedList = await prisma.$transaction([
+    prisma.listFilm.deleteMany({ where: { listId } }),
+    prisma.list.delete({ where: { id: listId } }),
+  ]);
+
+  return deletedList;
+};
