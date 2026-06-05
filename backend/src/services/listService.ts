@@ -1,11 +1,23 @@
 import { NotFoundError } from '../errors/NotFoundError';
-import { createList, findListById, findListsByUserId, findPublicLists } from '../repositories/listRepository';
+import {
+  createList,
+  findListById,
+  findListsByUserId,
+  findPublicLists,
+  updateList,
+} from '../repositories/listRepository';
 
 export type CreateListInput = {
   name: string;
   description?: string;
   isPublic: boolean;
   userId: string;
+};
+
+export type UpdateListInput = {
+  name?: string;
+  description?: string;
+  isPublic?: boolean;
 };
 
 export const createListService = async (data: CreateListInput) => {
@@ -28,4 +40,12 @@ export const getListByIdService = async (listId: string, requestingUserId?: stri
   if (!list.isPublic && list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
 
   return list;
+};
+
+export const updateListService = async (listId: string, requestingUserId: string, data: UpdateListInput) => {
+  const list = await findListById(listId);
+  if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+  if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+
+  return await updateList(listId, data);
 };

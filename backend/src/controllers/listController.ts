@@ -4,6 +4,7 @@ import {
   findListsByUserIdService,
   findPublicListsService,
   getListByIdService,
+  updateListService,
 } from '../services/listService';
 import { z } from 'zod';
 
@@ -62,4 +63,23 @@ export const getListController = async (req: Request, res: Response) => {
   const list = await getListByIdService(result.data.id, req.user?.id);
 
   res.json(list);
+};
+
+export const updateListController = async (req: Request, res: Response) => {
+  const schema = z.object({ id: z.uuid() });
+
+  const result = schema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: 'VALIDATION_ERROR',
+      message: 'List id is invalid',
+    });
+
+    return;
+  }
+
+  const updatedList = await updateListService(result.data.id, req.user!.id, req.body);
+
+  res.json(updatedList);
 };

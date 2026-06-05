@@ -1,5 +1,5 @@
 import { prisma } from './prismaClient';
-import { CreateListInput } from '../services/listService';
+import { CreateListInput, UpdateListInput } from '../services/listService';
 
 export async function createList(data: CreateListInput) {
   const createdList = await prisma.list.create({ data });
@@ -26,4 +26,13 @@ export const findListById = async (listId: string) => {
   });
 
   return list;
+};
+
+export const updateList = async (listId: string, data: UpdateListInput) => {
+  const updatedList = await prisma.list.update({
+    where: { id: listId },
+    data,
+  });
+
+  return updatedList;
 };
