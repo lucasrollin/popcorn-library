@@ -45,3 +45,9 @@ export const deleteList = async (listId: string) => {
 
   return deletedList;
 };
+
+export const addFilmToList = async (listId: string, filmId: string) => {
+  const listFilm = await prisma.listFilm.create({ data: { listId, filmId } });
+
+  return listFilm;
+};
