@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import {
+  addFilmToListService,
   createListService,
   deleteListService,
   findListsByUserIdService,
@@ -102,4 +103,23 @@ export const deleteListController = async (req: Request, res: Response) => {
   await deleteListService(result.data.id, req.user!.id);
 
   res.status(204).end();
+};
+
+export const addFilmToListController = async (req: Request, res: Response) => {
+  const schema = z.object({ id: z.uuid() });
+
+  const result = schema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: 'VALIDATION_ERROR',
+      message: 'List id is invalid',
+    });
+
+    return;
+  }
+
+  const listFilm = await addFilmToListService(result.data.id, req.body.tmdbId, req.user!.id);
+
+  res.status(201).json(listFilm);
 };

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  addFilmToListController,
   createListController,
   deleteListController,
   getListController,
@@ -26,11 +27,14 @@ export const updateListSchema = z.object({
   isPublic: z.boolean().optional(),
 });
 
+const addFilmSchema = z.object({ tmdbId: z.number().int().positive() });
+
 router.get('/me', authenticate, getMyListsController);
 router.post('/', authenticate, validateBody(createListSchema), createListController);
 router.get('/', getPublicListsController);
 router.get('/:id', optionalAuthenticate, getListController);
 router.patch('/:id', authenticate, validateBody(updateListSchema), updateListController);
 router.delete('/:id', authenticate, deleteListController);
+router.post('/:id/films', authenticate, validateBody(addFilmSchema), addFilmToListController);
 
 export default router;
