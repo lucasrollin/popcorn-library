@@ -1,5 +1,8 @@
+import { ConflictError } from '../errors/ConflictError';
 import { NotFoundError } from '../errors/NotFoundError';
+import { Prisma } from '../generated/prisma/client';
 import {
+  addFilmToList,
   createList,
   deleteList,
   findListById,
@@ -7,6 +10,7 @@ import {
   findPublicLists,
   updateList,
 } from '../repositories/listRepository';
+import { findOrCreateFilmByTmdbId } from './filmService';
 
 export type CreateListInput = {
   name: string;
@@ -57,4 +61,21 @@ export const deleteListService = async (listId: string, requestingUserId: string
   if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
 
   await deleteList(listId);
+};
+
+export const addFilmToListService = async (listId: string, tmdbId: number, requestingUserId: string) => {
+  const list = await findListById(listId);
+  if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+  if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+
+  const film = await findOrCreateFilmByTmdbId(tmdbId);
+
+  try {
+    return await addFilmToList(listId, film.id);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      throw new ConflictError('FILM_ALREADY_IN_LIST', 'This film is already in the list');
+    }
+    throw error;
+  }
 };
