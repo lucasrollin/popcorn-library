@@ -1,11 +1,11 @@
 import { prisma } from './prismaClient';
 import { CreateListInput, UpdateListInput } from '../services/listService';
 
-export async function createList(data: CreateListInput) {
+export const createList = async (data: CreateListInput) => {
   const createdList = await prisma.list.create({ data });
 
   return createdList;
-}
+};
 
 export const findListsByUserId = async (userId: string) => {
   const lists = await prisma.list.findMany({ where: { userId } });
