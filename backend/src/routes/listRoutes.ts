@@ -6,6 +6,7 @@ import {
   getListController,
   getMyListsController,
   getPublicListsController,
+  removeFilmFromListController,
   updateListController,
 } from '../controllers/listController';
 import { z } from 'zod';
@@ -36,5 +37,6 @@ router.get('/:id', optionalAuthenticate, getListController);
 router.patch('/:id', authenticate, validateBody(updateListSchema), updateListController);
 router.delete('/:id', authenticate, deleteListController);
 router.post('/:id/films', authenticate, validateBody(addFilmSchema), addFilmToListController);
+router.delete('/:id/films/:filmId', authenticate, removeFilmFromListController);
 
 export default router;

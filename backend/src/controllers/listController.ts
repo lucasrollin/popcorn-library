@@ -6,6 +6,7 @@ import {
   findListsByUserIdService,
   findPublicListsService,
   getListByIdService,
+  removeFilmFromListService,
   updateListService,
 } from '../services/listService';
 import { z } from 'zod';
@@ -122,4 +123,26 @@ export const addFilmToListController = async (req: Request, res: Response) => {
   const listFilm = await addFilmToListService(result.data.id, req.body.tmdbId, req.user!.id);
 
   res.status(201).json(listFilm);
+};
+
+export const removeFilmFromListController = async (req: Request, res: Response) => {
+  const schema = z.object({
+    id: z.uuid(),
+    filmId: z.coerce.number().int().positive(),
+  });
+
+  const result = schema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: 'VALIDATION_ERROR',
+      message: 'List id or Film id is invalid',
+    });
+
+    return;
+  }
+
+  await removeFilmFromListService(result.data.id, result.data.filmId, req.user!.id);
+
+  res.status(204).end();
 };
