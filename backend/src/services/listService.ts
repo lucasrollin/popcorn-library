@@ -1,6 +1,7 @@
 import { ConflictError } from '../errors/ConflictError';
 import { NotFoundError } from '../errors/NotFoundError';
 import { Prisma } from '../generated/prisma/client';
+import { findFilmByTmdbId } from '../repositories/filmRepository';
 import {
   addFilmToList,
   createList,
@@ -8,6 +9,7 @@ import {
   findListById,
   findListsByUserId,
   findPublicLists,
+  removeFilmFromList,
   updateList,
 } from '../repositories/listRepository';
 import { findOrCreateFilmByTmdbId } from './filmService';
@@ -75,6 +77,24 @@ export const addFilmToListService = async (listId: string, tmdbId: number, reque
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
       throw new ConflictError('FILM_ALREADY_IN_LIST', 'This film is already in the list');
+    }
+    throw error;
+  }
+};
+
+export const removeFilmFromListService = async (listId: string, tmdbId: number, requestingUserId: string) => {
+  const list = await findListById(listId);
+  if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+  if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+
+  const film = await findFilmByTmdbId(tmdbId);
+  if (!film) throw new NotFoundError('FILM_NOT_IN_LIST', 'Film not in list');
+
+  try {
+    return await removeFilmFromList(listId, film.id);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      throw new NotFoundError('FILM_NOT_IN_LIST', 'Film not in list');
     }
     throw error;
   }
