@@ -2,7 +2,7 @@ import { ConflictError } from '../errors/ConflictError';
 import { ForbiddenError } from '../errors/ForbiddenError';
 import { NotFoundError } from '../errors/NotFoundError';
 import { Prisma } from '../generated/prisma/client';
-import { createRating, findRatingById, updateRating } from '../repositories/ratingRepository';
+import { createRating, deleteRating, findRatingById, updateRating } from '../repositories/ratingRepository';
 import { findOrCreateFilmByTmdbId } from './filmService';
 
 export type CreateRatingInput = {
@@ -34,4 +34,12 @@ export const updateRatingService = async (ratingId: string, score: number, userI
   if (rating.userId !== userId) throw new ForbiddenError('FORBIDDEN', 'You can only modify your own rating');
 
   return await updateRating(ratingId, { score });
+};
+
+export const deleteRatingService = async (ratingId: string, userId: string) => {
+  const rating = await findRatingById(ratingId);
+  if (!rating) throw new NotFoundError('RATING_NOT_FOUND', 'Rating not found');
+  if (rating.userId !== userId) throw new ForbiddenError('FORBIDDEN', 'You can only delete your own rating');
+
+  await deleteRating(ratingId);
 };
