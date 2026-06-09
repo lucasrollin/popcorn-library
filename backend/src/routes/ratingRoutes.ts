@@ -2,7 +2,11 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { authenticate } from '../middlewares/authenticate';
 import { validateBody } from '../middlewares/validate';
-import { createRatingController, updateRatingController } from '../controllers/ratingController';
+import {
+  createRatingController,
+  deleteRatingController,
+  updateRatingController,
+} from '../controllers/ratingController';
 
 const router = Router();
 
@@ -17,5 +21,6 @@ const updateRatingSchema = z.object({
 
 router.post('/', authenticate, validateBody(createRatingSchema), createRatingController);
 router.patch('/:id', authenticate, validateBody(updateRatingSchema), updateRatingController);
+router.delete('/:id', authenticate, deleteRatingController);
 
 export default router;
