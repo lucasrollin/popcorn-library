@@ -25,3 +25,12 @@ export const updateRating = async (id: string, data: UpdateRatingInput) => {
 export const deleteRating = async (id: string) => {
   return await prisma.rating.delete({ where: { id } });
 };
+
+export const findRatingsByFilmId = async (filmId: string) => {
+  const ratingsByFilmId = await prisma.rating.findMany({
+    where: { filmId },
+    include: { user: { select: { username: true, avatar: true } } },
+  });
+
+  return ratingsByFilmId;
+};
