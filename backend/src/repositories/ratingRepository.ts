@@ -21,3 +21,7 @@ export const updateRating = async (id: string, data: UpdateRatingInput) => {
 
   return updatedRating;
 };
+
+export const deleteRating = async (id: string) => {
+  return await prisma.rating.delete({ where: { id } });
+};
