@@ -3,6 +3,7 @@ import { NotFoundError } from '../errors/NotFoundError';
 import { FilmDetails } from '../types/film';
 import { Prisma } from '../generated/prisma/client';
 import { createFilm, findFilmByTmdbId } from '../repositories/filmRepository';
+import { findRatingsByFilmId } from '../repositories/ratingRepository';
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -52,4 +53,11 @@ export const findOrCreateFilmByTmdbId = async (tmdbId: number) => {
     }
     throw error;
   }
+};
+
+export const getRatingsByTmdbIdService = async (tmdbId: number) => {
+  const film = await findFilmByTmdbId(tmdbId);
+  if (!film) return [];
+
+  return await findRatingsByFilmId(film.id);
 };
