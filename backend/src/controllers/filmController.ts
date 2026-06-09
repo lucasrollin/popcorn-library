@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Request, Response } from 'express';
-import { getFilmDetails, searchFilms as searchFilmsService } from '../services/filmService';
+import { getFilmDetails, getRatingsByTmdbIdService, searchFilms as searchFilmsService } from '../services/filmService';
 
 const searchQuerySchema = z.object({
   q: z.string().trim().min(1),
@@ -46,4 +46,23 @@ export const getFilm = async (req: Request, res: Response) => {
   const film = await getFilmDetails(tmdbId);
 
   res.json(film);
+};
+
+export const getFilmRatings = async (req: Request, res: Response) => {
+  const result = paramsSchema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: 'VALIDATION_ERROR',
+      message: 'Film id is invalid',
+    });
+
+    return;
+  }
+
+  const { tmdbId } = result.data;
+
+  const ratings = await getRatingsByTmdbIdService(tmdbId);
+
+  res.json(ratings);
 };
