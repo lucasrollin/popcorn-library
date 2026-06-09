@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { getFilm, searchFilms } from '../controllers/filmController';
+import { getFilm, getFilmRatings, searchFilms } from '../controllers/filmController';
 
 const router = Router();
 
 router.get('/search', searchFilms);
 router.get('/:tmdbId', getFilm);
+router.get('/:tmdbId/ratings', getFilmRatings);
 
 export default router;
