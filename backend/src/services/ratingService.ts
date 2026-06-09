@@ -9,6 +9,10 @@ export type CreateRatingInput = {
   score: number;
 };
 
+export type UpdateRatingInput = {
+  score: number;
+};
+
 export const createRatingService = async (tmdbId: number, score: number, userId: string) => {
   const film = await findOrCreateFilmByTmdbId(tmdbId);
 
