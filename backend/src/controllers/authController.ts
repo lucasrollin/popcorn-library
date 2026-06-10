@@ -7,18 +7,12 @@ import {
   logout as logoutService,
 } from '../services/authService';
 
-export const register = async (
-  req: Request<{}, {}, RegisterInput>,
-  res: Response,
-) => {
+export const register = async (req: Request<{}, {}, RegisterInput>, res: Response) => {
   const user = await registerService(req.body);
   res.status(201).json(user);
 };
 
-export const login = async (
-  req: Request<{}, {}, LoginInput>,
-  res: Response,
-) => {
+export const login = async (req: Request<{}, {}, LoginInput>, res: Response) => {
   const { user, token, expiresAt } = await loginService(req.body);
 
   res.cookie('session', token, {
