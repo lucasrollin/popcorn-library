@@ -44,12 +44,17 @@ export const getListByIdService = async (listId: string, requestingUserId?: stri
 
   if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
 
-  if (!list.isPublic && list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
+  if (!list.isPublic && list.userId !== requestingUserId)
+    throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
 
   return list;
 };
 
-export const updateListService = async (listId: string, requestingUserId: string, data: UpdateListInput) => {
+export const updateListService = async (
+  listId: string,
+  requestingUserId: string,
+  data: UpdateListInput,
+) => {
   const list = await findListById(listId);
   if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
   if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
@@ -65,7 +70,11 @@ export const deleteListService = async (listId: string, requestingUserId: string
   await deleteList(listId);
 };
 
-export const addFilmToListService = async (listId: string, tmdbId: number, requestingUserId: string) => {
+export const addFilmToListService = async (
+  listId: string,
+  tmdbId: number,
+  requestingUserId: string,
+) => {
   const list = await findListById(listId);
   if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
   if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
@@ -82,7 +91,11 @@ export const addFilmToListService = async (listId: string, tmdbId: number, reque
   }
 };
 
-export const removeFilmFromListService = async (listId: string, tmdbId: number, requestingUserId: string) => {
+export const removeFilmFromListService = async (
+  listId: string,
+  tmdbId: number,
+  requestingUserId: string,
+) => {
   const list = await findListById(listId);
   if (!list) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');
   if (list.userId !== requestingUserId) throw new NotFoundError('LIST_NOT_FOUND', 'List not found');

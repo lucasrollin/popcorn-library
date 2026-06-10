@@ -14,11 +14,13 @@ export type RegisterInput = {
 export const register = async (data: RegisterInput) => {
   const existingUser = await findUserByEmail(data.email);
 
-  if (existingUser) throw new ConflictError('EMAIL_ALREADY_TAKEN', 'This email is already registered');
+  if (existingUser)
+    throw new ConflictError('EMAIL_ALREADY_TAKEN', 'This email is already registered');
 
   const userWithUsername = await findUserByUsername(data.username);
 
-  if (userWithUsername) throw new ConflictError('USERNAME_ALREADY_TAKEN', 'This username is already taken');
+  if (userWithUsername)
+    throw new ConflictError('USERNAME_ALREADY_TAKEN', 'This username is already taken');
 
   const passwordHash = await argon2.hash(data.password);
 

@@ -1,6 +1,9 @@
 import { RequestHandler } from 'express';
 import { hashToken } from '../utils/sessionToken';
-import { findSessionByTokenHash, deleteSessionByTokenHash } from '../repositories/sessionRepository';
+import {
+  findSessionByTokenHash,
+  deleteSessionByTokenHash,
+} from '../repositories/sessionRepository';
 
 export const optionalAuthenticate: RequestHandler = async (req, _res, next) => {
   const rawToken = req.cookies?.session;

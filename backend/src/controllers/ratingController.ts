@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { createRatingService, deleteRatingService, updateRatingService } from '../services/ratingService';
+import {
+  createRatingService,
+  deleteRatingService,
+  updateRatingService,
+} from '../services/ratingService';
 import { z } from 'zod';
 
 export const createRatingController = async (req: Request, res: Response) => {

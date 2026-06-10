@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { Request, Response } from 'express';
-import { getFilmDetails, getRatingsByTmdbIdService, searchFilms as searchFilmsService } from '../services/filmService';
+import {
+  getFilmDetails,
+  getRatingsByTmdbIdService,
+  searchFilms as searchFilmsService,
+} from '../services/filmService';
 
 const searchQuerySchema = z.object({
   q: z.string().trim().min(1),
