@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import type { FilmSearchResult } from '../../types/film';
 import { searchFilms } from '../../services/filmService';
-
-const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w200';
+import FilmCard from '../../components/FilmCard/FilmCard';
+import styles from './Search.module.scss';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -34,14 +34,9 @@ export default function Search() {
       {loading && <p>Searching...</p>}
       {error && <p>Error: {error}</p>}
 
-      <ul>
+      <ul className={styles.results}>
         {films.map((film) => (
-          <li key={film.id}>
-            {film.title}
-            {film.poster_path && (
-              <img src={`${TMDB_IMAGE_BASE}${film.poster_path}`} alt={film.title} />
-            )}
-          </li>
+          <FilmCard key={film.id} title={film.title} posterPath={film.poster_path} />
         ))}
       </ul>
     </>

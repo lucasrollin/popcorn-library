@@ -1,0 +1,9 @@
+@use '../../styles/variables' as *;
+
+.results {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: $gap;
+}
