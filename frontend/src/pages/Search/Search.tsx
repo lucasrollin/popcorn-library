@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { FilmSearchResult } from '../types/film';
-import { searchFilms } from '../services/filmService';
+import type { FilmSearchResult } from '../../types/film';
+import { searchFilms } from '../../services/filmService';
 
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w200';
 
