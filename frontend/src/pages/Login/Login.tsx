@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 import { useAuthStore } from '../../stores/authStore';
+import styles from './Login.module.scss';
 
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
@@ -36,16 +37,21 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="email" placeholder="Email" {...register('email')} />
-      {errors.email && <p>{errors.email.message}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <input type="email" placeholder="Email" {...register('email')} className={styles.input} />
+      {errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
-      <input type="password" placeholder="Password" {...register('password')} />
-      {errors.password && <p>{errors.password.message}</p>}
+      <input
+        type="password"
+        placeholder="Password"
+        {...register('password')}
+        className={styles.input}
+      />
+      {errors.password && <p className={styles.error}>{errors.password.message}</p>}
 
-      {serverError && <p>{serverError}</p>}
+      {serverError && <p className={styles.error}>{serverError}</p>}
 
-      <button type="submit" disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting} className={styles.button}>
         {isSubmitting ? 'Logging in...' : 'Login'}
       </button>
     </form>
