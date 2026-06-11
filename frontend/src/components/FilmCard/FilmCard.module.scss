@@ -1,0 +1,32 @@
+@use '../../styles/variables' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: $radius;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.poster {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: #eee;
+}
+
+.title {
+  padding: 8px;
+  font-size: 0.9rem;
+}
