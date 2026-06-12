@@ -8,8 +8,8 @@ import { useAuthStore } from '../../stores/authStore';
 import styles from './Login.module.scss';
 
 const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().email(),
-  password: z.string(),
+  email: z.string().trim().toLowerCase().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -38,21 +38,34 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <input type="email" placeholder="Email" {...register('email')} className={styles.input} />
+      <h1 className={styles.heading}>Login</h1>
+
+      <label className={styles.label}>
+        Email
+        <input
+          type="email"
+          autoComplete="email"
+          {...register('email')}
+          className={styles.input}
+        />
+      </label>
       {errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
-      <input
-        type="password"
-        placeholder="Password"
-        {...register('password')}
-        className={styles.input}
-      />
+      <label className={styles.label}>
+        Password
+        <input
+          type="password"
+          autoComplete="current-password"
+          {...register('password')}
+          className={styles.input}
+        />
+      </label>
       {errors.password && <p className={styles.error}>{errors.password.message}</p>}
 
       {serverError && <p className={styles.error}>{serverError}</p>}
 
       <button type="submit" disabled={isSubmitting} className={styles.button}>
-        {isSubmitting ? 'Logging in...' : 'Login'}
+        {isSubmitting ? 'Logging in…' : 'Login'}
       </button>
     </form>
   );
