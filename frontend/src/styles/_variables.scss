@@ -1,3 +1,40 @@
-$radius: 8px;
-$gap: 16px;
+// Couleurs — thème sombre
+$color-bg: #101014;
+$color-surface: #1b1c22;
+$color-surface-hover: #26272f;
+$color-border: #2e2f38;
+$color-text: #f2f2f5;
+$color-text-muted: #9b9ca6;
+$color-accent: #f6c453;
+$color-accent-hover: #e3ad33;
+$color-on-accent: #1a1405;
+$color-error: #ff6b6b;
+$color-success: #51cf66;
+
+// Espacements — échelle base 4px
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-6: 24px;
+$space-8: 32px;
+$space-12: 48px;
+
+// Typographie
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.25rem;
+$text-xl: 1.75rem;
+$text-2xl: 2.5rem;
+
+// Rayons
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+
+// Animation
+$transition: 0.15s ease;
+
+// Breakpoints
+$bp-mobile: 640px;
 $bp-tablet: 1024px;

@@ -3,32 +3,36 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $space-3;
   max-width: 320px;
-  margin: 40px auto;
+  margin: $space-12 auto;
 }
 
 .input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: $radius;
+  padding: $space-2 $space-3;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text;
 }
 
 .error {
-  color: #d33;
-  font-size: 0.85rem;
+  color: $color-error;
+  font-size: $text-sm;
 }
 
 .button {
-  padding: 10px;
+  padding: $space-3;
   border: none;
-  border-radius: $radius;
-  background: #1a1a1a;
-  color: #fff;
+  border-radius: $radius-sm;
+  background: $color-accent;
+  color: $color-on-accent;
+  font-weight: 600;
   cursor: pointer;
+  transition: background $transition;
 
   &:hover {
-    background: #333;
+    background: $color-accent-hover;
   }
   &:disabled {
     opacity: 0.6;

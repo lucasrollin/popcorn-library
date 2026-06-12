@@ -3,14 +3,15 @@
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: $radius;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
   overflow: hidden;
-  background: #fff;
-  transition: transform 0.15s ease;
+  background: $color-surface;
+  transition: transform $transition, background $transition;
 
   &:hover {
     transform: translateY(-4px);
+    background: $color-surface-hover;
   }
 }
 
@@ -23,10 +24,10 @@
 .placeholder {
   width: 100%;
   aspect-ratio: 2/3;
-  background: #eee;
+  background: $color-surface-hover;
 }
 
 .title {
-  padding: 8px;
-  font-size: 0.9rem;
+  padding: $space-2;
+  font-size: $text-sm;
 }
