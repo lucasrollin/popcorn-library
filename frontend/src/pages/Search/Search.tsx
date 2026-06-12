@@ -36,7 +36,13 @@ export default function Search() {
 
       <ul className={styles.results}>
         {films.map((film) => (
-          <FilmCard key={film.id} title={film.title} posterPath={film.poster_path} />
+          <FilmCard
+            key={film.id}
+            title={film.title}
+            posterPath={film.poster_path}
+            releaseYear={film.release_date ? film.release_date.slice(0, 4) : null}
+            voteAverage={film.vote_average}
+          />
         ))}
       </ul>
     </>

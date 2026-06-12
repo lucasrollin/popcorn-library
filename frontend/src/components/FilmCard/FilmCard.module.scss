@@ -25,9 +25,29 @@
   width: 100%;
   aspect-ratio: 2/3;
   background: $color-surface-hover;
+  display: grid;
+  place-items: center;
+  font-size: $text-2xl;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  padding: $space-2;
 }
 
 .title {
-  padding: $space-2;
   font-size: $text-sm;
+}
+
+.meta {
+  display: flex;
+  font-size: $text-sm;
+  color: $color-text-muted;
+}
+
+.rating {
+  margin-left: auto;
+  color: $color-accent;
 }
