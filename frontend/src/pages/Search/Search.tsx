@@ -9,14 +9,19 @@ export default function Search() {
   const [films, setFilms] = useState<FilmSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const trimmed = query.trim();
+    if (!trimmed) return;
+
     setLoading(true);
     setError(null);
     try {
-      const data = await searchFilms(query);
+      const data = await searchFilms(trimmed);
       setFilms(data);
+      setHasSearched(true);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -24,15 +29,27 @@ export default function Search() {
     }
   }
 
+  const noResults = hasSearched && !loading && !error && films.length === 0;
+
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input value={query} onChange={(e) => setQuery(e.target.value)} />
-        <button type="submit">Search</button>
+      <h1 className={styles.heading}>Search</h1>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <input
+          className={styles.input}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for a film…"
+          aria-label="Search for a film"
+        />
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? 'Searching…' : 'Search'}
+        </button>
       </form>
 
-      {loading && <p>Searching...</p>}
-      {error && <p>Error: {error}</p>}
+      {error && <p className={styles.error}>Error: {error}</p>}
+      {noResults && <p className={styles.empty}>No results. Try another title.</p>}
 
       <ul className={styles.results}>
         {films.map((film) => (
