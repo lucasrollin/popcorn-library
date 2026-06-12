@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 import { useAuthStore } from '../../stores/authStore';
+import Button from '../../components/Button/Button';
 import styles from './Login.module.scss';
 
 const loginSchema = z.object({
@@ -64,9 +65,9 @@ export default function Login() {
 
       {serverError && <p className={styles.error}>{serverError}</p>}
 
-      <button type="submit" disabled={isSubmitting} className={styles.button}>
+      <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? 'Logging in…' : 'Login'}
-      </button>
+      </Button>
     </form>
   );
 }

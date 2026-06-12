@@ -38,22 +38,3 @@
   color: $color-error;
   font-size: $text-sm;
 }
-
-.button {
-  padding: $space-3;
-  border: none;
-  border-radius: $radius-sm;
-  background: $color-accent;
-  color: $color-on-accent;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background $transition;
-
-  &:hover {
-    background: $color-accent-hover;
-  }
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}

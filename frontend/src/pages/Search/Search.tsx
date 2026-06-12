@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { FilmSearchResult } from '../../types/film';
 import { searchFilms } from '../../services/filmService';
 import FilmCard from '../../components/FilmCard/FilmCard';
+import Button from '../../components/Button/Button';
 import styles from './Search.module.scss';
 
 export default function Search() {
@@ -43,9 +44,9 @@ export default function Search() {
           placeholder="Search for a film…"
           aria-label="Search for a film"
         />
-        <button type="submit" className={styles.button} disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? 'Searching…' : 'Search'}
-        </button>
+        </Button>
       </form>
 
       {error && <p className={styles.error}>Error: {error}</p>}
