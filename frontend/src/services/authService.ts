@@ -5,3 +5,6 @@ export const login = (credentials: { email: string; password: string }) =>
   api.post<User>('/auth/login', credentials);
 
 export const getMe = () => api.get<User>('/auth/me');
+
+export const register = (data: { email: string; username: string; password: string }) =>
+  api.post<User>('/auth/register', data);
