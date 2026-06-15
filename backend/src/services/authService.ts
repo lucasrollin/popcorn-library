@@ -30,9 +30,20 @@ export const register = async (data: RegisterInput) => {
     password: passwordHash,
   });
 
+  const rawToken = generateToken();
+  const tokenHash = hashToken(rawToken);
+  const days = Number(process.env.SESSION_EXPIRES_IN_DAYS ?? 7);
+  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+
+  await createSession({
+    userId: newUser.id,
+    tokenHash,
+    expiresAt,
+  });
+
   const { password: _password, ...rest } = newUser;
 
-  return rest;
+  return { user: rest, token: rawToken, expiresAt };
 };
 
 export type LoginInput = {

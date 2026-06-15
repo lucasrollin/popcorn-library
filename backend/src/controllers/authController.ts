@@ -8,7 +8,15 @@ import {
 } from '../services/authService';
 
 export const register = async (req: Request<{}, {}, RegisterInput>, res: Response) => {
-  const user = await registerService(req.body);
+  const { user, token, expiresAt } = await registerService(req.body);
+
+  res.cookie('session', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: expiresAt.getTime() - Date.now(),
+  });
+
   res.status(201).json(user);
 };
 
