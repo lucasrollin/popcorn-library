@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 import { useAuthStore } from '../../stores/authStore';
 import Button from '../../components/Button/Button';
-import styles from './Login.module.scss';
+import styles from '../../styles/authForm.module.scss';
 
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email('Invalid email address'),
@@ -43,13 +43,9 @@ export default function Login() {
 
       <label className={styles.label}>
         Email
-        <input
-          type="email"
-          autoComplete="email"
-          {...register('email')}
-          className={styles.input}
-        />
+        <input type="email" autoComplete="email" {...register('email')} className={styles.input} />
       </label>
+
       {errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
       <label className={styles.label}>
