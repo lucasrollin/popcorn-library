@@ -8,3 +8,5 @@ export const getMe = () => api.get<User>('/auth/me');
 
 export const register = (data: { email: string; username: string; password: string }) =>
   api.post<User>('/auth/register', data);
+
+export const logout = () => api.post<void>('/auth/logout', {});

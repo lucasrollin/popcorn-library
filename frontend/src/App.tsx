@@ -3,8 +3,26 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Search from './pages/Search/Search';
 import Register from './pages/Register/Register';
+import { useEffect } from 'react';
+import { useAuthStore } from './stores/authStore';
+import { getMe } from './services/authService';
 
 export default function App() {
+  const setUser = useAuthStore((s) => s.setUser);
+  const clearUser = useAuthStore((s) => s.clearUser);
+
+  useEffect(() => {
+    const hydrate = async () => {
+      try {
+        const user = await getMe();
+        setUser(user);
+      } catch {
+        clearUser();
+      }
+    };
+    hydrate();
+  }, [setUser, clearUser]);
+
   return (
     <BrowserRouter>
       <nav>
