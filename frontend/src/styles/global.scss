@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   color: $color-text;
   background: $color-bg;
 }
