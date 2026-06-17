@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { logout } from '../../services/authService';
 import Button from '../Button/Button';
+import styles from './Nav.module.scss';
 
 export default function Nav() {
   const user = useAuthStore((s) => s.user);
@@ -14,19 +15,19 @@ export default function Nav() {
   };
 
   const authSection = isLoading ? null : user ? (
-    <>
-      <span>{user.username}</span>
+    <div className={styles.auth}>
+      <span className={styles.username}>{user.username}</span>
       <Button onClick={handleLogout}>Logout</Button>
-    </>
+    </div>
   ) : (
-    <>
+    <div className={styles.auth}>
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
-    </>
+    </div>
   );
 
   return (
-    <nav>
+    <nav className={styles.nav}>
       <Link to="/">Home</Link>
       <Link to="/search">Search</Link>
       {authSection}
