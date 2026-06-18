@@ -56,6 +56,7 @@ export default function Search() {
         {films.map((film) => (
           <FilmCard
             key={film.id}
+            tmdbId={film.id}
             title={film.title}
             posterPath={film.poster_path}
             releaseYear={film.release_date ? film.release_date.slice(0, 4) : null}
