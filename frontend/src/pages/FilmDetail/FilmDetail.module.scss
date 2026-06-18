@@ -1,0 +1,67 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.film {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: $space-8;
+  margin: $space-8 0;
+
+  @include respond-to($bp-mobile) {
+    grid-template-columns: 1fr;
+    gap: $space-6;
+  }
+}
+
+.poster,
+.placeholder {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 2 / 3;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+}
+
+.poster {
+  object-fit: cover;
+}
+
+.placeholder {
+  background: $color-surface;
+  display: grid;
+  place-items: center;
+  font-size: $text-2xl;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.title {
+  font-size: $text-2xl;
+  line-height: 1.1;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  color: $color-text-muted;
+  font-size: $text-base;
+}
+
+.rating {
+  color: $color-accent;
+}
+
+.overview {
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.empty {
+  color: $color-text-muted;
+  font-style: italic;
+}

@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from './stores/authStore';
 import { getMe } from './services/authService';
 import Nav from './components/Nav/Nav';
+import FilmDetail from './pages/FilmDetail/FilmDetail';
 
 export default function App() {
   const setUser = useAuthStore((s) => s.setUser);
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/films/:tmdbId" element={<FilmDetail />} />
       </Routes>
     </BrowserRouter>
   );

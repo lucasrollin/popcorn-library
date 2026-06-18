@@ -7,3 +7,14 @@ export interface FilmSearchResult {
   vote_average: number;
   vote_count: number;
 }
+
+export interface FilmDetails {
+  tmdbId: number;
+  imdbId: string | null;
+  title: string;
+  tmdbRating: number;
+  tmdbVotesCount: number;
+  posterUrl: string | null;
+  releaseYear: number | null;
+  overview: string | null;
+}
