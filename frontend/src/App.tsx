@@ -9,7 +9,7 @@ import { getMe } from './services/authService';
 import Nav from './components/Nav/Nav';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
 
-export default function App() {
+const App = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const clearUser = useAuthStore((s) => s.clearUser);
 
@@ -37,4 +37,6 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
+export default App;

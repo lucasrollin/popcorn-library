@@ -5,14 +5,14 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
 import styles from './Search.module.scss';
 
-export default function Search() {
+const Search = () => {
   const [query, setQuery] = useState('');
   const [films, setFilms] = useState<FilmSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = query.trim();
     if (!trimmed) return;
@@ -28,7 +28,7 @@ export default function Search() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const noResults = hasSearched && !loading && !error && films.length === 0;
 
@@ -66,4 +66,6 @@ export default function Search() {
       </ul>
     </>
   );
-}
+};
+
+export default Search;

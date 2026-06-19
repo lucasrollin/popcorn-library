@@ -15,7 +15,7 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-export default function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const setUser = useAuthStore((s) => s.setUser);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -66,4 +66,6 @@ export default function Login() {
       </Button>
     </form>
   );
-}
+};
+
+export default Login;

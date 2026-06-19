@@ -4,7 +4,7 @@ import { logout } from '../../services/authService';
 import Button from '../Button/Button';
 import styles from './Nav.module.scss';
 
-export default function Nav() {
+const Nav = () => {
   const user = useAuthStore((s) => s.user);
   const isLoading = useAuthStore((s) => s.isLoading);
   const clearUser = useAuthStore((s) => s.clearUser);
@@ -33,4 +33,6 @@ export default function Nav() {
       {authSection}
     </nav>
   );
-}
+};
+
+export default Nav;

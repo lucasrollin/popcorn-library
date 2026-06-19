@@ -11,13 +11,13 @@ interface FilmCardProps {
   voteAverage: number;
 }
 
-export default function FilmCard({
+const FilmCard = ({
   tmdbId,
   title,
   posterPath,
   releaseYear,
   voteAverage,
-}: FilmCardProps) {
+}: FilmCardProps) => {
   return (
     <li className={styles.card}>
       <Link to={`/films/${tmdbId}`} className={styles.link}>
@@ -36,4 +36,6 @@ export default function FilmCard({
       </Link>
     </li>
   );
-}
+};
+
+export default FilmCard;

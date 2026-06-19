@@ -24,7 +24,7 @@ const registerSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export default function Register() {
+const Register = () => {
   const navigate = useNavigate();
   const setUser = useAuthStore((s) => s.setUser);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -83,4 +83,6 @@ export default function Register() {
       </Button>
     </form>
   );
-}
+};
+
+export default Register;
