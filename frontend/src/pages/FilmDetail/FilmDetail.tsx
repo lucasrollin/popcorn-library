@@ -1,8 +1,12 @@
 import { useParams } from 'react-router-dom';
 import type { FilmDetails } from '../../types/film';
 import { useState, useEffect } from 'react';
-import { getFilm } from '../../services/filmService';
+import { getFilm, getFilmRatings } from '../../services/filmService';
 import styles from './FilmDetail.module.scss';
+import { useAuthStore } from '../../stores/authStore';
+import type { Rating } from '../../types/ratings';
+import { createRating, deleteRating, updateRating } from '../../services/ratingService';
+import StarRating from '../../components/StarRating/StarRating';
 
 const FilmDetail = () => {
   const [film, setFilm] = useState<FilmDetails | null>(null);
@@ -10,6 +14,9 @@ const FilmDetail = () => {
   const [error, setError] = useState<string | null>(null);
 
   const { tmdbId } = useParams<{ tmdbId: string }>();
+
+  const user = useAuthStore((s) => s.user);
+  const [myRating, setMyRating] = useState<Rating | null>(null);
 
   useEffect(() => {
     const loadFilm = async () => {
@@ -29,6 +36,34 @@ const FilmDetail = () => {
     };
     loadFilm();
   }, [tmdbId]);
+
+  useEffect(() => {
+    const loadMyRating = async () => {
+      if (!tmdbId || !user) return;
+
+      try {
+        const data = await getFilmRatings(Number(tmdbId));
+        const mine = data.find((r) => r.userId === user.id);
+        setMyRating(mine ?? null);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadMyRating();
+  }, [tmdbId, user]);
+
+  const handleRate = async (score: number) => {
+    if (!myRating) {
+      const created = await createRating(Number(tmdbId), score);
+      setMyRating(created);
+    } else if (score === myRating.score) {
+      await deleteRating(myRating.id);
+      setMyRating(null);
+    } else {
+      const updated = await updateRating(myRating.id, score);
+      setMyRating(updated);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error}</p>;
@@ -57,6 +92,12 @@ const FilmDetail = () => {
           <p className={styles.overview}>{film.overview}</p>
         ) : (
           <p className={styles.empty}>No overview available.</p>
+        )}
+
+        {user ? (
+          <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
+        ) : (
+          <p>Log in to rate this film.</p>
         )}
       </div>
     </article>

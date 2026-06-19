@@ -1,0 +1,27 @@
+@use '../../styles/variables' as *;
+
+.stars {
+  display: inline-flex;
+  gap: $space-1;
+}
+
+.star {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: $text-xl;
+  line-height: 1;
+  color: $color-text-muted;
+  transition:
+    color $transition,
+    transform $transition;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
+.filled {
+  color: $color-accent;
+}
