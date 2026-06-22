@@ -7,6 +7,7 @@ import { useAuthStore } from '../../stores/authStore';
 import type { Rating } from '../../types/ratings';
 import { createRating, deleteRating, updateRating } from '../../services/ratingService';
 import StarRating from '../../components/StarRating/StarRating';
+import AddToList from '../../components/AddToList/AddToList';
 
 const FilmDetail = () => {
   const [film, setFilm] = useState<FilmDetails | null>(null);
@@ -95,7 +96,10 @@ const FilmDetail = () => {
         )}
 
         {user ? (
-          <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
+          <>
+            <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
+            <AddToList tmdbId={Number(tmdbId)} />
+          </>
         ) : (
           <p>Log in to rate this film.</p>
         )}
