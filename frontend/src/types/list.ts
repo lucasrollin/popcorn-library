@@ -14,3 +14,7 @@ export interface ListFilm {
   listId: string;
   filmId: string;
 }
+
+export interface ListWithFilms extends List {
+  listFilms: { film: { tmdbId: number } }[];
+}

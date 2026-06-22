@@ -1,8 +1,8 @@
 import { api } from './apiClient';
-import type { List, ListFilm } from '../types/list';
+import type { List, ListFilm, ListWithFilms } from '../types/list';
 
 export const getMyLists = () => {
-  return api.get<List[]>('/lists/me');
+  return api.get<ListWithFilms[]>('/lists/me');
 };
 
 export const addFilmToList = (listId: string, tmdbId: number) => {
@@ -11,4 +11,8 @@ export const addFilmToList = (listId: string, tmdbId: number) => {
 
 export const createList = (name: string) => {
   return api.post<List>('/lists', { name });
+};
+
+export const removeFilmFromList = (listId: string, tmdbId: number) => {
+  return api.delete<void>(`/lists/${listId}/films/${tmdbId}`);
 };
