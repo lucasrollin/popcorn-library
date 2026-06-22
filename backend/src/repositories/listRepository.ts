@@ -8,7 +8,10 @@ export const createList = async (data: CreateListInput) => {
 };
 
 export const findListsByUserId = async (userId: string) => {
-  const lists = await prisma.list.findMany({ where: { userId } });
+  const lists = await prisma.list.findMany({
+    where: { userId },
+    include: { listFilms: { select: { film: { select: { tmdbId: true } } } } },
+  });
 
   return lists;
 };
