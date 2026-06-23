@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import type { ListWithFilms } from '../../types/list';
-import { addFilmToList, getMyLists, removeFilmFromList } from '../../services/listService';
+import {
+  addFilmToList,
+  createList,
+  getMyLists,
+  removeFilmFromList,
+} from '../../services/listService';
 
 type Props = { tmdbId: number };
 
@@ -9,6 +14,7 @@ const AddToList = ({ tmdbId }: Props) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [newListName, setNewListName] = useState('');
 
   useEffect(() => {
     if (!open) return;
@@ -55,6 +61,23 @@ const AddToList = ({ tmdbId }: Props) => {
     }
   };
 
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const trimmed = newListName.trim();
+    if (!trimmed) return;
+
+    try {
+      const newList = await createList(trimmed);
+      await addFilmToList(newList.id, tmdbId);
+
+      setLists((prev) => [...prev, { ...newList, listFilms: [{ film: { tmdbId } }] }]);
+      setNewListName('');
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
   return (
     <>
       <button onClick={() => setOpen(!open)}>Add to list</button>
@@ -77,6 +100,14 @@ const AddToList = ({ tmdbId }: Props) => {
               </label>
             ))
           )}
+          <form onSubmit={handleCreate}>
+            <input
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              placeholder="New list name"
+            />
+            <button type="submit">Create</button>
+          </form>
         </div>
       )}
     </>
