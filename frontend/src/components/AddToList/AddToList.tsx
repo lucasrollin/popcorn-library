@@ -15,6 +15,7 @@ const AddToList = ({ tmdbId }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [newListName, setNewListName] = useState('');
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -67,7 +68,11 @@ const AddToList = ({ tmdbId }: Props) => {
     const trimmed = newListName.trim();
     if (!trimmed) return;
 
+    if (creating) return;
+
     try {
+      setCreating(true);
+
       const newList = await createList(trimmed);
       await addFilmToList(newList.id, tmdbId);
 
@@ -75,6 +80,8 @@ const AddToList = ({ tmdbId }: Props) => {
       setNewListName('');
     } catch (err) {
       setError((err as Error).message);
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -106,7 +113,9 @@ const AddToList = ({ tmdbId }: Props) => {
               onChange={(e) => setNewListName(e.target.value)}
               placeholder="New list name"
             />
-            <button type="submit">Create</button>
+            <button type="submit" disabled={creating}>
+              Create
+            </button>
           </form>
         </div>
       )}
