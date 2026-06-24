@@ -6,6 +6,7 @@ import {
   getMyLists,
   removeFilmFromList,
 } from '../../services/listService';
+import styles from './AddToList.module.scss';
 
 type Props = { tmdbId: number };
 
@@ -86,18 +87,20 @@ const AddToList = ({ tmdbId }: Props) => {
   };
 
   return (
-    <>
-      <button onClick={() => setOpen(!open)}>Add to list</button>
+    <div className={styles.wrapper}>
+      <button className={styles.trigger} onClick={() => setOpen(!open)}>
+        Add to list
+      </button>
 
       {open && (
-        <div>
+        <div className={styles.panel}>
           {loading ? (
-            <p>Loading...</p>
+            <p className={styles.status}>Loading...</p>
           ) : error ? (
-            <p>Error: {error}</p>
+            <p className={`${styles.status} ${styles.error}`}>Error: {error}</p>
           ) : (
             lists.map((list) => (
-              <label key={list.id}>
+              <label key={list.id} className={styles.row}>
                 <input
                   type="checkbox"
                   checked={list.listFilms.some((lf) => lf.film.tmdbId === tmdbId)}
@@ -107,19 +110,20 @@ const AddToList = ({ tmdbId }: Props) => {
               </label>
             ))
           )}
-          <form onSubmit={handleCreate}>
+          <form className={styles.form} onSubmit={handleCreate}>
             <input
+              className={styles.input}
               value={newListName}
               onChange={(e) => setNewListName(e.target.value)}
               placeholder="New list name"
             />
-            <button type="submit" disabled={creating}>
+            <button className={styles.createBtn} type="submit" disabled={creating}>
               Create
             </button>
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
