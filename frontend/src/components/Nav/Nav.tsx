@@ -17,6 +17,7 @@ const Nav = () => {
   const authSection = isLoading ? null : user ? (
     <div className={styles.auth}>
       <span className={styles.username}>{user.username}</span>
+      <Link to={'/lists'}>My Lists</Link>
       <Button onClick={handleLogout}>Logout</Button>
     </div>
   ) : (
