@@ -18,3 +18,15 @@ export interface ListFilm {
 export interface ListWithFilms extends List {
   listFilms: { film: { tmdbId: number } }[];
 }
+
+interface ListFilmDetail {
+  tmdbId: number;
+  title: string;
+  posterUrl: string | null;
+  releaseYear: number | null;
+  tmdbRating: number | null;
+}
+
+export interface ListWithFilmDetails extends List {
+  listFilms: { film: ListFilmDetail }[];
+}

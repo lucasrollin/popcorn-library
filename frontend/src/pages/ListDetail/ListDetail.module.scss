@@ -1,0 +1,23 @@
+@use '../../styles/variables' as *;
+
+.name {
+  font-size: $text-xl;
+  margin: $space-6 0 $space-2;
+}
+
+.description {
+  color: $color-text-muted;
+  margin-bottom: $space-6;
+}
+
+.empty {
+  color: $color-text-muted;
+}
+
+.results {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: $space-4;
+}

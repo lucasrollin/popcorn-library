@@ -9,6 +9,7 @@ import { getMe } from './services/authService';
 import Nav from './components/Nav/Nav';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
 import Lists from './pages/Lists/Lists';
+import ListDetail from './pages/ListDetail/ListDetail';
 
 const App = () => {
   const setUser = useAuthStore((s) => s.setUser);
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/films/:tmdbId" element={<FilmDetail />} />
         <Route path="/lists" element={<Lists />}></Route>
+        <Route path="/lists/:id" element={<ListDetail />} />
       </Routes>
     </BrowserRouter>
   );
