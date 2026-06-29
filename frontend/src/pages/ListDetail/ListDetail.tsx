@@ -3,6 +3,7 @@ import type { ListWithFilmDetails } from '../../types/list';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getList, deleteList } from '../../services/listService';
 import FilmCard from '../../components/FilmCard/FilmCard';
+import Button from '../../components/Button/Button';
 import styles from './ListDetail.module.scss';
 
 const ListDetail = () => {
@@ -59,9 +60,9 @@ const ListDetail = () => {
   return (
     <section>
       <h1 className={styles.name}>{list.name}</h1>
-      <button onClick={handleDelete} disabled={deleting}>
-        {deleting ? 'Deleting' : 'Delete List'}
-      </button>
+      <Button variant="danger" onClick={handleDelete} disabled={deleting}>
+        {deleting ? 'Deleting…' : 'Delete list'}
+      </Button>
       {list.description && <p className={styles.description}>{list.description}</p>}
 
       {list.listFilms.length === 0 ? (

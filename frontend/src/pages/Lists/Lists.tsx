@@ -3,6 +3,7 @@ import type { ListWithFilms } from '../../types/list';
 import { useAuthStore } from '../../stores/authStore';
 import { getMyLists } from '../../services/listService';
 import { Link } from 'react-router-dom';
+import styles from './Lists.module.scss';
 
 const Lists = () => {
   const user = useAuthStore((s) => s.user);
@@ -35,13 +36,13 @@ const Lists = () => {
 
   return (
     <section>
-      <h1>My Lists</h1>
+      <h1 className={styles.name}>My Lists</h1>
       {lists.length === 0 ? (
         <p>You don't have any lists yet.</p>
       ) : (
-        <ul>
+        <ul className={styles.lists}>
           {lists.map((list) => (
-            <li key={list.id}>
+            <li className={styles.card} key={list.id}>
               <Link to={`/lists/${list.id}`}>
                 {list.name} ({list.listFilms.length})
               </Link>
