@@ -4,17 +4,30 @@
   padding: $space-2 $space-4;
   border: none;
   border-radius: $radius-sm;
-  background: $color-accent;
-  color: $color-on-accent;
   font-weight: 600;
   cursor: pointer;
   transition: background $transition;
 
-  &:hover:not(:disabled) {
-    background: $color-accent-hover;
-  }
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+.primary {
+  background: $color-accent;
+  color: $color-on-accent;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-hover;
+  }
+}
+
+.danger {
+  background: $color-error;
+  color: $color-text;
+
+  &:hover:not(:disabled) {
+    background: $color-error-hover;
   }
 }
