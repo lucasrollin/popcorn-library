@@ -60,9 +60,11 @@ const ListDetail = () => {
   return (
     <section>
       <h1 className={styles.name}>{list.name}</h1>
-      <Button variant="danger" onClick={handleDelete} disabled={deleting}>
-        {deleting ? 'Deleting…' : 'Delete list'}
-      </Button>
+      <div className={styles.actions}>
+        <Button variant="danger" onClick={handleDelete} disabled={deleting}>
+          {deleting ? 'Deleting…' : 'Delete list'}
+        </Button>
+      </div>
       {list.description && <p className={styles.description}>{list.description}</p>}
 
       {list.listFilms.length === 0 ? (
