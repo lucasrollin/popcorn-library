@@ -6,12 +6,19 @@
 }
 
 .actions {
+  display: flex;
+  gap: $space-2;
   margin-bottom: $space-6;
 }
 
 .description {
   color: $color-text-muted;
   margin-bottom: $space-6;
+}
+
+.formActions {
+  display: flex;
+  gap: $space-2;
 }
 
 .empty {

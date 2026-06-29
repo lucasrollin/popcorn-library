@@ -120,18 +120,20 @@ const ListDetail = () => {
             <input type="checkbox" {...register('isPublic')} /> Public
           </label>
           {serverError && <p className={formStyles.error}>{serverError}</p>}
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving…' : 'Save'}
-          </Button>
-          <Button
-            type="button"
-            onClick={() => {
-              setServerError(null);
-              setEditing(false);
-            }}
-          >
-            Cancel
-          </Button>
+          <div className={styles.formActions}>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving…' : 'Save'}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                setServerError(null);
+                setEditing(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
         </form>
       ) : (
         <>
