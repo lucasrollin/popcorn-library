@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import formStyles from '../../styles/authForm.module.scss';
+import { useAuthStore } from '../../stores/authStore';
 
 const ListDetail = () => {
   const [list, setList] = useState<ListWithFilmDetails | null>(null);
@@ -19,6 +20,7 @@ const ListDetail = () => {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
 
   const { id } = useParams<{ id: string }>();
 
@@ -99,6 +101,8 @@ const ListDetail = () => {
   if (error) return <p>Error : {error}</p>;
   if (!list) return null;
 
+  const isOwner = list.userId === user?.id;
+
   return (
     <section>
       {editing ? (
@@ -132,13 +136,15 @@ const ListDetail = () => {
       ) : (
         <>
           <h1 className={styles.name}>{list.name}</h1>
-          <div className={styles.actions}>
-            <Button variant="danger" onClick={handleDelete} disabled={deleting}>
-              {deleting ? 'Deleting…' : 'Delete list'}
-            </Button>
-          </div>
+          {isOwner && (
+            <div className={styles.actions}>
+              <Button onClick={startEditing}>Edit</Button>
+              <Button variant="danger" onClick={handleDelete} disabled={deleting}>
+                {deleting ? 'Deleting…' : 'Delete list'}
+              </Button>
+            </div>
+          )}
           {list.description && <p className={styles.description}>{list.description}</p>}
-          <Button onClick={startEditing}>Edit</Button>
         </>
       )}
 

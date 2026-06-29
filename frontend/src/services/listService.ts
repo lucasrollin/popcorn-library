@@ -29,3 +29,7 @@ export const updateList = (
   id: string,
   data: { name: string; description: string | null; isPublic: boolean },
 ) => api.patch<List>(`/lists/${id}`, data);
+
+export const getPublicLists = () => {
+  return api.get<List[]>('/lists');
+};
