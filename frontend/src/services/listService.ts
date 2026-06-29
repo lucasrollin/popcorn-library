@@ -20,3 +20,7 @@ export const createList = (name: string) => {
 export const removeFilmFromList = (listId: string, tmdbId: number) => {
   return api.delete<void>(`/lists/${listId}/films/${tmdbId}`);
 };
+
+export const deleteList = (id: string) => {
+  return api.delete<void>(`/lists/${id}`);
+};

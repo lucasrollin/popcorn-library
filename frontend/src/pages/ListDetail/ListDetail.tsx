@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ListWithFilmDetails } from '../../types/list';
-import { useParams } from 'react-router-dom';
-import { getList } from '../../services/listService';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getList, deleteList } from '../../services/listService';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import styles from './ListDetail.module.scss';
 
@@ -9,6 +9,9 @@ const ListDetail = () => {
   const [list, setList] = useState<ListWithFilmDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
 
@@ -31,6 +34,24 @@ const ListDetail = () => {
     loadList();
   }, [id]);
 
+  const handleDelete = async () => {
+    if (!id) return;
+
+    if (!window.confirm('Delete this list ?')) return;
+
+    setDeleting(true);
+    setError(null);
+
+    try {
+      await deleteList(id);
+      navigate('/lists');
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error}</p>;
   if (!list) return null;
@@ -38,6 +59,9 @@ const ListDetail = () => {
   return (
     <section>
       <h1 className={styles.name}>{list.name}</h1>
+      <button onClick={handleDelete} disabled={deleting}>
+        {deleting ? 'Deleting' : 'Delete List'}
+      </button>
       {list.description && <p className={styles.description}>{list.description}</p>}
 
       {list.listFilms.length === 0 ? (
