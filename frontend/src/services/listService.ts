@@ -24,3 +24,8 @@ export const removeFilmFromList = (listId: string, tmdbId: number) => {
 export const deleteList = (id: string) => {
   return api.delete<void>(`/lists/${id}`);
 };
+
+export const updateList = (
+  id: string,
+  data: { name: string; description: string | null; isPublic: boolean },
+) => api.patch<List>(`/lists/${id}`, data);
