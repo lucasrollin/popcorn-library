@@ -1,4 +1,4 @@
-import { searchMovies, getMovieDetails } from '../clients/tmdb';
+import { searchMovies, getMovieDetails, type TmdbMovieDetails } from '../clients/tmdb';
 import { NotFoundError } from '../errors/NotFoundError';
 import { FilmDetails } from '../types/film';
 import { Prisma } from '../generated/prisma/client';
@@ -13,13 +13,7 @@ export const searchFilms = async (query: string) => {
   return data.results;
 };
 
-export const getFilmDetails = async (tmdbId: number): Promise<FilmDetails> => {
-  const movie = await getMovieDetails(tmdbId);
-
-  if (!movie) {
-    throw new NotFoundError('FILM_NOT_FOUND', 'Film not found');
-  }
-
+export const mapMovieToFilmDetails = (movie: TmdbMovieDetails): FilmDetails => {
   return {
     tmdbId: movie.id,
     imdbId: movie.imdb_id,
@@ -30,6 +24,16 @@ export const getFilmDetails = async (tmdbId: number): Promise<FilmDetails> => {
     releaseYear: movie.release_date ? Number(movie.release_date.slice(0, 4)) : null,
     overview: movie.overview || null,
   };
+};
+
+export const getFilmDetails = async (tmdbId: number): Promise<FilmDetails> => {
+  const movie = await getMovieDetails(tmdbId);
+
+  if (!movie) {
+    throw new NotFoundError('FILM_NOT_FOUND', 'Film not found');
+  }
+
+  return mapMovieToFilmDetails(movie);
 };
 
 export const findOrCreateFilmByTmdbId = async (tmdbId: number) => {

@@ -38,7 +38,7 @@ export const searchMovies = async (query: string): Promise<TmdbSearchResponse> =
   return data;
 };
 
-interface TmdbMovieDetails {
+export interface TmdbMovieDetails {
   id: number;
   title: string;
   overview: string;
