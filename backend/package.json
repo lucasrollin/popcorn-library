@@ -10,8 +10,8 @@
     "db:seed": "prisma db seed",
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "TMDB_ACCESS_TOKEN=test-token vitest run",
+    "test:watch": "TMDB_ACCESS_TOKEN=test-token vitest"
   },
   "keywords": [],
   "author": "",
