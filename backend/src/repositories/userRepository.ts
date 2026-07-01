@@ -18,3 +18,12 @@ export const findUserByUsername = async (username: string) => {
 
   return user;
 };
+
+export const findPublicProfileByUsername = async (username: string) => {
+  const user = await prisma.user.findFirst({
+    where: { username, deletedAt: null },
+    select: { id: true, username: true, avatar: true, createdAt: true },
+  });
+
+  return user;
+};

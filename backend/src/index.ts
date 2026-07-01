@@ -5,6 +5,7 @@ import authRouter from './routes/authRoutes';
 import filmRouter from './routes/filmRoutes';
 import listRouter from './routes/listRoutes';
 import ratingRouter from './routes/ratingRoutes';
+import userRouter from './routes/userRoutes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/films', filmRouter);
 app.use('/api/lists', listRouter);
 app.use('/api/ratings', ratingRouter);
+app.use('/api/users', userRouter);
 
 app.use(errorHandler);
 
