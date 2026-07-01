@@ -3,3 +3,10 @@ export interface User {
   email: string;
   username: string;
 }
+
+export interface PublicProfile {
+  id: string;
+  username: string;
+  avatar: string | null;
+  createdAt: string;
+}

@@ -11,6 +11,7 @@ import FilmDetail from './pages/FilmDetail/FilmDetail';
 import Lists from './pages/Lists/Lists';
 import ListDetail from './pages/ListDetail/ListDetail';
 import PublicLists from './pages/PublicLists/PublicLists';
+import Profile from './pages/Profile/Profile';
 
 const App = () => {
   const setUser = useAuthStore((s) => s.setUser);
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/lists" element={<Lists />}></Route>
         <Route path="/lists/:id" element={<ListDetail />} />
         <Route path="/public-lists" element={<PublicLists />} />
+        <Route path="/users/:username" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
