@@ -1,10 +1,15 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { getPublicProfileService } from '../services/userService';
+import { getPublicProfileService, updateProfileService } from '../services/userService';
 
 export const getPublicProfileController = async (req: Request, res: Response) => {
   const schema = z.object({
-    username: z.string().trim().min(3).max(20).regex(/^[a-zA-Z0-9_]+$/),
+    username: z
+      .string()
+      .trim()
+      .min(3)
+      .max(20)
+      .regex(/^[a-zA-Z0-9_]+$/),
   });
 
   const result = schema.safeParse(req.params);
@@ -21,4 +26,9 @@ export const getPublicProfileController = async (req: Request, res: Response) =>
   const profile = await getPublicProfileService(result.data.username);
 
   res.json(profile);
+};
+
+export const updateProfileController = async (req: Request, res: Response) => {
+  const updated = await updateProfileService(req.user!.id, req.body);
+  res.json(updated);
 };
