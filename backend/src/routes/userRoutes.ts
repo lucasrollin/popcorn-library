@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { getPublicProfileController, updateProfileController } from '../controllers/userController';
+import {
+  deleteAccountController,
+  getPublicProfileController,
+  updateProfileController,
+} from '../controllers/userController';
 import { z } from 'zod';
 import { validateBody } from '../middlewares/validate';
 import { authenticate } from '../middlewares/authenticate';
@@ -18,6 +22,7 @@ const updateProfileSchema = z.object({
 });
 
 router.patch('/me', authenticate, validateBody(updateProfileSchema), updateProfileController);
+router.delete('/me', authenticate, deleteAccountController);
 router.get('/:username', getPublicProfileController);
 
 export default router;

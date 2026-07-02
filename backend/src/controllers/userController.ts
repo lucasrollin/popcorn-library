@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { getPublicProfileService, updateProfileService } from '../services/userService';
+import {
+  deleteAccountService,
+  getPublicProfileService,
+  updateProfileService,
+} from '../services/userService';
 
 export const getPublicProfileController = async (req: Request, res: Response) => {
   const schema = z.object({
@@ -31,4 +35,16 @@ export const getPublicProfileController = async (req: Request, res: Response) =>
 export const updateProfileController = async (req: Request, res: Response) => {
   const updated = await updateProfileService(req.user!.id, req.body);
   res.json(updated);
+};
+
+export const deleteAccountController = async (req: Request, res: Response) => {
+  await deleteAccountService(req.user!.id);
+  res.clearCookie('session', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  res.status(204).end();
 };
