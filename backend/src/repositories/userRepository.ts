@@ -1,4 +1,5 @@
 import { prisma } from './prismaClient';
+import { UpdateProfileInput } from '../services/userService';
 
 export const findUserByEmail = async (email: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
@@ -26,4 +27,21 @@ export const findPublicProfileByUsername = async (username: string) => {
   });
 
   return user;
+};
+
+export const updateUser = async (userId: string, data: UpdateProfileInput) => {
+  const updatedProfile = await prisma.user.update({
+    where: { id: userId },
+    data,
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      avatar: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return updatedProfile;
 };
