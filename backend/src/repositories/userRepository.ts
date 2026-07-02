@@ -45,3 +45,19 @@ export const updateUser = async (userId: string, data: UpdateProfileInput) => {
 
   return updatedProfile;
 };
+
+export const anonymizeUser = async (
+  userId: string,
+  data: {
+    email: string;
+    username: string;
+    password: string;
+    avatar: null;
+    deletedAt: Date;
+  },
+) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data,
+  });
+};
