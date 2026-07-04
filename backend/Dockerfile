@@ -10,15 +10,20 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# Generate the Prisma client from the schema. This MUST run before the
-# TS build, because src/ imports the generated @prisma/client.
+# Copy sources FIRST, then generate. Generating after the COPY ensures the
+# client produced for THIS platform (linux-musl) wins — otherwise a host-
+# generated client (e.g. darwin) inside src/ would clobber it.
+COPY tsconfig.json ./
 COPY prisma ./prisma
+COPY src ./src
 RUN npx prisma generate
 
 # Compile TypeScript to dist/
-COPY tsconfig.json ./
-COPY src ./src
 RUN npm run build
+
+# tsc only compiles .ts — the Prisma query-engine (.node) is a binary asset
+# that must be copied next to the compiled client by hand.
+RUN cp src/generated/prisma/*.node dist/generated/prisma/
 
 # --- Runner stage: minimal image that just runs the compiled app ---
 FROM node:24-alpine AS runner
