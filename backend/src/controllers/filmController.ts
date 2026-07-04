@@ -4,7 +4,7 @@ import {
   getFilmDetails,
   getRatingsByTmdbIdService,
   searchFilms as searchFilmsService,
-} from '../services/filmService';
+} from '../services/filmService.js';
 
 const searchQuerySchema = z.object({
   q: z.string().trim().min(1),

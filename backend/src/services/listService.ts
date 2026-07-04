@@ -1,7 +1,7 @@
-import { ConflictError } from '../errors/ConflictError';
-import { NotFoundError } from '../errors/NotFoundError';
-import { Prisma } from '../generated/prisma/client';
-import { findFilmByTmdbId } from '../repositories/filmRepository';
+import { ConflictError } from '../errors/ConflictError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
+import { Prisma } from '../generated/prisma/client.js';
+import { findFilmByTmdbId } from '../repositories/filmRepository.js';
 import {
   addFilmToList,
   createList,
@@ -11,8 +11,8 @@ import {
   findPublicLists,
   removeFilmFromList,
   updateList,
-} from '../repositories/listRepository';
-import { findOrCreateFilmByTmdbId } from './filmService';
+} from '../repositories/listRepository.js';
+import { findOrCreateFilmByTmdbId } from './filmService.js';
 
 export type CreateListInput = {
   name: string;

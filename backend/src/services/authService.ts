@@ -1,9 +1,9 @@
 import argon2 from 'argon2';
-import { ConflictError } from '../errors/ConflictError';
-import { findUserByEmail, findUserByUsername, createUser } from '../repositories/userRepository';
-import { UnauthorizedError } from '../errors/UnauthorizedError';
-import { generateToken, hashToken } from '../utils/sessionToken';
-import { createSession, deleteSessionByTokenHash } from '../repositories/sessionRepository';
+import { ConflictError } from '../errors/ConflictError.js';
+import { findUserByEmail, findUserByUsername, createUser } from '../repositories/userRepository.js';
+import { UnauthorizedError } from '../errors/UnauthorizedError.js';
+import { generateToken, hashToken } from '../utils/sessionToken.js';
+import { createSession, deleteSessionByTokenHash } from '../repositories/sessionRepository.js';
 
 export type RegisterInput = {
   email: string;

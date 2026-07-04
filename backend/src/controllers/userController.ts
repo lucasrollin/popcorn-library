@@ -4,7 +4,7 @@ import {
   deleteAccountService,
   getPublicProfileService,
   updateProfileService,
-} from '../services/userService';
+} from '../services/userService.js';
 
 export const getPublicProfileController = async (req: Request, res: Response) => {
   const schema = z.object({

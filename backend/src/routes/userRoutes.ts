@@ -3,10 +3,10 @@ import {
   deleteAccountController,
   getPublicProfileController,
   updateProfileController,
-} from '../controllers/userController';
+} from '../controllers/userController.js';
 import { z } from 'zod';
-import { validateBody } from '../middlewares/validate';
-import { authenticate } from '../middlewares/authenticate';
+import { validateBody } from '../middlewares/validate.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 

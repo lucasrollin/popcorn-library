@@ -1,5 +1,5 @@
-import { prisma } from './prismaClient';
-import { FilmDetails } from '../types/film';
+import { prisma } from './prismaClient.js';
+import { FilmDetails } from '../types/film.js';
 
 export const findFilmByTmdbId = async (tmdbId: number) => {
   const film = await prisma.film.findUnique({ where: { tmdbId } });

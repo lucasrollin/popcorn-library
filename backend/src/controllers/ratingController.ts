@@ -3,7 +3,7 @@ import {
   createRatingService,
   deleteRatingService,
   updateRatingService,
-} from '../services/ratingService';
+} from '../services/ratingService.js';
 import { z } from 'zod';
 
 export const createRatingController = async (req: Request, res: Response) => {

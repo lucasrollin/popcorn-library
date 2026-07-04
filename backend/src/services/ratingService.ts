@@ -1,14 +1,14 @@
-import { ConflictError } from '../errors/ConflictError';
-import { ForbiddenError } from '../errors/ForbiddenError';
-import { NotFoundError } from '../errors/NotFoundError';
-import { Prisma } from '../generated/prisma/client';
+import { ConflictError } from '../errors/ConflictError.js';
+import { ForbiddenError } from '../errors/ForbiddenError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
+import { Prisma } from '../generated/prisma/client.js';
 import {
   createRating,
   deleteRating,
   findRatingById,
   updateRating,
-} from '../repositories/ratingRepository';
-import { findOrCreateFilmByTmdbId } from './filmService';
+} from '../repositories/ratingRepository.js';
+import { findOrCreateFilmByTmdbId } from './filmService.js';
 
 export type CreateRatingInput = {
   userId: string;

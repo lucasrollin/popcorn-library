@@ -8,11 +8,11 @@ import {
   getPublicListsController,
   removeFilmFromListController,
   updateListController,
-} from '../controllers/listController';
+} from '../controllers/listController.js';
 import { z } from 'zod';
-import { validateBody } from '../middlewares/validate';
-import { authenticate } from '../middlewares/authenticate';
-import { optionalAuthenticate } from '../middlewares/optionalAuthenticate';
+import { validateBody } from '../middlewares/validate.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { optionalAuthenticate } from '../middlewares/optionalAuthenticate.js';
 
 const router = Router();
 

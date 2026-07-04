@@ -1,5 +1,5 @@
-import { prisma } from './prismaClient';
-import { CreateListInput, UpdateListInput } from '../services/listService';
+import { prisma } from './prismaClient.js';
+import { CreateListInput, UpdateListInput } from '../services/listService.js';
 
 export const createList = async (data: CreateListInput) => {
   const createdList = await prisma.list.create({ data });

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { authenticate } from '../middlewares/authenticate';
-import { validateBody } from '../middlewares/validate';
+import { authenticate } from '../middlewares/authenticate.js';
+import { validateBody } from '../middlewares/validate.js';
 import {
   createRatingController,
   deleteRatingController,
   updateRatingController,
-} from '../controllers/ratingController';
+} from '../controllers/ratingController.js';
 
 const router = Router();
 

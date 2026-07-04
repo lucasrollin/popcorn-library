@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
-import { hashToken } from '../utils/sessionToken';
+import { hashToken } from '../utils/sessionToken.js';
 import {
   findSessionByTokenHash,
   deleteSessionByTokenHash,
-} from '../repositories/sessionRepository';
-import { UnauthorizedError } from '../errors/UnauthorizedError';
+} from '../repositories/sessionRepository.js';
+import { UnauthorizedError } from '../errors/UnauthorizedError.js';
 
 export const authenticate: RequestHandler = async (req, _res, next) => {
   const rawToken = req.cookies?.session;

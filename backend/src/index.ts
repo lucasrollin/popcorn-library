@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
-import { errorHandler } from './middlewares/errorHandler';
-import authRouter from './routes/authRoutes';
-import filmRouter from './routes/filmRoutes';
-import listRouter from './routes/listRoutes';
-import ratingRouter from './routes/ratingRoutes';
-import userRouter from './routes/userRoutes';
+import { errorHandler } from './middlewares/errorHandler.js';
+import authRouter from './routes/authRoutes.js';
+import filmRouter from './routes/filmRoutes.js';
+import listRouter from './routes/listRoutes.js';
+import ratingRouter from './routes/ratingRoutes.js';
+import userRouter from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();

@@ -1,5 +1,5 @@
-import { prisma } from './prismaClient';
-import { UpdateProfileInput } from '../services/userService';
+import { prisma } from './prismaClient.js';
+import { UpdateProfileInput } from '../services/userService.js';
 
 export const findUserByEmail = async (email: string) => {
   const user = await prisma.user.findUnique({ where: { email } });

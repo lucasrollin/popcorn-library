@@ -1,5 +1,5 @@
-import { prisma } from './prismaClient';
-import { CreateRatingInput, UpdateRatingInput } from '../services/ratingService';
+import { prisma } from './prismaClient.js';
+import { CreateRatingInput, UpdateRatingInput } from '../services/ratingService.js';
 
 export const createRating = async (data: CreateRatingInput) => {
   const createdRating = await prisma.rating.create({ data });

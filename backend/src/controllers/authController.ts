@@ -5,7 +5,7 @@ import {
   LoginInput,
   loginUser as loginService,
   logout as logoutService,
-} from '../services/authService';
+} from '../services/authService.js';
 
 export const register = async (req: Request<{}, {}, RegisterInput>, res: Response) => {
   const { user, token, expiresAt } = await registerService(req.body);

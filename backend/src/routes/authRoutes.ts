@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { Router } from 'express';
-import { validateBody } from '../middlewares/validate';
-import { getMe, login, logout, register } from '../controllers/authController';
-import { authenticate } from '../middlewares/authenticate';
+import { validateBody } from '../middlewares/validate.js';
+import { getMe, login, logout, register } from '../controllers/authController.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 

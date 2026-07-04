@@ -8,7 +8,7 @@ import {
   getListByIdService,
   removeFilmFromListService,
   updateListService,
-} from '../services/listService';
+} from '../services/listService.js';
 import { z } from 'zod';
 
 export const createListController = async (

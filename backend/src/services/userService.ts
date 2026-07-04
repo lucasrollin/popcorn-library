@@ -1,14 +1,14 @@
 import argon2 from 'argon2';
-import { ConflictError } from '../errors/ConflictError';
-import { NotFoundError } from '../errors/NotFoundError';
+import { ConflictError } from '../errors/ConflictError.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
 import {
   anonymizeUser,
   findPublicProfileByUsername,
   findUserByUsername,
   updateUser,
-} from '../repositories/userRepository';
-import { generateToken } from '../utils/sessionToken';
-import { deleteSessionByUserId } from '../repositories/sessionRepository';
+} from '../repositories/userRepository.js';
+import { generateToken } from '../utils/sessionToken.js';
+import { deleteSessionByUserId } from '../repositories/sessionRepository.js';
 
 export type UpdateProfileInput = {
   username?: string;

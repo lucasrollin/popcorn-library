@@ -1,9 +1,9 @@
-import { searchMovies, getMovieDetails, type TmdbMovieDetails } from '../clients/tmdb';
-import { NotFoundError } from '../errors/NotFoundError';
-import { FilmDetails } from '../types/film';
-import { Prisma } from '../generated/prisma/client';
-import { createFilm, findFilmByTmdbId } from '../repositories/filmRepository';
-import { findRatingsByFilmId } from '../repositories/ratingRepository';
+import { searchMovies, getMovieDetails, type TmdbMovieDetails } from '../clients/tmdb.js';
+import { NotFoundError } from '../errors/NotFoundError.js';
+import { FilmDetails } from '../types/film.js';
+import { Prisma } from '../generated/prisma/client.js';
+import { createFilm, findFilmByTmdbId } from '../repositories/filmRepository.js';
+import { findRatingsByFilmId } from '../repositories/ratingRepository.js';
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
