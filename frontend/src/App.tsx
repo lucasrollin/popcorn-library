@@ -12,6 +12,8 @@ import Lists from './pages/Lists/Lists';
 import ListDetail from './pages/ListDetail/ListDetail';
 import PublicLists from './pages/PublicLists/PublicLists';
 import Profile from './pages/Profile/Profile';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Settings from './pages/Settings/Settings';
 
 const App = () => {
   const setUser = useAuthStore((s) => s.setUser);
@@ -42,6 +44,9 @@ const App = () => {
         <Route path="/lists/:id" element={<ListDetail />} />
         <Route path="/public-lists" element={<PublicLists />} />
         <Route path="/users/:username" element={<Profile />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/settings" element={<Settings />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

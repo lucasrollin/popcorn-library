@@ -18,6 +18,7 @@ const Nav = () => {
     <div className={styles.auth}>
       <span className={styles.username}>{user.username}</span>
       <Link to={'/lists'}>My Lists</Link>
+      <Link to="/settings">Settings</Link>
       <Button onClick={handleLogout}>Logout</Button>
     </div>
   ) : (
