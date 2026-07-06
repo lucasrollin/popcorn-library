@@ -5,6 +5,7 @@ declare global {
         id: string;
         email: string;
         username: string;
+        avatar: string | null;
       };
       sessionTokenHash?: string;
     }

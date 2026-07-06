@@ -31,6 +31,7 @@ export const optionalAuthenticate: RequestHandler = async (req, _res, next) => {
     id: session.user.id,
     email: session.user.email,
     username: session.user.username,
+    avatar: session.user.avatar,
   };
 
   req.sessionTokenHash = tokenHash;
