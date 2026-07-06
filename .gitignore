@@ -143,3 +143,6 @@ vite.config.ts.timestamp-*
 .vite/
 
 cookies.txt
+
+# Personal interview prep notes (not part of the project)
+INTERVIEW_NOTES.md
