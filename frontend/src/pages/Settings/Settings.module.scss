@@ -48,3 +48,25 @@
   color: $color-success;
   font-size: $text-sm;
 }
+
+.danger {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  max-width: 360px;
+  margin: $space-6 auto;
+  padding: $space-6;
+  background: $color-surface;
+  border: 1px solid $color-error;
+  border-radius: $radius-lg;
+}
+
+.dangerHeading {
+  font-size: $text-lg;
+  color: $color-error;
+}
+
+.dangerText {
+  font-size: $text-sm;
+  color: $color-text-muted;
+}

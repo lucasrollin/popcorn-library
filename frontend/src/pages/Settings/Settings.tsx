@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from '../../stores/authStore';
-import { updateMe } from '../../services/userService';
+import { updateMe, deleteMe } from '../../services/userService';
 import Button from '../../components/Button/Button';
 import styles from './Settings.module.scss';
 
@@ -22,9 +23,13 @@ type SettingsFormValues = z.infer<typeof settingsSchema>;
 const Settings = () => {
   const user = useAuthStore((s) => s.user);
   const setUser = useAuthStore((s) => s.setUser);
+  const clearUser = useAuthStore((s) => s.clearUser);
+  const navigate = useNavigate();
 
   const [serverError, setServerError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const {
     register,
@@ -53,34 +58,61 @@ const Settings = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm('Delete your account? This cannot be undone.')) return;
+    setDeleteError(null);
+    setIsDeleting(true);
+    try {
+      await deleteMe();
+      clearUser();
+      navigate('/');
+    } catch (err) {
+      setDeleteError((err as Error).message);
+      setIsDeleting(false);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h1 className={styles.heading}>Settings</h1>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <h1 className={styles.heading}>Settings</h1>
 
-      <label className={styles.label}>
-        Username
-        <input
-          type="text"
-          autoComplete="username"
-          {...register('username')}
-          className={styles.input}
-        />
-      </label>
-      {errors.username && <p className={styles.error}>{errors.username.message}</p>}
+        <label className={styles.label}>
+          Username
+          <input
+            type="text"
+            autoComplete="username"
+            {...register('username')}
+            className={styles.input}
+          />
+        </label>
+        {errors.username && <p className={styles.error}>{errors.username.message}</p>}
 
-      <label className={styles.label}>
-        Avatar URL
-        <input type="url" {...register('avatar')} className={styles.input} />
-      </label>
-      {errors.avatar && <p className={styles.error}>{errors.avatar.message}</p>}
+        <label className={styles.label}>
+          Avatar URL
+          <input type="url" {...register('avatar')} className={styles.input} />
+        </label>
+        {errors.avatar && <p className={styles.error}>{errors.avatar.message}</p>}
 
-      {serverError && <p className={styles.error}>{serverError}</p>}
-      {success && <p className={styles.success}>{success}</p>}
+        {serverError && <p className={styles.error}>{serverError}</p>}
+        {success && <p className={styles.success}>{success}</p>}
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Saving…' : 'Save changes'}
-      </Button>
-    </form>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving…' : 'Save changes'}
+        </Button>
+      </form>
+
+      <section className={styles.danger}>
+        <h2 className={styles.dangerHeading}>Danger zone</h2>
+        <p className={styles.dangerText}>
+          Deleting your account is permanent and cannot be undone.
+        </p>
+        {deleteError && <p className={styles.error}>{deleteError}</p>}
+        <Button variant="danger" type="button" onClick={handleDelete} disabled={isDeleting}>
+          {isDeleting ? 'Deleting…' : 'Delete account'}
+        </Button>
+      </section>
+    </>
   );
 };
 
