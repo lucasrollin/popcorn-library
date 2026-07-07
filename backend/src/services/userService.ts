@@ -9,6 +9,7 @@ import {
 } from '../repositories/userRepository.js';
 import { generateToken } from '../utils/sessionToken.js';
 import { deleteSessionByUserId } from '../repositories/sessionRepository.js';
+import { Prisma } from '../generated/prisma/client.js';
 
 export type UpdateProfileInput = {
   username?: string;
@@ -32,8 +33,14 @@ export const updateProfileService = async (userId: string, data: UpdateProfileIn
       throw new ConflictError('USERNAME_ALREADY_TAKEN', 'This username is already taken');
     }
   }
-
-  return await updateUser(userId, data);
+  try {
+    return await updateUser(userId, data);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      throw new ConflictError('USERNAME_ALREADY_TAKEN', 'This username is already taken');
+    }
+    throw error;
+  }
 };
 
 export const deleteAccountService = async (userId: string) => {
