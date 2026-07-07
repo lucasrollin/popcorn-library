@@ -5,6 +5,7 @@ import {
   deleteSessionByTokenHash,
 } from '../repositories/sessionRepository.js';
 import { UnauthorizedError } from '../errors/UnauthorizedError.js';
+import { toUserResponse } from '../services/userService.js';
 
 export const authenticate: RequestHandler = async (req, _res, next) => {
   const rawToken = req.cookies?.session;
@@ -28,12 +29,7 @@ export const authenticate: RequestHandler = async (req, _res, next) => {
     throw new UnauthorizedError('UNAUTHORIZED', 'Authentication required');
   }
 
-  req.user = {
-    id: session.user.id,
-    email: session.user.email,
-    username: session.user.username,
-    avatar: session.user.avatar,
-  };
+  req.user = toUserResponse(session.user);
 
   req.sessionTokenHash = tokenHash;
 

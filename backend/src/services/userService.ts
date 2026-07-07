@@ -10,11 +10,26 @@ import {
 import { generateToken } from '../utils/sessionToken.js';
 import { deleteSessionByUserId } from '../repositories/sessionRepository.js';
 import { Prisma } from '../generated/prisma/client.js';
+import type { User } from '../generated/prisma/client.js';
 
 export type UpdateProfileInput = {
   username?: string;
   avatar?: string | null;
 };
+
+export type UserResponse = {
+  id: string;
+  email: string;
+  username: string;
+  avatar: string | null;
+};
+
+export const toUserResponse = (user: User): UserResponse => ({
+  id: user.id,
+  email: user.email,
+  username: user.username,
+  avatar: user.avatar,
+});
 
 export const getPublicProfileService = async (username: string) => {
   const user = await findPublicProfileByUsername(username);

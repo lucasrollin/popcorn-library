@@ -5,6 +5,7 @@ import { UnauthorizedError } from '../errors/UnauthorizedError.js';
 import { generateToken, hashToken } from '../utils/sessionToken.js';
 import { createSession, deleteSessionByTokenHash } from '../repositories/sessionRepository.js';
 import { Prisma } from '../generated/prisma/client.js';
+import { toUserResponse } from './userService.js';
 
 export type RegisterInput = {
   email: string;
@@ -56,9 +57,7 @@ export const register = async (data: RegisterInput) => {
     expiresAt,
   });
 
-  const { password: _password, ...rest } = newUser;
-
-  return { user: rest, token: rawToken, expiresAt };
+  return { user: toUserResponse(newUser), token: rawToken, expiresAt };
 };
 
 export type LoginInput = {
@@ -90,9 +89,7 @@ export const loginUser = async (data: LoginInput) => {
     expiresAt,
   });
 
-  const { password: _password, ...rest } = user;
-
-  return { user: rest, token: rawToken, expiresAt };
+  return { user: toUserResponse(user), token: rawToken, expiresAt };
 };
 
 export const logout = async (tokenHash: string) => {
