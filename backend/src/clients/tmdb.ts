@@ -7,7 +7,7 @@ const getAccessToken = (): string => {
   return token;
 };
 
-interface TmdbSearchMovie {
+export interface TmdbSearchMovie {
   id: number;
   title: string;
   overview: string;

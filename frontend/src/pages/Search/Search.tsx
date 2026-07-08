@@ -5,8 +5,6 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
 import styles from './Search.module.scss';
 
-const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w200';
-
 const Search = () => {
   const [query, setQuery] = useState('');
   const [films, setFilms] = useState<FilmSearchResult[]>([]);
@@ -57,12 +55,12 @@ const Search = () => {
       <ul className={styles.results}>
         {films.map((film) => (
           <FilmCard
-            key={film.id}
-            tmdbId={film.id}
+            key={film.tmdbId}
+            tmdbId={film.tmdbId}
             title={film.title}
-            posterUrl={film.poster_path ? `${TMDB_IMAGE_BASE}${film.poster_path}` : null}
-            releaseYear={film.release_date ? film.release_date.slice(0, 4) : null}
-            voteAverage={film.vote_average}
+            posterUrl={film.posterUrl}
+            releaseYear={film.releaseYear !== null ? String(film.releaseYear) : null}
+            voteAverage={film.tmdbRating}
           />
         ))}
       </ul>

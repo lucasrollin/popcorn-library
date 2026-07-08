@@ -1,16 +1,31 @@
-import { searchMovies, getMovieDetails, type TmdbMovieDetails } from '../clients/tmdb.js';
+import {
+  searchMovies,
+  getMovieDetails,
+  type TmdbMovieDetails,
+  type TmdbSearchMovie,
+} from '../clients/tmdb.js';
 import { NotFoundError } from '../errors/NotFoundError.js';
-import { FilmDetails } from '../types/film.js';
+import { FilmDetails, FilmSearchResult } from '../types/film.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { createFilm, findFilmByTmdbId } from '../repositories/filmRepository.js';
 import { findRatingsByFilmId } from '../repositories/ratingRepository.js';
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-export const searchFilms = async (query: string) => {
+export const mapMovieToSearchResult = (movie: TmdbSearchMovie): FilmSearchResult => {
+  return {
+    tmdbId: movie.id,
+    title: movie.title,
+    posterUrl: movie.poster_path ? `${TMDB_IMAGE_BASE_URL}${movie.poster_path}` : null,
+    releaseYear: movie.release_date ? Number(movie.release_date.slice(0, 4)) : null,
+    tmdbRating: movie.vote_average,
+  };
+};
+
+export const searchFilms = async (query: string): Promise<FilmSearchResult[]> => {
   const data = await searchMovies(query);
 
-  return data.results;
+  return data.results.map(mapMovieToSearchResult);
 };
 
 export const mapMovieToFilmDetails = (movie: TmdbMovieDetails): FilmDetails => {
