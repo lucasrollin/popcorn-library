@@ -1,3 +1,5 @@
+import { useAuthStore } from '../stores/authStore';
+
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
@@ -8,6 +10,13 @@ const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
   });
 
   if (!res.ok) {
+    // Session died mid-navigation: drop the stale user so the UI (Nav, guards)
+    // reflects logged-out state instead of lingering until a manual refresh.
+    // Harmless on login/register 401s — user is already null there.
+    if (res.status === 401) {
+      useAuthStore.getState().clearUser();
+    }
+
     const body = await res.json().catch(() => null);
     throw new Error(body?.message ?? `Request failed: ${res.status}`);
   }
