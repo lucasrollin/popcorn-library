@@ -18,6 +18,7 @@ const FilmDetail = () => {
 
   const user = useAuthStore((s) => s.user);
   const [myRating, setMyRating] = useState<Rating | null>(null);
+  const [rateError, setRateError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadFilm = async () => {
@@ -54,15 +55,21 @@ const FilmDetail = () => {
   }, [tmdbId, user]);
 
   const handleRate = async (score: number) => {
-    if (!myRating) {
-      const created = await createRating(Number(tmdbId), score);
-      setMyRating(created);
-    } else if (score === myRating.score) {
-      await deleteRating(myRating.id);
-      setMyRating(null);
-    } else {
-      const updated = await updateRating(myRating.id, score);
-      setMyRating(updated);
+    setRateError(null);
+
+    try {
+      if (!myRating) {
+        const created = await createRating(Number(tmdbId), score);
+        setMyRating(created);
+      } else if (score === myRating.score) {
+        await deleteRating(myRating.id);
+        setMyRating(null);
+      } else {
+        const updated = await updateRating(myRating.id, score);
+        setMyRating(updated);
+      }
+    } catch (err) {
+      setRateError((err as Error).message);
     }
   };
 
@@ -98,6 +105,7 @@ const FilmDetail = () => {
         {user ? (
           <>
             <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
+            {rateError && <p>{rateError}</p>}
             <AddToList tmdbId={Number(tmdbId)} />
           </>
         ) : (
