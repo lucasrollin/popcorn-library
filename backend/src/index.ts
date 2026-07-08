@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import { config } from './config.js';
 import express from 'express';
 import { errorHandler } from './middlewares/errorHandler.js';
 import authRouter from './routes/authRoutes.js';
@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
-const PORT = Number(process.env.PORT ?? 3000);
+const PORT = config.PORT;
 
 app.use(express.json());
 app.use(cookieParser());

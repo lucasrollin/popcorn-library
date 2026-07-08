@@ -6,6 +6,7 @@ import { generateToken, hashToken } from '../utils/sessionToken.js';
 import { createSession, deleteSessionByTokenHash } from '../repositories/sessionRepository.js';
 import { Prisma } from '../generated/prisma/client.js';
 import { toUserResponse } from './userService.js';
+import { config } from '../config.js';
 
 export type RegisterInput = {
   email: string;
@@ -48,7 +49,7 @@ export const register = async (data: RegisterInput) => {
 
   const rawToken = generateToken();
   const tokenHash = hashToken(rawToken);
-  const days = Number(process.env.SESSION_EXPIRES_IN_DAYS ?? 7);
+  const days = config.SESSION_EXPIRES_IN_DAYS;
   const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 
   await createSession({
@@ -80,7 +81,7 @@ export const loginUser = async (data: LoginInput) => {
 
   const rawToken = generateToken();
   const tokenHash = hashToken(rawToken);
-  const days = Number(process.env.SESSION_EXPIRES_IN_DAYS ?? 7);
+  const days = config.SESSION_EXPIRES_IN_DAYS;
   const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 
   await createSession({
