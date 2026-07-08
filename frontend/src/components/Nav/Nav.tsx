@@ -32,6 +32,7 @@ const Nav = () => {
     <nav className={styles.nav}>
       <Link to="/">Home</Link>
       <Link to="/search">Search</Link>
+      <Link to="/public-lists">Public Lists</Link>
       {authSection}
     </nav>
   );
