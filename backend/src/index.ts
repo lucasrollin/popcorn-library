@@ -7,6 +7,7 @@ import listRouter from './routes/listRoutes.js';
 import ratingRouter from './routes/ratingRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
+import { deleteExpiredSessions } from './repositories/sessionRepository.js';
 
 const app = express();
 
@@ -35,3 +36,9 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`backend listening on http://localhost:${PORT}`);
 });
+
+// One-off housekeeping at boot: drop sessions that expired while the server
+// was down (lazy per-request deletion never reaches abandoned tokens).
+deleteExpiredSessions()
+  .then((count) => console.log(`purged ${count} expired session(s)`))
+  .catch((err) => console.error('failed to purge expired sessions:', err));
