@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { validateBody } from '../middlewares/validate.js';
 import { getMe, login, logout, register } from '../controllers/authController.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { authRateLimiter } from '../middlewares/rateLimit.js';
 
 const router = Router();
 
@@ -22,8 +23,8 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
-router.post('/register', validateBody(registerSchema), register);
-router.post('/login', validateBody(loginSchema), login);
+router.post('/register', authRateLimiter, validateBody(registerSchema), register);
+router.post('/login', authRateLimiter, validateBody(loginSchema), login);
 router.get('/me', authenticate, getMe);
 router.post('/logout', authenticate, logout);
 

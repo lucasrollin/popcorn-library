@@ -66,16 +66,20 @@ export type LoginInput = {
   password: string;
 };
 
+// Valid argon2id hash of a throwaway password, used to equalize response time
+// when the email is unknown — otherwise skipping argon2.verify would leak
+// (via timing) which emails are registered.
+const DUMMY_PASSWORD_HASH =
+  '$argon2id$v=19$m=65536,t=3,p=4$/QOdNsrQ8UZyg5KdVfr/qg$Ea/ERdeQ1++fLx/MFFUDvvMpRYBierNmACIBONxeI2A';
+
 export const loginUser = async (data: LoginInput) => {
   const user = await findUserByEmail(data.email);
 
-  if (!user) {
-    throw new UnauthorizedError('INVALID_CREDENTIALS', 'Invalid email or password');
-  }
+  const passwordIsValid = user
+    ? await argon2.verify(user.password, data.password)
+    : await argon2.verify(DUMMY_PASSWORD_HASH, data.password);
 
-  const passwordIsValid = await argon2.verify(user.password, data.password);
-
-  if (!passwordIsValid) {
+  if (!user || !passwordIsValid) {
     throw new UnauthorizedError('INVALID_CREDENTIALS', 'Invalid email or password');
   }
 

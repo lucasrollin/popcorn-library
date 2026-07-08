@@ -10,6 +10,11 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
+// Behind nginx: trust the first proxy hop so req.ip reflects the real client
+// (from X-Forwarded-For) instead of nginx's container IP — required for
+// per-client rate limiting.
+app.set('trust proxy', 1);
+
 const PORT = config.PORT;
 
 app.use(express.json());
