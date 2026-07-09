@@ -22,6 +22,13 @@ export const findPublicLists = async () => {
   return publicLists;
 };
 
+export const deleteListsByUserId = async (userId: string) => {
+  return await prisma.$transaction([
+    prisma.listFilm.deleteMany({ where: { list: { userId } } }),
+    prisma.list.deleteMany({ where: { userId } }),
+  ]);
+};
+
 export const findListById = async (listId: string) => {
   const list = await prisma.list.findUnique({
     where: { id: listId },

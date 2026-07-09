@@ -9,6 +9,7 @@ import {
 } from '../repositories/userRepository.js';
 import { generateToken } from '../utils/sessionToken.js';
 import { deleteSessionByUserId } from '../repositories/sessionRepository.js';
+import { deleteListsByUserId } from '../repositories/listRepository.js';
 import { Prisma } from '../generated/prisma/client.js';
 import type { User } from '../generated/prisma/client.js';
 
@@ -70,5 +71,6 @@ export const deleteAccountService = async (userId: string) => {
   };
 
   await anonymizeUser(userId, data);
+  await deleteListsByUserId(userId);
   await deleteSessionByUserId(userId);
 };
