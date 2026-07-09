@@ -128,7 +128,7 @@ export const addFilmToListController = async (req: Request, res: Response) => {
 export const removeFilmFromListController = async (req: Request, res: Response) => {
   const schema = z.object({
     id: z.uuid(),
-    filmId: z.coerce.number().int().positive(),
+    tmdbId: z.coerce.number().int().positive(),
   });
 
   const result = schema.safeParse(req.params);
@@ -142,7 +142,7 @@ export const removeFilmFromListController = async (req: Request, res: Response) 
     return;
   }
 
-  await removeFilmFromListService(result.data.id, result.data.filmId, req.user!.id);
+  await removeFilmFromListService(result.data.id, result.data.tmdbId, req.user!.id);
 
   res.status(204).end();
 };

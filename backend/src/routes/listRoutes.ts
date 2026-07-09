@@ -37,6 +37,6 @@ router.get('/:id', optionalAuthenticate, getListController);
 router.patch('/:id', authenticate, validateBody(updateListSchema), updateListController);
 router.delete('/:id', authenticate, deleteListController);
 router.post('/:id/films', authenticate, validateBody(addFilmSchema), addFilmToListController);
-router.delete('/:id/films/:filmId', authenticate, removeFilmFromListController);
+router.delete('/:id/films/:tmdbId', authenticate, removeFilmFromListController);
 
 export default router;
