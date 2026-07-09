@@ -5,19 +5,8 @@
   margin: $space-6 0;
 }
 
-.form {
-  display: flex;
-  gap: $space-2;
+.searchBar {
   margin-bottom: $space-6;
-}
-
-.input {
-  flex: 1;
-  padding: $space-2 $space-3;
-  border: 1px solid $color-border;
-  border-radius: $radius-sm;
-  background: $color-surface;
-  color: $color-text;
 }
 
 .error {

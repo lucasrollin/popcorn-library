@@ -1,0 +1,21 @@
+@use '../../styles/variables' as *;
+
+.form {
+  display: flex;
+  gap: $space-2;
+  width: 100%;
+}
+
+.input {
+  flex: 1;
+  padding: $space-3 $space-4;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-surface;
+  color: $color-text;
+  font-size: $text-base;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}

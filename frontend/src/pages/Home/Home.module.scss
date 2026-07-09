@@ -1,0 +1,51 @@
+@use '../../styles/variables' as *;
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $space-4;
+  max-width: 640px;
+  min-height: 60vh;
+  margin: 0 auto;
+  padding: $space-12 $space-4;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 360px;
+    height: 360px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba($color-accent, 0.16), transparent 70%);
+    filter: blur(40px);
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+.emoji {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: 700;
+}
+
+.tagline {
+  max-width: 460px;
+  font-size: $text-lg;
+  color: $color-text-muted;
+}
+
+.search {
+  width: 100%;
+  max-width: 480px;
+  margin-top: $space-4;
+}
