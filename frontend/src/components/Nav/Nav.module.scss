@@ -19,6 +19,16 @@
   }
 }
 
+.nav a.brand {
+  color: $color-text;
+  font-weight: 700;
+  font-size: $text-lg;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
 .auth {
   margin-left: auto;
   display: flex;

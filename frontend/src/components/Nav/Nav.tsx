@@ -30,7 +30,9 @@ const Nav = () => {
 
   return (
     <nav className={styles.nav}>
-      <Link to="/">Home</Link>
+      <Link to="/" className={styles.brand}>
+        🍿 Popcorn Library
+      </Link>
       <Link to="/search">Search</Link>
       <Link to="/public-lists">Public Lists</Link>
       {authSection}
