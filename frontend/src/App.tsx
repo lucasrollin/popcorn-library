@@ -40,11 +40,11 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/films/:tmdbId" element={<FilmDetail />} />
-        <Route path="/lists" element={<Lists />}></Route>
         <Route path="/lists/:id" element={<ListDetail />} />
         <Route path="/public-lists" element={<PublicLists />} />
         <Route path="/users/:username" element={<Profile />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="/lists" element={<Lists />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
