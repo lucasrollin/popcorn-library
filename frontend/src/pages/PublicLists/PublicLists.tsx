@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { List } from '../../types/list';
 import { getPublicLists } from '../../services/listService';
+import Loader from '../../components/Loader/Loader';
 import { Link } from 'react-router-dom';
 import styles from './PublicLists.module.scss';
 
@@ -26,7 +27,7 @@ const PublicLists = () => {
     loadLists();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error : {error}</p>;
 
   return (

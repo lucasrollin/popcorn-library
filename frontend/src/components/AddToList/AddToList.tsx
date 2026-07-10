@@ -7,6 +7,7 @@ import {
   removeFilmFromList,
 } from '../../services/listService';
 import styles from './AddToList.module.scss';
+import Loader from '../Loader/Loader';
 
 type Props = { tmdbId: number };
 
@@ -95,7 +96,7 @@ const AddToList = ({ tmdbId }: Props) => {
       {open && (
         <div className={styles.panel}>
           {loading ? (
-            <p className={styles.status}>Loading...</p>
+            <Loader size="sm" />
           ) : error ? (
             <p className={`${styles.status} ${styles.error}`}>Error: {error}</p>
           ) : (

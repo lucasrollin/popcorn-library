@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { PublicProfile } from '../../types/user';
 import { getPublicProfile } from '../../services/userService';
+import Loader from '../../components/Loader/Loader';
 import styles from './Profile.module.scss';
 
 const Profile = () => {
@@ -29,7 +30,7 @@ const Profile = () => {
     loadProfile();
   }, [username]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error : {error}</p>;
   if (!profile) return <p>User not found.</p>;
 

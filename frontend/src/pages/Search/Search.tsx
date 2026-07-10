@@ -4,6 +4,7 @@ import type { FilmSearchResult } from '../../types/film';
 import { searchFilms } from '../../services/filmService';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import Loader from '../../components/Loader/Loader';
 import styles from './Search.module.scss';
 
 const Search = () => {
@@ -49,6 +50,7 @@ const Search = () => {
         />
       </div>
 
+      {loading && <Loader />}
       {error && <p className={styles.error}>Error: {error}</p>}
       {noResults && <p className={styles.empty}>No results. Try another title.</p>}
 

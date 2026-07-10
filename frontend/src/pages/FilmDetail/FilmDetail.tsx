@@ -8,6 +8,7 @@ import type { Rating } from '../../types/ratings';
 import { createRating, deleteRating, updateRating } from '../../services/ratingService';
 import StarRating from '../../components/StarRating/StarRating';
 import AddToList from '../../components/AddToList/AddToList';
+import Loader from '../../components/Loader/Loader';
 
 const FilmDetail = () => {
   const [film, setFilm] = useState<FilmDetails | null>(null);
@@ -73,7 +74,7 @@ const FilmDetail = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error : {error}</p>;
   if (!film) return null;
 

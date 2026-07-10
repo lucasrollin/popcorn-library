@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ListWithFilms } from '../../types/list';
 import { useAuthStore } from '../../stores/authStore';
 import { getMyLists } from '../../services/listService';
+import Loader from '../../components/Loader/Loader';
 import { Link } from 'react-router-dom';
 import styles from './Lists.module.scss';
 
@@ -30,7 +31,7 @@ const Lists = () => {
     loadLists();
   }, [user]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error : {error}</p>;
   if (!user) return <p>Log in to see your lists.</p>;
 

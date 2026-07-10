@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getList, deleteList, updateList } from '../../services/listService';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import styles from './ListDetail.module.scss';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -97,7 +98,7 @@ const ListDetail = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error : {error}</p>;
   if (!list) return null;
 
