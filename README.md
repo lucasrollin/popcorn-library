@@ -1,5 +1,7 @@
 # Popcorn Library
 
+![CI](https://github.com/lucasrollin/popcorn-library/actions/workflows/ci.yml/badge.svg)
+
 Film discovery platform. Search movies through the TMDB API, build personal lists, and rate films.
 
 **Stack:** React · TypeScript · Express · PostgreSQL · Prisma · Docker
@@ -34,13 +36,41 @@ routes → controllers → services → repositories  (internal database)
 - **Lazy film persistence.** Films from TMDB are written to the database only the first time a user rates or adds one to a list.
 - **Validation and errors.** Zod validates every request body; a custom error hierarchy is serialized by a single global error handler into a consistent `{ error, message }` response.
 
+## Known limitations
+
+Deliberate MVP trade-offs — shipping a deployed product first, at a scale where these are harmless:
+
+- **No pagination.** Three endpoints return a single batch of results:
+  - film search only surfaces the first page from TMDB (20 results);
+  - `GET /api/lists` returns every public list in the database;
+  - `GET /api/films/:tmdbId/ratings` returns every rating for a film.
+
+  The planned fix is a validated `?page=` query param, `take`/`skip` at the repository layer, a `totalCount` in the responses, and pagination controls in the UI.
+
 ## Getting started
 
 Requirements: Node 24+, Docker.
 
+### Run everything in Docker
+
+The whole stack (PostgreSQL, backend, frontend, Nginx reverse proxy) is containerized:
+
+```bash
+cp .env.example .env                   # PostgreSQL credentials used by Docker Compose
+cp backend/.env.example backend/.env   # fill in the values, including your TMDB access token
+docker compose up -d                   # http://localhost
+```
+
+Migrations run automatically when the backend container starts.
+
+### Local development
+
+Only the database runs in Docker; both apps run with hot reload:
+
 ```bash
 # 1. Start PostgreSQL
-docker compose up -d
+cp .env.example .env        # PostgreSQL credentials used by Docker Compose
+docker compose up -d db
 
 # 2. Backend
 cd backend
@@ -65,7 +95,7 @@ In development the frontend proxies `/api` requests to the backend, so both run 
 - ✅ Films API (TMDB search + film detail)
 - ✅ Lists API (full CRUD + add/remove films)
 - ✅ Ratings API (create, update, delete, ratings per film)
-- 🚧 Frontend (film search and login done; lists & ratings UI in progress)
-- ⬜ CI/CD (GitHub Actions)
-- ⬜ Full containerization + Nginx reverse proxy
+- ✅ Frontend (search, film detail, lists, ratings, public profiles, settings)
+- ✅ CI (GitHub Actions — lint, build and unit tests for both apps)
+- ✅ Full containerization + Nginx reverse proxy
 - ⬜ Deployment (VPS)
