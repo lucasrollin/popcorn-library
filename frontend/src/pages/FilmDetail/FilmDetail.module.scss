@@ -1,6 +1,29 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      $color-bg 0%,
+      rgba($color-bg, 0.35) 60%,
+      rgba($color-bg, 0.15) 100%
+    );
+  }
+}
+
 .film {
   display: grid;
   grid-template-columns: 300px 1fr;

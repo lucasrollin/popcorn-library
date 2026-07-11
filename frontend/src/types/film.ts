@@ -13,6 +13,7 @@ export interface FilmDetails {
   tmdbRating: number;
   tmdbVotesCount: number;
   posterUrl: string | null;
+  backdropUrl: string | null;
   releaseYear: number | null;
   overview: string | null;
 }

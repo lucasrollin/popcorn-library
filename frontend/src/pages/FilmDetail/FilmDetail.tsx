@@ -79,41 +79,50 @@ const FilmDetail = () => {
   if (!film) return null;
 
   return (
-    <article className={styles.film}>
-      {film.posterUrl ? (
-        <img className={styles.poster} src={film.posterUrl} alt={film.title} />
-      ) : (
-        <div className={styles.placeholder}>🍿</div>
+    <>
+      {film.backdropUrl && (
+        <div
+          className={styles.backdrop}
+          style={{ backgroundImage: `url(${film.backdropUrl})` }}
+          aria-hidden="true"
+        />
       )}
+      <article className={styles.film}>
+        {film.posterUrl ? (
+          <img className={styles.poster} src={film.posterUrl} alt={film.title} />
+        ) : (
+          <div className={styles.placeholder}>🍿</div>
+        )}
 
-      <div className={styles.info}>
-        <h1 className={styles.title}>{film.title}</h1>
+        <div className={styles.info}>
+          <h1 className={styles.title}>{film.title}</h1>
 
-        <div className={styles.meta}>
-          {film.releaseYear && <span>{film.releaseYear}</span>}
-          {film.tmdbRating > 0 && (
-            <span className={styles.rating}>★ {film.tmdbRating.toFixed(1)}</span>
+          <div className={styles.meta}>
+            {film.releaseYear && <span>{film.releaseYear}</span>}
+            {film.tmdbRating > 0 && (
+              <span className={styles.rating}>★ {film.tmdbRating.toFixed(1)}</span>
+            )}
+            {film.tmdbVotesCount > 0 && <span>{film.tmdbVotesCount.toLocaleString()} votes</span>}
+          </div>
+
+          {film.overview ? (
+            <p className={styles.overview}>{film.overview}</p>
+          ) : (
+            <p className={styles.empty}>No overview available.</p>
           )}
-          {film.tmdbVotesCount > 0 && <span>{film.tmdbVotesCount.toLocaleString()} votes</span>}
+
+          {user ? (
+            <>
+              <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
+              {rateError && <p>{rateError}</p>}
+              <AddToList tmdbId={Number(tmdbId)} />
+            </>
+          ) : (
+            <p>Log in to rate this film.</p>
+          )}
         </div>
-
-        {film.overview ? (
-          <p className={styles.overview}>{film.overview}</p>
-        ) : (
-          <p className={styles.empty}>No overview available.</p>
-        )}
-
-        {user ? (
-          <>
-            <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
-            {rateError && <p>{rateError}</p>}
-            <AddToList tmdbId={Number(tmdbId)} />
-          </>
-        ) : (
-          <p>Log in to rate this film.</p>
-        )}
-      </div>
-    </article>
+      </article>
+    </>
   );
 };
 
