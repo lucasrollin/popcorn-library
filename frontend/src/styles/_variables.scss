@@ -3,6 +3,7 @@ $color-bg: #101014;
 $color-surface: #1b1c22;
 $color-surface-hover: #26272f;
 $color-border: #2e2f38;
+$color-border-strong: #4a4c58;
 $color-text: #f2f2f5;
 $color-text-muted: #9b9ca6;
 $color-accent: #f6c453;
@@ -27,6 +28,10 @@ $text-base: 1rem;
 $text-lg: 1.25rem;
 $text-xl: 1.75rem;
 $text-2xl: 2.5rem;
+
+// Ombres — élévation (opacités fortes : sur fond sombre, une ombre légère est invisible)
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+$shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
 
 // Rayons
 $radius-sm: 6px;

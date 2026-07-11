@@ -9,11 +9,15 @@
   background: $color-surface;
   transition:
     transform $transition,
-    background $transition;
+    background $transition,
+    border-color $transition,
+    box-shadow $transition;
 
   &:hover {
     transform: translateY(-4px);
     background: $color-surface-hover;
+    border-color: $color-border-strong;
+    box-shadow: $shadow-md;
   }
 }
 
