@@ -11,6 +11,7 @@ import { createFilm, findFilmByTmdbId } from '../repositories/filmRepository.js'
 import { findRatingsByFilmId } from '../repositories/ratingRepository.js';
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 
 export const mapMovieToSearchResult = (movie: TmdbSearchMovie): FilmSearchResult => {
   return {
@@ -36,6 +37,7 @@ export const mapMovieToFilmDetails = (movie: TmdbMovieDetails): FilmDetails => {
     tmdbRating: movie.vote_average,
     tmdbVotesCount: movie.vote_count,
     posterUrl: movie.poster_path ? `${TMDB_IMAGE_BASE_URL}${movie.poster_path}` : null,
+    backdropUrl: movie.backdrop_path ? `${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}` : null,
     releaseYear: movie.release_date ? Number(movie.release_date.slice(0, 4)) : null,
     overview: movie.overview || null,
   };

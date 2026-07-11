@@ -8,7 +8,19 @@ export const findFilmByTmdbId = async (tmdbId: number) => {
 };
 
 export const createFilm = async (data: FilmDetails) => {
-  const createdFilm = await prisma.film.create({ data });
+  // Champs explicites : Film n'a pas toutes les colonnes de FilmDetails (ex. backdropUrl)
+  const createdFilm = await prisma.film.create({
+    data: {
+      tmdbId: data.tmdbId,
+      imdbId: data.imdbId,
+      title: data.title,
+      overview: data.overview,
+      posterUrl: data.posterUrl,
+      releaseYear: data.releaseYear,
+      tmdbRating: data.tmdbRating,
+      tmdbVotesCount: data.tmdbVotesCount,
+    },
+  });
 
   return createdFilm;
 };
