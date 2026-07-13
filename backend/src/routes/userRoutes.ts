@@ -18,7 +18,7 @@ const updateProfileSchema = z.object({
     .max(20)
     .regex(/^[a-zA-Z0-9_]+$/)
     .optional(),
-  avatar: z.string().url().nullable().optional(),
+  avatar: z.url({ protocol: /^https?$/ }).nullable().optional(),
 });
 
 router.patch('/me', authenticate, validateBody(updateProfileSchema), updateProfileController);
