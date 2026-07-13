@@ -8,6 +8,7 @@ import ratingRouter from './routes/ratingRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 import { deleteExpiredSessions } from './repositories/sessionRepository.js';
+import { apiRateLimiter } from './middlewares/rateLimit.js';
 
 const app = express();
 
@@ -24,6 +25,10 @@ app.use(cookieParser());
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
+
+// Registered after /api/health (healthchecks stay unlimited) and before the
+// routers so every API route below is covered.
+app.use('/api', apiRateLimiter);
 
 app.use('/api/auth', authRouter);
 app.use('/api/films', filmRouter);
