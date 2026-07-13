@@ -20,7 +20,7 @@ const registerSchema = z.object({
 
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
-  password: z.string(),
+  password: z.string().max(128),
 });
 
 router.post('/register', authRateLimiter, validateBody(registerSchema), register);
