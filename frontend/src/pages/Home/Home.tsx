@@ -14,7 +14,11 @@ const Home = () => {
       </span>
       <h1 className={styles.title}>Popcorn Library</h1>
       <p className={styles.tagline}>
-        {user ? `Welcome back, ${user.username}. ` : ''}
+        {user && (
+          <>
+            Welcome back, <span className={styles.username}>{user.username}</span>.{' '}
+          </>
+        )}
         Search thousands of films, build your own lists, and rate what you watch.
       </p>
 
