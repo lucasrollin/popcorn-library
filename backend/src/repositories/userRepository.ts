@@ -46,7 +46,7 @@ export const updateUser = async (userId: string, data: UpdateProfileInput) => {
   return updatedProfile;
 };
 
-export const anonymizeUser = async (
+export const anonymizeUserAndDeleteData = async (
   userId: string,
   data: {
     email: string;
@@ -56,8 +56,10 @@ export const anonymizeUser = async (
     deletedAt: Date;
   },
 ) => {
-  return await prisma.user.update({
-    where: { id: userId },
-    data,
-  });
+  return await prisma.$transaction([
+    prisma.user.update({ where: { id: userId }, data }),
+    prisma.listFilm.deleteMany({ where: { list: { userId } } }),
+    prisma.list.deleteMany({ where: { userId } }),
+    prisma.session.deleteMany({ where: { userId } }),
+  ]);
 };

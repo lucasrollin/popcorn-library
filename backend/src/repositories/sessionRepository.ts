@@ -24,10 +24,6 @@ export const deleteSessionByTokenHash = async (tokenHash: string) => {
   return session;
 };
 
-export const deleteSessionByUserId = async (userId: string) => {
-  await prisma.session.deleteMany({ where: { userId } });
-};
-
 export const deleteExpiredSessions = async () => {
   const { count } = await prisma.session.deleteMany({
     where: { expiresAt: { lt: new Date() } },
