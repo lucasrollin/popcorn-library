@@ -23,7 +23,7 @@ export type CreateListInput = {
 
 export type UpdateListInput = {
   name?: string;
-  description?: string;
+  description?: string | null;
   isPublic?: boolean;
 };
 

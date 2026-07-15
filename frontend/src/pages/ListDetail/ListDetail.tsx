@@ -90,7 +90,10 @@ const ListDetail = () => {
     setServerError(null);
 
     try {
-      const updated = await updateList(list.id, data);
+      const updated = await updateList(list.id, {
+        ...data,
+        description: data.description === '' ? null : data.description,
+      });
       setList({ ...list, ...updated });
       setEditing(false);
     } catch (err) {

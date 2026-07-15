@@ -24,7 +24,7 @@ const createListSchema = z.object({
 
 export const updateListSchema = z.object({
   name: z.string().trim().min(1).max(256).optional(),
-  description: z.string().max(10000).optional(),
+  description: z.string().max(10000).nullable().optional(),
   isPublic: z.boolean().optional(),
 });
 
