@@ -12,8 +12,13 @@ const Nav = () => {
   const clearUser = useAuthStore((s) => s.clearUser);
 
   const handleLogout = async () => {
-    await logout();
-    clearUser();
+    try {
+      await logout();
+    } catch {
+      // network failure: the server session will expire on its own
+    } finally {
+      clearUser();
+    }
   };
 
   const authSection = isLoading ? null : user ? (
