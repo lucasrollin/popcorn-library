@@ -144,6 +144,9 @@ vite.config.ts.timestamp-*
 
 cookies.txt
 
+# Dev-only Compose override (exposes the DB port on localhost)
+docker-compose.override.yml
+
 # Personal interview prep notes (not part of the project)
 INTERVIEW_NOTES.md
 CODE_REVIEW_TODO.md

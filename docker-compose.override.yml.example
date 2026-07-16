@@ -1,0 +1,13 @@
+# Dev-only overrides, merged automatically into docker-compose.yml by
+# `docker compose up`. Get started with:
+#
+#   cp docker-compose.override.yml.example docker-compose.override.yml
+#
+# The copy is gitignored so it never reaches the server: in production the
+# database stays unreachable from outside the compose network.
+services:
+  db:
+    ports:
+      # Local Prisma (migrate dev, studio) connects on localhost:5433.
+      # Binding to 127.0.0.1 keeps the DB off the local network.
+      - '127.0.0.1:5433:5432'

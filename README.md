@@ -70,6 +70,7 @@ Only the database runs in Docker; both apps run with hot reload:
 ```bash
 # 1. Start PostgreSQL
 cp .env.example .env        # PostgreSQL credentials used by Docker Compose
+cp docker-compose.override.yml.example docker-compose.override.yml  # exposes Postgres on localhost:5433 (dev only)
 docker compose up -d db
 
 # 2. Backend
