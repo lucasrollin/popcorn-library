@@ -18,8 +18,9 @@
     position: absolute;
     top: 25%;
     left: 50%;
-    width: 360px;
-    height: 360px;
+    // min() : jamais plus large que 80% du viewport → pas de scroll horizontal
+    width: min(360px, 80vw);
+    height: min(360px, 80vw);
     transform: translateX(-50%);
     background: radial-gradient(circle, rgba($color-accent, 0.16), transparent 70%);
     filter: blur(40px);
@@ -29,7 +30,7 @@
 }
 
 .emoji {
-  font-size: 4rem;
+  font-size: clamp(3rem, 10vw, 4rem);
   line-height: 1;
 }
 

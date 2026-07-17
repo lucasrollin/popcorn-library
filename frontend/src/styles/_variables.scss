@@ -23,11 +23,13 @@ $space-8: 32px;
 $space-12: 48px;
 
 // Typographie
+// xl/2xl fluides : clamp(min, valeur idéale, max) — la part en rem garde
+// la taille liée au zoom navigateur, la part en vw la lie à l'écran
 $text-sm: 0.875rem;
 $text-base: 1rem;
 $text-lg: 1.25rem;
-$text-xl: 1.75rem;
-$text-2xl: 2.5rem;
+$text-xl: clamp(1.35rem, 1.1rem + 1.25vw, 1.75rem);
+$text-2xl: clamp(1.75rem, 1rem + 3vw, 2.5rem);
 
 // Ombres — élévation (opacités fortes : sur fond sombre, une ombre légère est invisible)
 $shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
