@@ -1,5 +1,6 @@
 import { config } from './config.js';
 import express from 'express';
+import helmet from 'helmet';
 import { errorHandler } from './middlewares/errorHandler.js';
 import authRouter from './routes/authRoutes.js';
 import filmRouter from './routes/filmRoutes.js';
@@ -18,6 +19,10 @@ const app = express();
 app.set('trust proxy', 1);
 
 const PORT = config.PORT;
+
+// Security headers on every API response (nosniff, frame denial, no
+// X-Powered-By…) — the SPA's HTML gets its own headers from nginx.
+app.use(helmet());
 
 app.use(express.json());
 app.use(cookieParser());
