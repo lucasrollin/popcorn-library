@@ -94,35 +94,38 @@ const AddToList = ({ tmdbId }: Props) => {
       </button>
 
       {open && (
-        <div className={styles.panel}>
-          {loading ? (
-            <Loader size="sm" />
-          ) : error ? (
-            <p className={`${styles.status} ${styles.error}`}>Error: {error}</p>
-          ) : (
-            lists.map((list) => (
-              <label key={list.id} className={styles.row}>
-                <input
-                  type="checkbox"
-                  checked={list.listFilms.some((lf) => lf.film.tmdbId === tmdbId)}
-                  onChange={() => handleToggle(list)}
-                />
-                {list.name}
-              </label>
-            ))
-          )}
-          <form className={styles.form} onSubmit={handleCreate}>
-            <input
-              className={styles.input}
-              value={newListName}
-              onChange={(e) => setNewListName(e.target.value)}
-              placeholder="New list name"
-            />
-            <button className={styles.createBtn} type="submit" disabled={creating}>
-              Create
-            </button>
-          </form>
-        </div>
+        <>
+          <div className={styles.backdrop} onClick={() => setOpen(false)} aria-hidden="true" />
+          <div className={styles.panel}>
+            {loading ? (
+              <Loader size="sm" />
+            ) : error ? (
+              <p className={`${styles.status} ${styles.error}`}>Error: {error}</p>
+            ) : (
+              lists.map((list) => (
+                <label key={list.id} className={styles.row}>
+                  <input
+                    type="checkbox"
+                    checked={list.listFilms.some((lf) => lf.film.tmdbId === tmdbId)}
+                    onChange={() => handleToggle(list)}
+                  />
+                  {list.name}
+                </label>
+              ))
+            )}
+            <form className={styles.form} onSubmit={handleCreate}>
+              <input
+                className={styles.input}
+                value={newListName}
+                onChange={(e) => setNewListName(e.target.value)}
+                placeholder="New list name"
+              />
+              <button className={styles.createBtn} type="submit" disabled={creating}>
+                Create
+              </button>
+            </form>
+          </div>
+        </>
       )}
     </div>
   );

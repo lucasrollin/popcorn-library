@@ -69,6 +69,7 @@
 
 .meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: $space-4;
   color: $color-text-muted;

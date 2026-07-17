@@ -22,12 +22,27 @@
   }
 }
 
+// desktop : invisible mais cliquable → ferme le panel au clic extérieur
+// mobile : assombrit la page derrière la bottom sheet
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: transparent;
+
+  @include respond-to($bp-mobile) {
+    background: rgba(#000, 0.5);
+  }
+}
+
 .panel {
   position: absolute;
   top: calc(100% + #{$space-2});
   left: 0;
-  z-index: 10;
+  z-index: 70;
   min-width: 240px;
+  // garde-fou : jamais plus large que l'écran moins les marges
+  max-width: calc(100vw - #{$space-8});
   display: flex;
   flex-direction: column;
   gap: $space-2;
@@ -37,9 +52,20 @@
   border-radius: $radius-md;
   box-shadow: $shadow-md;
 
+  // bottom sheet : collée en bas du viewport, pleine largeur
   @include respond-to($bp-mobile) {
-    left: auto;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
     right: 0;
+    max-width: none;
+    padding: $space-4;
+    // encoche/barre home iPhone : ne pas coller les contrôles dessous
+    padding-bottom: calc(#{$space-4} + env(safe-area-inset-bottom));
+    border: none;
+    border-top: 1px solid $color-border;
+    border-radius: $radius-lg $radius-lg 0 0;
   }
 }
 

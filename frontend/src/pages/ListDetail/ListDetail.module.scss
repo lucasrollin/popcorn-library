@@ -7,6 +7,7 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: $space-2;
   margin-bottom: $space-6;
 }
@@ -18,6 +19,7 @@
 
 .formActions {
   display: flex;
+  flex-wrap: wrap;
   gap: $space-2;
 }
 
