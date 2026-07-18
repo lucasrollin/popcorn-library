@@ -5,6 +5,7 @@ import { getList, deleteList, updateList } from '../../services/listService';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
 import Loader from '../../components/Loader/Loader';
+import EmptyState from '../../components/EmptyState/EmptyState';
 import styles from './ListDetail.module.scss';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -155,7 +156,11 @@ const ListDetail = () => {
       )}
 
       {list.listFilms.length === 0 ? (
-        <p className={styles.empty}>No films in this list yet.</p>
+        <EmptyState
+          emoji="🎬"
+          message="No films in this list yet."
+          action={isOwner ? { label: 'Search films to add', to: '/search' } : undefined}
+        />
       ) : (
         <ul className={styles.results}>
           {list.listFilms.map(({ film }) => (

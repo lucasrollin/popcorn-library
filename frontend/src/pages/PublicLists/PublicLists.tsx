@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { List } from '../../types/list';
 import { getPublicLists } from '../../services/listService';
 import Loader from '../../components/Loader/Loader';
+import EmptyState from '../../components/EmptyState/EmptyState';
 import { Link } from 'react-router-dom';
 import styles from './PublicLists.module.scss';
 
@@ -34,7 +35,7 @@ const PublicLists = () => {
     <section>
       <h1 className={styles.name}>Public Lists</h1>
       {lists.length === 0 ? (
-        <p>No public lists yet.</p>
+        <EmptyState emoji="🎬" message="No public lists yet." />
       ) : (
         <ul className={styles.lists}>
           {lists.map((list) => (

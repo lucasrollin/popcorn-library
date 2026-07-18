@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ListWithFilms } from '../../types/list';
 import { getMyLists } from '../../services/listService';
 import Loader from '../../components/Loader/Loader';
+import EmptyState from '../../components/EmptyState/EmptyState';
 import { Link } from 'react-router-dom';
 import styles from './Lists.module.scss';
 
@@ -34,7 +35,11 @@ const Lists = () => {
     <section>
       <h1 className={styles.name}>My Lists</h1>
       {lists.length === 0 ? (
-        <p>You don't have any lists yet.</p>
+        <EmptyState
+          emoji="🍿"
+          message="You don't have any lists yet."
+          action={{ label: 'Find films to start one', to: '/search' }}
+        />
       ) : (
         <ul className={styles.lists}>
           {lists.map((list) => (

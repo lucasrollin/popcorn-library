@@ -5,6 +5,7 @@ import { searchFilms } from '../../services/filmService';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Loader from '../../components/Loader/Loader';
+import EmptyState from '../../components/EmptyState/EmptyState';
 import styles from './Search.module.scss';
 
 const Search = () => {
@@ -52,7 +53,7 @@ const Search = () => {
 
       {loading && <Loader />}
       {error && <p className={styles.error}>Error: {error}</p>}
-      {noResults && <p className={styles.empty}>No results. Try another title.</p>}
+      {noResults && <EmptyState emoji="🔍" message="No results. Try another title." />}
 
       <ul className={styles.results}>
         {films.map((film) => (
