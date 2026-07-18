@@ -14,7 +14,7 @@ const FilmCard = ({ tmdbId, title, posterUrl, releaseYear, voteAverage }: FilmCa
     <li className={styles.card}>
       <Link to={`/films/${tmdbId}`} className={styles.link}>
         {posterUrl ? (
-          <img className={styles.poster} src={posterUrl} alt={title} />
+          <img className={styles.poster} src={posterUrl} alt={title} loading="lazy" />
         ) : (
           <div className={styles.placeholder}>🍿</div>
         )}
