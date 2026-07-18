@@ -8,32 +8,7 @@
 .lists {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: $space-2;
-}
-
-.card {
-  background: $color-surface;
-  border: 1px solid $color-border;
-  border-radius: $radius-md;
-  transition: background $transition;
-
-  &:hover {
-    background: $color-surface-hover;
-  }
-
-  a {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-    padding: $space-3 $space-4;
-    color: $color-text;
-    text-decoration: none;
-  }
-}
-
-.description {
-  color: $color-text-muted;
-  font-size: $text-sm;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $space-4;
 }

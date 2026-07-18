@@ -55,7 +55,7 @@ const AddToList = ({ tmdbId }: Props) => {
                 ...l,
                 listFilms: inList
                   ? l.listFilms.filter((lf) => lf.film.tmdbId !== tmdbId)
-                  : [...l.listFilms, { film: { tmdbId } }],
+                  : [...l.listFilms, { film: { tmdbId, posterUrl: null } }],
               },
         ),
       );
@@ -78,7 +78,10 @@ const AddToList = ({ tmdbId }: Props) => {
       const newList = await createList(trimmed);
       await addFilmToList(newList.id, tmdbId);
 
-      setLists((prev) => [...prev, { ...newList, listFilms: [{ film: { tmdbId } }] }]);
+      setLists((prev) => [
+        ...prev,
+        { ...newList, listFilms: [{ film: { tmdbId, posterUrl: null } }] },
+      ]);
       setNewListName('');
     } catch (err) {
       setError((err as Error).message);

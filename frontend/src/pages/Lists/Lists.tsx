@@ -3,7 +3,7 @@ import type { ListWithFilms } from '../../types/list';
 import { getMyLists } from '../../services/listService';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import { Link } from 'react-router-dom';
+import ListCard from '../../components/ListCard/ListCard';
 import styles from './Lists.module.scss';
 
 const Lists = () => {
@@ -43,11 +43,14 @@ const Lists = () => {
       ) : (
         <ul className={styles.lists}>
           {lists.map((list) => (
-            <li className={styles.card} key={list.id}>
-              <Link to={`/lists/${list.id}`}>
-                {list.name} ({list.listFilms.length})
-              </Link>
-            </li>
+            <ListCard
+              key={list.id}
+              id={list.id}
+              name={list.name}
+              filmCount={list.listFilms.length}
+              posterUrls={list.listFilms.slice(0, 4).map((lf) => lf.film.posterUrl)}
+              isPublic={list.isPublic}
+            />
           ))}
         </ul>
       )}

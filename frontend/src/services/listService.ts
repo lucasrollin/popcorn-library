@@ -1,5 +1,11 @@
 import { api } from './apiClient';
-import type { List, ListWithFilmDetails, ListFilm, ListWithFilms } from '../types/list';
+import type {
+  List,
+  ListWithFilmDetails,
+  ListFilm,
+  ListWithFilms,
+  PublicListWithFilms,
+} from '../types/list';
 
 export const getMyLists = () => {
   return api.get<ListWithFilms[]>('/lists/me');
@@ -31,5 +37,5 @@ export const updateList = (
 ) => api.patch<List>(`/lists/${id}`, data);
 
 export const getPublicLists = () => {
-  return api.get<List[]>('/lists');
+  return api.get<PublicListWithFilms[]>('/lists');
 };

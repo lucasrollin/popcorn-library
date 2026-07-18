@@ -16,7 +16,11 @@ export interface ListFilm {
 }
 
 export interface ListWithFilms extends List {
-  listFilms: { film: { tmdbId: number } }[];
+  listFilms: { film: { tmdbId: number; posterUrl: string | null } }[];
+}
+
+export interface PublicListWithFilms extends ListWithFilms {
+  user: { username: string };
 }
 
 interface ListFilmDetail {
