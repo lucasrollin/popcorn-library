@@ -4,12 +4,15 @@ import { getPublicLists } from '../../services/listService';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import ListCard from '../../components/ListCard/ListCard';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './PublicLists.module.scss';
 
 const PublicLists = () => {
   const [lists, setLists] = useState<PublicListWithFilms[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  usePageTitle('Public Lists');
 
   useEffect(() => {
     const loadLists = async () => {

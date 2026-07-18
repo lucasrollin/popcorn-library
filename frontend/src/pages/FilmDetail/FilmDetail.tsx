@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import type { FilmDetails } from '../../types/film';
 import { useState, useEffect } from 'react';
 import { getFilm, getFilmRatings } from '../../services/filmService';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './FilmDetail.module.scss';
 import { useAuthStore } from '../../stores/authStore';
 import type { Rating } from '../../types/ratings';
@@ -20,6 +21,8 @@ const FilmDetail = () => {
   const user = useAuthStore((s) => s.user);
   const [myRating, setMyRating] = useState<Rating | null>(null);
   const [rateError, setRateError] = useState<string | null>(null);
+
+  usePageTitle(film?.title);
 
   useEffect(() => {
     const loadFilm = async () => {

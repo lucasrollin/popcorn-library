@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import type { PublicProfile } from '../../types/user';
 import { getPublicProfile } from '../../services/userService';
 import Loader from '../../components/Loader/Loader';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './Profile.module.scss';
 
 const Profile = () => {
@@ -10,6 +11,8 @@ const Profile = () => {
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  usePageTitle(username);
 
   useEffect(() => {
     if (!username) return;

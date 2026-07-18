@@ -6,6 +6,7 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './ListDetail.module.scss';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,6 +26,8 @@ const ListDetail = () => {
   const user = useAuthStore((s) => s.user);
 
   const { id } = useParams<{ id: string }>();
+
+  usePageTitle(list?.name);
 
   const editListSchema = z.object({
     name: z.string().trim().min(1, 'Name is required').max(256),

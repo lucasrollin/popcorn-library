@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from '../../stores/authStore';
 import { updateMe, deleteMe } from '../../services/userService';
 import Button from '../../components/Button/Button';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './Settings.module.scss';
 
 const settingsSchema = z.object({
@@ -30,6 +31,8 @@ const Settings = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  usePageTitle('Settings');
 
   useEffect(() => {
     if (!success) return;

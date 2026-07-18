@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { register as registerService } from '../../services/authService';
 import Button from '../../components/Button/Button';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from '../../styles/authForm.module.scss';
 
 const registerSchema = z.object({
@@ -28,6 +29,8 @@ const Register = () => {
   const navigate = useNavigate();
   const setUser = useAuthStore((s) => s.setUser);
   const [serverError, setServerError] = useState<string | null>(null);
+
+  usePageTitle('Sign up');
 
   const {
     register,
@@ -59,7 +62,12 @@ const Register = () => {
 
       <label className={styles.label}>
         Username
-        <input type="text" autoComplete="username" {...register('username')} className={styles.input} />
+        <input
+          type="text"
+          autoComplete="username"
+          {...register('username')}
+          className={styles.input}
+        />
       </label>
 
       {errors.username && <p className={styles.error}>{errors.username.message}</p>}

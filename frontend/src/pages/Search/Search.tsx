@@ -6,6 +6,7 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './Search.module.scss';
 
 const Search = () => {
@@ -14,6 +15,8 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+
+  usePageTitle('Search');
 
   const queryParam = searchParams.get('q')?.trim() ?? '';
 

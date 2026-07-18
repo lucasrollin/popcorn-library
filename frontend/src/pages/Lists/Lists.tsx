@@ -4,12 +4,15 @@ import { getMyLists } from '../../services/listService';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import ListCard from '../../components/ListCard/ListCard';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from './Lists.module.scss';
 
 const Lists = () => {
   const [lists, setLists] = useState<ListWithFilms[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  usePageTitle('My Lists');
 
   useEffect(() => {
     const loadLists = async () => {

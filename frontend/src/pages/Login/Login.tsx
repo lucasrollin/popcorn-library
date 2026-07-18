@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 import { useAuthStore } from '../../stores/authStore';
 import Button from '../../components/Button/Button';
+import usePageTitle from '../../hooks/usePageTitle';
 import styles from '../../styles/authForm.module.scss';
 
 const loginSchema = z.object({
@@ -19,6 +20,8 @@ const Login = () => {
   const navigate = useNavigate();
   const setUser = useAuthStore((s) => s.setUser);
   const [serverError, setServerError] = useState<string | null>(null);
+
+  usePageTitle('Log in');
 
   const {
     register,
