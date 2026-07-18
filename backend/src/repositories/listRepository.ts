@@ -10,14 +10,28 @@ export const createList = async (data: CreateListInput) => {
 export const findListsByUserId = async (userId: string) => {
   const lists = await prisma.list.findMany({
     where: { userId },
-    include: { listFilms: { select: { film: { select: { tmdbId: true } } } } },
+    include: {
+      listFilms: {
+        orderBy: { addedAt: 'asc' },
+        select: { film: { select: { tmdbId: true, posterUrl: true } } },
+      },
+    },
   });
 
   return lists;
 };
 
 export const findPublicLists = async () => {
-  const publicLists = await prisma.list.findMany({ where: { isPublic: true } });
+  const publicLists = await prisma.list.findMany({
+    where: { isPublic: true },
+    include: {
+      listFilms: {
+        orderBy: { addedAt: 'asc' },
+        select: { film: { select: { tmdbId: true, posterUrl: true } } },
+      },
+      user: { select: { username: true } },
+    },
+  });
 
   return publicLists;
 };
