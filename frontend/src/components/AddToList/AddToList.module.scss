@@ -36,6 +36,7 @@
 }
 
 .panel {
+  animation: fade-in-up 0.2s ease;
   position: absolute;
   top: calc(100% + #{$space-2});
   left: 0;
@@ -145,5 +146,12 @@
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
 }

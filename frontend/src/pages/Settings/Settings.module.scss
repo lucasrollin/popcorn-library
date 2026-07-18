@@ -47,11 +47,13 @@
 .error {
   color: $color-error;
   font-size: $text-sm;
+  animation: fade-in-up 0.15s ease;
 }
 
 .success {
   color: $color-success;
   font-size: $text-sm;
+  animation: fade-in-up 0.15s ease;
 }
 
 .danger {
@@ -74,4 +76,11 @@
 .dangerText {
   font-size: $text-sm;
   color: $color-text-muted;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }

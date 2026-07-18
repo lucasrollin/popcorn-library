@@ -42,4 +42,12 @@
 .error {
   color: $color-error;
   font-size: $text-sm;
+  animation: fade-in-up 0.15s ease;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }

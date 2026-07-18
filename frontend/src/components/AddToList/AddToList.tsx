@@ -38,6 +38,16 @@ const AddToList = ({ tmdbId }: Props) => {
     loadLists();
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
   const handleToggle = async (list: ListWithFilms) => {
     const inList = list.listFilms.some((lf) => lf.film.tmdbId === tmdbId);
 
