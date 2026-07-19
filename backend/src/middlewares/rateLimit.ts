@@ -18,7 +18,7 @@ export const authRateLimiter = rateLimit({
 // looping on the public TMDB search proxy to burn our API quota.
 export const apiRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // max requests per IP per window
+  limit: 1000, // max requests per IP per window
   standardHeaders: true,
   legacyHeaders: false,
   message: {
