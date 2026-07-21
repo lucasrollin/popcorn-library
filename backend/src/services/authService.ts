@@ -8,6 +8,17 @@ import { Prisma } from '../generated/prisma/client.js';
 import { toUserResponse } from './userService.js';
 import { config } from '../config.js';
 
+const startSession = async (userId: string) => {
+  const rawToken = generateToken();
+  const tokenHash = hashToken(rawToken);
+  const days = config.SESSION_EXPIRES_IN_DAYS;
+  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+
+  await createSession({ userId, tokenHash, expiresAt });
+
+  return { token: rawToken, expiresAt };
+};
+
 export type RegisterInput = {
   email: string;
   username: string;
@@ -47,18 +58,9 @@ export const register = async (data: RegisterInput) => {
     throw error;
   }
 
-  const rawToken = generateToken();
-  const tokenHash = hashToken(rawToken);
-  const days = config.SESSION_EXPIRES_IN_DAYS;
-  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  const { token, expiresAt } = await startSession(newUser.id);
 
-  await createSession({
-    userId: newUser.id,
-    tokenHash,
-    expiresAt,
-  });
-
-  return { user: toUserResponse(newUser), token: rawToken, expiresAt };
+  return { user: toUserResponse(newUser), token, expiresAt };
 };
 
 export type LoginInput = {
@@ -83,18 +85,9 @@ export const loginUser = async (data: LoginInput) => {
     throw new UnauthorizedError('INVALID_CREDENTIALS', 'Invalid email or password');
   }
 
-  const rawToken = generateToken();
-  const tokenHash = hashToken(rawToken);
-  const days = config.SESSION_EXPIRES_IN_DAYS;
-  const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  const { token, expiresAt } = await startSession(user.id);
 
-  await createSession({
-    userId: user.id,
-    tokenHash,
-    expiresAt,
-  });
-
-  return { user: toUserResponse(user), token: rawToken, expiresAt };
+  return { user: toUserResponse(user), token, expiresAt };
 };
 
 export const logout = async (tokenHash: string) => {
