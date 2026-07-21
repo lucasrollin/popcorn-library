@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from '../../stores/authStore';
 import { updateMe, deleteMe } from '../../services/userService';
 import Button from '../../components/Button/Button';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import usePageTitle from '../../hooks/usePageTitle';
 import styles from './Settings.module.scss';
 
@@ -31,6 +32,7 @@ const Settings = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   usePageTitle('Settings');
 
@@ -68,7 +70,6 @@ const Settings = () => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete your account? This cannot be undone.')) return;
     setDeleteError(null);
     setIsDeleting(true);
     try {
@@ -78,6 +79,7 @@ const Settings = () => {
     } catch (err) {
       setDeleteError((err as Error).message);
       setIsDeleting(false);
+      setConfirmOpen(false);
     }
   };
 
@@ -117,10 +119,26 @@ const Settings = () => {
           Deleting your account is permanent and cannot be undone.
         </p>
         {deleteError && <p className={styles.error}>{deleteError}</p>}
-        <Button variant="danger" type="button" onClick={handleDelete} disabled={isDeleting}>
+        <Button
+          variant="danger"
+          type="button"
+          onClick={() => setConfirmOpen(true)}
+          disabled={isDeleting}
+        >
           {isDeleting ? 'Deleting…' : 'Delete account'}
         </Button>
       </section>
+
+      <ConfirmModal
+        open={confirmOpen}
+        title="Delete account"
+        message="This will permanently delete your account. This cannot be undone."
+        confirmLabel="Delete account"
+        variant="danger"
+        isConfirming={isDeleting}
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </>
   );
 };

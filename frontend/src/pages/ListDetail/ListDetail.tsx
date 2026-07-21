@@ -6,6 +6,7 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import Button from '../../components/Button/Button';
 import Loader from '../../components/Loader/Loader';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import usePageTitle from '../../hooks/usePageTitle';
 import styles from './ListDetail.module.scss';
 import { z } from 'zod';
@@ -20,6 +21,7 @@ const ListDetail = () => {
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const navigate = useNavigate();
@@ -66,8 +68,6 @@ const ListDetail = () => {
   const handleDelete = async () => {
     if (!id) return;
 
-    if (!window.confirm('Delete this list ?')) return;
-
     setDeleting(true);
     setError(null);
 
@@ -76,6 +76,7 @@ const ListDetail = () => {
       navigate('/lists');
     } catch (err) {
       setError((err as Error).message);
+      setConfirmOpen(false);
     } finally {
       setDeleting(false);
     }
@@ -149,7 +150,7 @@ const ListDetail = () => {
           {isOwner && (
             <div className={styles.actions}>
               <Button onClick={startEditing}>Edit</Button>
-              <Button variant="danger" onClick={handleDelete} disabled={deleting}>
+              <Button variant="danger" onClick={() => setConfirmOpen(true)} disabled={deleting}>
                 {deleting ? 'Deleting…' : 'Delete list'}
               </Button>
             </div>
@@ -178,6 +179,17 @@ const ListDetail = () => {
           ))}
         </ul>
       )}
+
+      <ConfirmModal
+        open={confirmOpen}
+        title="Delete list"
+        message="This will permanently delete this list. This cannot be undone."
+        confirmLabel="Delete list"
+        variant="danger"
+        isConfirming={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </section>
   );
 };
