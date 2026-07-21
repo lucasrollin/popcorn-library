@@ -6,14 +6,13 @@ import {
   loginUser as loginService,
   logout as logoutService,
 } from '../services/authService.js';
+import { SESSION_COOKIE_OPTIONS } from '../utils/sessionCookie.js';
 
 export const register = async (req: Request<{}, {}, RegisterInput>, res: Response) => {
   const { user, token, expiresAt } = await registerService(req.body);
 
   res.cookie('session', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    ...SESSION_COOKIE_OPTIONS,
     maxAge: expiresAt.getTime() - Date.now(),
   });
 
@@ -24,9 +23,7 @@ export const login = async (req: Request<{}, {}, LoginInput>, res: Response) => 
   const { user, token, expiresAt } = await loginService(req.body);
 
   res.cookie('session', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    ...SESSION_COOKIE_OPTIONS,
     maxAge: expiresAt.getTime() - Date.now(),
   });
 
@@ -40,11 +37,6 @@ export const getMe = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   await logoutService(req.sessionTokenHash!);
-  res.clearCookie('session', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-  });
+  res.clearCookie('session', SESSION_COOKIE_OPTIONS);
   res.status(204).end();
 };
