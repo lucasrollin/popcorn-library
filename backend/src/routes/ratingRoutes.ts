@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { authenticate } from '../middlewares/authenticate.js';
-import { validateBody } from '../middlewares/validate.js';
+import { validateBody, validateParams } from '../middlewares/validate.js';
 import {
   createRatingController,
   deleteRatingController,
@@ -19,8 +19,16 @@ const updateRatingSchema = z.object({
   score: z.number().int().min(1).max(5),
 });
 
+const ratingIdParams = z.object({ id: z.uuid() });
+
 router.post('/', authenticate, validateBody(createRatingSchema), createRatingController);
-router.patch('/:id', authenticate, validateBody(updateRatingSchema), updateRatingController);
-router.delete('/:id', authenticate, deleteRatingController);
+router.patch(
+  '/:id',
+  authenticate,
+  validateParams(ratingIdParams),
+  validateBody(updateRatingSchema),
+  updateRatingController,
+);
+router.delete('/:id', authenticate, validateParams(ratingIdParams), deleteRatingController);
 
 export default router;

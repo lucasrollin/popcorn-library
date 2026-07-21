@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { z } from 'zod';
 import {
   deleteAccountService,
   getPublicProfileService,
@@ -7,28 +6,11 @@ import {
 } from '../services/userService.js';
 import { SESSION_COOKIE_OPTIONS } from '../utils/sessionCookie.js';
 
-export const getPublicProfileController = async (req: Request, res: Response) => {
-  const schema = z.object({
-    username: z
-      .string()
-      .trim()
-      .min(3)
-      .max(20)
-      .regex(/^[a-zA-Z0-9_]+$/),
-  });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'Username is invalid',
-    });
-
-    return;
-  }
-
-  const profile = await getPublicProfileService(result.data.username);
+export const getPublicProfileController = async (
+  req: Request<{ username: string }>,
+  res: Response,
+) => {
+  const profile = await getPublicProfileService(req.params.username);
 
   res.json(profile);
 };

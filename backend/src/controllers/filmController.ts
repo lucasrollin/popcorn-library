@@ -29,44 +29,14 @@ export const searchFilms = async (req: Request, res: Response) => {
   res.json(films);
 };
 
-const paramsSchema = z.object({
-  tmdbId: z.coerce.number().int().positive(),
-});
-
-export const getFilm = async (req: Request, res: Response) => {
-  const result = paramsSchema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'Film id is invalid',
-    });
-
-    return;
-  }
-
-  const { tmdbId } = result.data;
-
-  const film = await getFilmDetails(tmdbId);
+export const getFilm = async (req: Request<{ tmdbId: string }>, res: Response) => {
+  const film = await getFilmDetails(Number(req.params.tmdbId));
 
   res.json(film);
 };
 
-export const getFilmRatings = async (req: Request, res: Response) => {
-  const result = paramsSchema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'Film id is invalid',
-    });
-
-    return;
-  }
-
-  const { tmdbId } = result.data;
-
-  const ratings = await getRatingsByTmdbIdService(tmdbId);
+export const getFilmRatings = async (req: Request<{ tmdbId: string }>, res: Response) => {
+  const ratings = await getRatingsByTmdbIdService(Number(req.params.tmdbId));
 
   res.json(ratings);
 };

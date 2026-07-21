@@ -9,7 +9,6 @@ import {
   removeFilmFromListService,
   updateListService,
 } from '../services/listService.js';
-import { z } from 'zod';
 
 export const createListController = async (
   req: Request<
@@ -49,100 +48,35 @@ export const getPublicListsController = async (_req: Request, res: Response) => 
   res.json(result);
 };
 
-export const getListController = async (req: Request, res: Response) => {
-  const schema = z.object({ id: z.uuid() });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'List id is invalid',
-    });
-
-    return;
-  }
-
-  const list = await getListByIdService(result.data.id, req.user?.id);
+export const getListController = async (req: Request<{ id: string }>, res: Response) => {
+  const list = await getListByIdService(req.params.id, req.user?.id);
 
   res.json(list);
 };
 
-export const updateListController = async (req: Request, res: Response) => {
-  const schema = z.object({ id: z.uuid() });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'List id is invalid',
-    });
-
-    return;
-  }
-
-  const updatedList = await updateListService(result.data.id, req.user!.id, req.body);
+export const updateListController = async (req: Request<{ id: string }>, res: Response) => {
+  const updatedList = await updateListService(req.params.id, req.user!.id, req.body);
 
   res.json(updatedList);
 };
 
-export const deleteListController = async (req: Request, res: Response) => {
-  const schema = z.object({ id: z.uuid() });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'List id is invalid',
-    });
-
-    return;
-  }
-
-  await deleteListService(result.data.id, req.user!.id);
+export const deleteListController = async (req: Request<{ id: string }>, res: Response) => {
+  await deleteListService(req.params.id, req.user!.id);
 
   res.status(204).end();
 };
 
-export const addFilmToListController = async (req: Request, res: Response) => {
-  const schema = z.object({ id: z.uuid() });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'List id is invalid',
-    });
-
-    return;
-  }
-
-  const listFilm = await addFilmToListService(result.data.id, req.body.tmdbId, req.user!.id);
+export const addFilmToListController = async (req: Request<{ id: string }>, res: Response) => {
+  const listFilm = await addFilmToListService(req.params.id, req.body.tmdbId, req.user!.id);
 
   res.status(201).json(listFilm);
 };
 
-export const removeFilmFromListController = async (req: Request, res: Response) => {
-  const schema = z.object({
-    id: z.uuid(),
-    tmdbId: z.coerce.number().int().positive(),
-  });
-
-  const result = schema.safeParse(req.params);
-
-  if (!result.success) {
-    res.status(400).json({
-      error: 'VALIDATION_ERROR',
-      message: 'List id or Film id is invalid',
-    });
-
-    return;
-  }
-
-  await removeFilmFromListService(result.data.id, result.data.tmdbId, req.user!.id);
+export const removeFilmFromListController = async (
+  req: Request<{ id: string; tmdbId: string }>,
+  res: Response,
+) => {
+  await removeFilmFromListService(req.params.id, Number(req.params.tmdbId), req.user!.id);
 
   res.status(204).end();
 };
