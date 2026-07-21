@@ -15,6 +15,14 @@ import { useForm } from 'react-hook-form';
 import formStyles from '../../styles/authForm.module.scss';
 import { useAuthStore } from '../../stores/authStore';
 
+const editListSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required').max(256),
+  description: z.string().max(10000),
+  isPublic: z.boolean(),
+});
+
+type EditListFormValues = z.infer<typeof editListSchema>;
+
 const ListDetail = () => {
   const [list, setList] = useState<ListWithFilmDetails | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,14 +38,6 @@ const ListDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   usePageTitle(list?.name);
-
-  const editListSchema = z.object({
-    name: z.string().trim().min(1, 'Name is required').max(256),
-    description: z.string().max(10000),
-    isPublic: z.boolean(),
-  });
-
-  type EditListFormValues = z.infer<typeof editListSchema>;
 
   const {
     register,
