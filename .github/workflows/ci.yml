@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://user:password@localhost:5432/popcorn_library
+      TMDB_ACCESS_TOKEN: dummy-token-for-ci
     defaults:
       run:
         working-directory: backend

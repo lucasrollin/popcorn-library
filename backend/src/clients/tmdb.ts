@@ -1,11 +1,4 @@
-const TMDB_BASE_URL = process.env.TMDB_BASE_URL ?? 'https://api.themoviedb.org/3';
-const getAccessToken = (): string => {
-  const token = process.env.TMDB_ACCESS_TOKEN;
-  if (!token) {
-    throw new Error('TMDB_ACCESS_TOKEN is missing');
-  }
-  return token;
-};
+import { config } from '../config.js';
 
 export interface TmdbSearchMovie {
   id: number;
@@ -26,10 +19,10 @@ interface TmdbSearchResponse {
 
 export const searchMovies = async (query: string): Promise<TmdbSearchResponse> => {
   const params = new URLSearchParams({ query, language: 'fr-FR' });
-  const url = `${TMDB_BASE_URL}/search/movie?${params}`;
+  const url = `${config.TMDB_BASE_URL}/search/movie?${params}`;
 
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${getAccessToken()}` },
+    headers: { Authorization: `Bearer ${config.TMDB_ACCESS_TOKEN}` },
   });
 
   if (!res.ok) {
@@ -55,10 +48,10 @@ export interface TmdbMovieDetails {
 
 export const getMovieDetails = async (tmdbId: number): Promise<TmdbMovieDetails | null> => {
   const params = new URLSearchParams({ language: 'fr-FR' });
-  const url = `${TMDB_BASE_URL}/movie/${tmdbId}?${params}`;
+  const url = `${config.TMDB_BASE_URL}/movie/${tmdbId}?${params}`;
 
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${getAccessToken()}` },
+    headers: { Authorization: `Bearer ${config.TMDB_ACCESS_TOKEN}` },
   });
 
   if (res.status === 404) {
