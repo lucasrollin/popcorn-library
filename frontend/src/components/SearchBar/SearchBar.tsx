@@ -17,6 +17,14 @@ const SearchBar = ({
   placeholder = 'Search for a film…',
 }: SearchBarProps) => {
   const [query, setQuery] = useState(defaultValue);
+  const [prevDefaultValue, setPrevDefaultValue] = useState(defaultValue);
+
+  // The URL owns the query, so when it changes on its own (browser back/forward)
+  // the input has to follow. Typing only ever touches `query`.
+  if (defaultValue !== prevDefaultValue) {
+    setPrevDefaultValue(defaultValue);
+    setQuery(defaultValue);
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
