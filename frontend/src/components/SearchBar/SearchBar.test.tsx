@@ -31,4 +31,37 @@ describe('SearchBar', () => {
 
     expect(screen.getByRole('button', { name: 'Searching…' })).toBeDisabled();
   });
+
+  // Regression test for the browser back/forward bug: when the page changes
+  // defaultValue on an already-mounted SearchBar (the URL query changed), the
+  // input must follow instead of keeping its stale text.
+  it('updates the input when defaultValue changes on an open SearchBar', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<SearchBar defaultValue="dune" onSearch={vi.fn()} />);
+    const input = screen.getByRole('textbox', { name: 'Search for a film' });
+
+    // The user edits the box away from the initial URL value.
+    await user.clear(input);
+    await user.type(input, 'star wars');
+    expect(input).toHaveValue('star wars');
+
+    // The URL query changes (e.g. browser back) → the page re-renders us with
+    // a new defaultValue. The input must snap to it.
+    rerender(<SearchBar defaultValue="matrix" onSearch={vi.fn()} />);
+    expect(input).toHaveValue('matrix');
+  });
+
+  // The other half of the pattern: re-rendering with the SAME defaultValue must
+  // not clobber what the user has typed (the `if` guard protects this).
+  it('keeps the typed text when defaultValue is unchanged across a re-render', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<SearchBar defaultValue="dune" onSearch={vi.fn()} />);
+    const input = screen.getByRole('textbox', { name: 'Search for a film' });
+
+    await user.clear(input);
+    await user.type(input, 'star wars');
+
+    rerender(<SearchBar defaultValue="dune" onSearch={vi.fn()} />);
+    expect(input).toHaveValue('star wars');
+  });
 });
