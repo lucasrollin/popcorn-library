@@ -46,28 +46,11 @@
 }
 
 .username {
-  font-weight: 600;
-  background: linear-gradient(90deg, $color-accent 40%, #fff3d6 50%, $color-accent 60%);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: shine 3.5s ease-in-out infinite;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-    background: none;
-    color: $color-accent;
-  }
-}
-
-@keyframes shine {
-  from {
-    background-position: 200% center;
-  }
-  to {
-    background-position: 0% center;
-  }
+  // em et pas rem : la taille reste proportionnelle au tagline qui l'entoure,
+  // donc le mot grossit sans faire sauter la line-height de la phrase.
+  font-size: 1.1em;
+  font-weight: 700;
+  color: $color-accent;
 }
 
 .search {
