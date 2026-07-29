@@ -65,7 +65,7 @@
 .title {
   font-size: $text-2xl;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: $leading-tight;
   letter-spacing: $tracking-tight;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .overview {
-  line-height: 1.6;
+  line-height: $leading-normal;
   max-width: 60ch;
 }
 
