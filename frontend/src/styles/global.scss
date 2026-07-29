@@ -12,7 +12,21 @@
 body {
   font-family: 'Inter', system-ui, sans-serif;
   color: $color-text;
-  background: $color-bg;
+  // Halo d'accent en haut de page, sur TOUTES les pages.
+  // Dans le background de body et pas dans un ::before : le background de body
+  // est propagé au canvas par le navigateur, donc il est peint sous tout le
+  // reste — y compris le .backdrop de FilmDetail, que #root { isolation }
+  // empêche de descendre plus bas. Aucun z-index à arbitrer.
+  // Centre remonté au-dessus du viewport (-80px) : on ne voit que le bas de
+  // l'ellipse, la partie la plus douce.
+  background-color: $color-bg;
+  background-image: radial-gradient(
+    ellipse 1000px 520px at 50% -80px,
+    rgba($color-accent, 0.15),
+    transparent 70%
+  );
+  // Sans ça le dégradé se répète en bas des pages plus hautes que le viewport.
+  background-repeat: no-repeat;
 }
 
 // Règle de design system : tous les titres de page passent en display.
