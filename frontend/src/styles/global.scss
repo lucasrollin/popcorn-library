@@ -15,6 +15,13 @@ body {
   background: $color-bg;
 }
 
+// Règle de design system : tous les titres de page passent en display.
+// Sur l'élément et pas sur les classes — les 10 pages ont chacune la leur
+// (.title, .heading, .name, .username) et la règle est la même pour toutes.
+h1 {
+  font-family: $font-display;
+}
+
 #root {
   max-width: 1200px;
   margin: 0 auto;

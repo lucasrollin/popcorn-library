@@ -31,6 +31,10 @@ $text-lg: 1.25rem;
 $text-xl: clamp(1.35rem, 1.1rem + 1.25vw, 1.75rem);
 $text-2xl: clamp(1.75rem, 1rem + 3vw, 2.5rem);
 
+// Police display — géométrique, réservée aux titres (h1) et au wordmark.
+// Le corps reste en Inter, dessinée pour la lisibilité aux petites tailles.
+$font-display: 'Outfit', system-ui, sans-serif;
+
 // Interlettrage — en em, donc proportionnel à la taille du texte.
 // Resserrer les gros titres : à grande taille les chasses par défaut d'Inter
 // paraissent trop aérées. Réservé aux h1 / wordmark, jamais au corps de texte.
