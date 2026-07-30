@@ -4,8 +4,22 @@ $color-surface: #1b1c22;
 $color-surface-hover: #26272f;
 $color-border: #2e2f38;
 $color-border-strong: #4a4c58;
+// Bordure des CONTRÔLES de formulaire. Critère WCAG 1.4.11 (non-texte) : ce
+// qui identifie un contrôle doit atteindre 3:1 avec ce qui l'entoure. Le fond
+// d'un champ ($color-bg) ne se distingue pas du panneau ($color-surface) —
+// 1,12:1 — donc la bordure est le SEUL indice qu'il y a un champ ici, et
+// $color-border n'était qu'à 1,28:1. Celle-ci tient 3,9:1 sur le fond du
+// champ et 3,5:1 sur le panneau. Décorative ailleurs $color-border suffit.
+$color-border-input: #6f7180;
 $color-text: #f2f2f5;
 $color-text-muted: #9b9ca6;
+// Texte posé sur une surface TRANSLUCIDE (la nav en verre dépoli), dont le
+// fond réel dépend du contenu qui défile dessous. Sur la page d'un film, le
+// backdrop TMDB remonte à travers les 20 % de transparence de la nav :
+// $color-text-muted y tombe à 3,7:1 sur une image claire, sous le seuil AA.
+// Cette teinte tient 5,1:1 dans ce pire cas (image blanche) — mesuré, pas
+// estimé. À réserver aux surfaces translucides ; ailleurs, muted suffit.
+$color-text-on-glass: #b8b9c2;
 $color-accent: #f6c453;
 $color-accent-hover: #e3ad33;
 $color-on-accent: #1a1405;
