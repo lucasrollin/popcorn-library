@@ -19,11 +19,11 @@ const StarRating = ({ value, onRate }: StarRatingProps) => {
             key={n}
             type="button"
             className={`${styles.star} ${filled ? styles.filled : ''}`}
-            aria-label={`Rate ${n} star${n > 1 ? 's' : ''}`}
+            aria-label={`Rate ${n} out of 5`}
             onMouseEnter={() => setHover(n)}
             onClick={() => onRate(n)}
           >
-            ★
+            🍿
           </button>
         );
       })}
