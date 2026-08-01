@@ -103,7 +103,7 @@ const FilmDetail = () => {
           <div className={styles.meta}>
             {film.releaseYear && <span>{film.releaseYear}</span>}
             {film.tmdbRating > 0 && (
-              <span className={styles.rating}>★ {film.tmdbRating.toFixed(1)}</span>
+              <span className={styles.rating}>★ {film.tmdbRating.toFixed(1)} TMDB</span>
             )}
             {film.tmdbVotesCount > 0 && <span>{film.tmdbVotesCount.toLocaleString()} votes</span>}
           </div>
