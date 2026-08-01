@@ -111,7 +111,7 @@ const FilmDetail = () => {
           {film.overview ? (
             <p className={styles.overview}>{film.overview}</p>
           ) : (
-            <p className={styles.empty}>No overview available.</p>
+            <p className={styles.empty}>No synopsis — this one keeps its secrets.</p>
           )}
 
           {user ? (

@@ -40,7 +40,7 @@ const Lists = () => {
       {lists.length === 0 ? (
         <EmptyState
           emoji="🍿"
-          message="You don't have any lists yet."
+          message="Your shelf is empty."
           action={{ label: 'Find films to start one', to: '/search' }}
         />
       ) : (

@@ -162,7 +162,7 @@ const ListDetail = () => {
       {list.listFilms.length === 0 ? (
         <EmptyState
           emoji="🎬"
-          message="No films in this list yet."
+          message="An empty reel."
           action={isOwner ? { label: 'Search films to add', to: '/search' } : undefined}
         />
       ) : (

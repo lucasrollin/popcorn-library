@@ -56,7 +56,7 @@ const Search = () => {
 
       {loading && <Loader />}
       {error && <p className={styles.error}>Error: {error}</p>}
-      {noResults && <EmptyState emoji="🔍" message="No results. Try another title." />}
+      {noResults && <EmptyState emoji="🔍" message="Nothing playing. Try another title." />}
 
       <ul className={styles.results}>
         {films.map((film) => (
