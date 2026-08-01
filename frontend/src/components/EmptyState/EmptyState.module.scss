@@ -9,6 +9,13 @@
   text-align: center;
 }
 
+.title {
+  // margin à 0 : l'espacement vient du gap du conteneur flex, sinon la marge
+  // par défaut du h1 s'y ajoute.
+  margin: 0;
+  font-size: $text-xl;
+}
+
 .emoji {
   font-size: 3rem;
 }
