@@ -31,3 +31,25 @@
   filter: none;
   opacity: 1;
 }
+
+// Le sursaut au clic. Une animation en cours écrase les déclarations normales
+// dans la cascade : le scale(1.15) du :hover est simplement ignoré pendant
+// le pop, puis reprend la main à la fin.
+@keyframes pop {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  40% {
+    transform: scale(1.4) rotate(-12deg);
+  }
+  70% {
+    transform: scale(0.92) rotate(6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.pop {
+  animation: pop 0.35s ease-out;
+}
