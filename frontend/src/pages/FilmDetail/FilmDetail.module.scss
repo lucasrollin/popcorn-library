@@ -27,17 +27,34 @@
 .film {
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: $space-8;
+  // Les zones nommées dessinent la maquette : colonne gauche = affiche puis
+  // actions, colonne droite = le texte, qui occupe les deux rangées
+  grid-template-areas:
+    'poster info'
+    'actions info';
+  // 1fr sur la 2e rangée : elle absorbe la hauteur excédentaire du texte, donc
+  // les actions restent collées sous l'affiche au lieu de flotter au milieu
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: $space-6 $space-8;
   margin: $space-8 0;
 
   @include respond-to($bp-mobile) {
     grid-template-columns: 1fr;
+    // Sur une colonne on retrouve l'ordre de lecture : on découvre le film
+    // avant qu'on lui demande de le noter
+    grid-template-areas:
+      'poster'
+      'info'
+      'actions';
+    grid-template-rows: auto;
     gap: $space-6;
   }
 }
 
 .poster,
 .placeholder {
+  grid-area: poster;
   width: 100%;
   max-width: 300px;
   aspect-ratio: 2 / 3;
@@ -57,9 +74,29 @@
 }
 
 .info {
+  grid-area: info;
   display: flex;
   flex-direction: column;
   gap: $space-4;
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  // Aligné sur la largeur de l'affiche pour que la colonne gauche fasse bloc
+  max-width: 300px;
+}
+
+.rateError {
+  color: $color-error;
+  font-size: $text-sm;
+}
+
+.loginHint {
+  color: $color-text-muted;
+  font-size: $text-sm;
 }
 
 .title {

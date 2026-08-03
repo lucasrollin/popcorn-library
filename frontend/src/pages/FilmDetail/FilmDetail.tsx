@@ -137,15 +137,19 @@ const FilmDetail = () => {
               </ul>
             </section>
           )}
+        </div>
 
+        {/* Placé en dernier dans le DOM (= ordre de lecture logique) mais remonté
+            sous l'affiche par grid-template-areas sur écran large */}
+        <div className={styles.actions}>
           {user ? (
             <>
               <StarRating value={myRating?.score ?? 0} onRate={handleRate} />
-              {rateError && <p>{rateError}</p>}
+              {rateError && <p className={styles.rateError}>{rateError}</p>}
               <AddToList tmdbId={Number(tmdbId)} />
             </>
           ) : (
-            <p>Log in to rate this film.</p>
+            <p className={styles.loginHint}>Log in to rate this film.</p>
           )}
         </div>
       </article>
