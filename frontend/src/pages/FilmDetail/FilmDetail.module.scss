@@ -1,13 +1,20 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
+// Les deux mesures du hero, déclarées ensemble parce qu'elles se répondent.
+// Hauteur fluide : ~42 % de la largeur d'écran, bornée en haut et en bas.
+$backdrop-height: clamp(320px, 42vw, 520px);
+// De combien le contenu remonte sur l'image — nav sticky (~72px) comprise.
+// C'est LE bouton à tourner : plus il est petit, plus l'image respire.
+$content-overlap: 190px;
+
 .backdrop {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: -1;
-  height: 420px;
+  height: $backdrop-height;
   background-size: cover;
   background-position: center;
 
@@ -15,11 +22,14 @@
     content: '';
     position: absolute;
     inset: 0;
+    // Dégradé vers le HAUT : 0 % = le bas. Opaque en bas pour que le contenu
+    // se pose sur du fond plein, presque transparent en haut pour laisser
+    // voir l'image. Le voile résiduel garde la photo dans la palette du site.
     background: linear-gradient(
       to top,
       $color-bg 0%,
-      rgba($color-bg, 0.35) 60%,
-      rgba($color-bg, 0.15) 100%
+      rgba($color-bg, 0.55) 45%,
+      rgba($color-bg, 0.05) 100%
     );
   }
 }
@@ -37,7 +47,8 @@
   grid-template-rows: auto 1fr;
   align-items: start;
   gap: $space-6 $space-8;
-  margin: $space-8 0;
+  // Le contenu commence juste avant le bas de l'image et mord dessus
+  margin: calc(#{$backdrop-height} - #{$content-overlap}) 0 $space-8;
 
   @include respond-to($bp-mobile) {
     grid-template-columns: 1fr;
