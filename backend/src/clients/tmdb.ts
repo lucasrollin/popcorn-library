@@ -34,6 +34,21 @@ export const searchMovies = async (query: string): Promise<TmdbSearchResponse> =
   return data;
 };
 
+interface TmdbCastMember {
+  name: string;
+  character: string;
+}
+
+interface TmdbCrewMember {
+  name: string;
+  job: string;
+}
+
+interface TmdbCredits {
+  cast: TmdbCastMember[];
+  crew: TmdbCrewMember[];
+}
+
 export interface TmdbMovieDetails {
   id: number;
   title: string;
@@ -44,10 +59,14 @@ export interface TmdbMovieDetails {
   vote_average: number;
   vote_count: number;
   imdb_id: string | null;
+  // Toujours présent : getMovieDetails demande systématiquement append_to_response=credits
+  credits: TmdbCredits;
 }
 
 export const getMovieDetails = async (tmdbId: number): Promise<TmdbMovieDetails | null> => {
-  const params = new URLSearchParams({ language: 'fr-FR' });
+  // append_to_response : TMDB glisse la sous-ressource /credits dans CETTE réponse,
+  // ce qui évite un second aller-retour réseau vers /movie/:id/credits
+  const params = new URLSearchParams({ language: 'fr-FR', append_to_response: 'credits' });
   const url = `${config.TMDB_BASE_URL}/movie/${tmdbId}?${params}`;
 
   const res = await fetch(url, {

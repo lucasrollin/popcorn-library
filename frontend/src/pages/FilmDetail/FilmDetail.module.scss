@@ -82,9 +82,47 @@
   color: $color-accent;
 }
 
+.director {
+  color: $color-text-muted;
+
+  strong {
+    color: $color-text;
+    font-weight: 600;
+  }
+}
+
 .overview {
   line-height: $leading-normal;
   max-width: 60ch;
+}
+
+.castHeading {
+  font-size: $text-base;
+  font-weight: 600;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: $space-3;
+}
+
+.cast {
+  list-style: none;
+  display: grid;
+  // auto-fill + minmax : autant de colonnes que la largeur en permet, sans
+  // media query — de 3 sur desktop à 1 sur mobile
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $space-3 $space-4;
+  max-width: 60ch;
+}
+
+.castName {
+  display: block;
+}
+
+.castCharacter {
+  display: block;
+  color: $color-text-muted;
+  font-size: $text-sm;
 }
 
 .empty {

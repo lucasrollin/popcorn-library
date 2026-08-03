@@ -108,10 +108,34 @@ const FilmDetail = () => {
             {film.tmdbVotesCount > 0 && <span>{film.tmdbVotesCount.toLocaleString()} votes</span>}
           </div>
 
+          {film.director && (
+            <p className={styles.director}>
+              Directed by <strong>{film.director}</strong>
+            </p>
+          )}
+
           {film.overview ? (
             <p className={styles.overview}>{film.overview}</p>
           ) : (
             <p className={styles.empty}>No synopsis — this one keeps its secrets.</p>
+          )}
+
+          {film.cast.length > 0 && (
+            <section>
+              <h2 className={styles.castHeading}>Cast</h2>
+              <ul className={styles.cast}>
+                {/* index en key : ce casting arrive figé avec le film, il n'est
+                    jamais trié, filtré ni complété */}
+                {film.cast.map((member, index) => (
+                  <li key={index}>
+                    <span className={styles.castName}>{member.name}</span>
+                    {member.character && (
+                      <span className={styles.castCharacter}>{member.character}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
 
           {user ? (

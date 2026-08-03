@@ -12,6 +12,8 @@ import { findRatingsByFilmId } from '../repositories/ratingRepository.js';
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const TMDB_BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
+// TMDB renvoie parfois plus de 50 acteurs ; on garde les têtes d'affiche
+const CAST_LIMIT = 6;
 
 export const mapMovieToSearchResult = (movie: TmdbSearchMovie): FilmSearchResult => {
   return {
@@ -30,6 +32,10 @@ export const searchFilms = async (query: string): Promise<FilmSearchResult[]> =>
 };
 
 export const mapMovieToFilmDetails = (movie: TmdbMovieDetails): FilmDetails => {
+  // crew est un tableau plat de TOUS les métiers (photo, montage, musique…),
+  // le réalisateur s'y repère au champ job
+  const director = movie.credits.crew.find((member) => member.job === 'Director');
+
   return {
     tmdbId: movie.id,
     imdbId: movie.imdb_id,
@@ -40,6 +46,13 @@ export const mapMovieToFilmDetails = (movie: TmdbMovieDetails): FilmDetails => {
     backdropUrl: movie.backdrop_path ? `${TMDB_BACKDROP_BASE_URL}${movie.backdrop_path}` : null,
     releaseYear: movie.release_date ? Number(movie.release_date.slice(0, 4)) : null,
     overview: movie.overview || null,
+    director: director?.name ?? null,
+    // cast est déjà trié par TMDB (ordre du générique) ; on recopie champ par
+    // champ pour ne pas laisser fuiter la forme TMDB dans notre contrat
+    cast: movie.credits.cast.slice(0, CAST_LIMIT).map((member) => ({
+      name: member.name,
+      character: member.character,
+    })),
   };
 };
 

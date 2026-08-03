@@ -6,6 +6,11 @@ export interface FilmSearchResult {
   tmdbRating: number;
 }
 
+export interface CastMember {
+  name: string;
+  character: string;
+}
+
 export interface FilmDetails {
   tmdbId: number;
   imdbId: string | null;
@@ -16,4 +21,6 @@ export interface FilmDetails {
   releaseYear: number | null;
   tmdbRating: number;
   tmdbVotesCount: number;
+  director: string | null;
+  cast: CastMember[];
 }

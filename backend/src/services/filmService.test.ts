@@ -13,6 +13,7 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
@@ -31,6 +32,7 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
@@ -49,6 +51,7 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
@@ -67,6 +70,7 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
@@ -85,6 +89,7 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
@@ -103,10 +108,118 @@ describe('mapMovieToFilmDetails', () => {
       vote_average: 8.4,
       vote_count: 30000,
       imdb_id: 'tt1375666',
+      credits: { cast: [], crew: [] },
     };
 
     const result = mapMovieToFilmDetails(movie);
 
     expect(result.backdropUrl).toBe(null);
+  });
+
+  it('picks the director out of the crew', () => {
+    const movie = {
+      id: 27205,
+      title: 'Inception',
+      overview: 'A thief who steals corporate secrets.',
+      poster_path: '/abc.jpg',
+      backdrop_path: '/wide.jpg',
+      release_date: '2010-07-16',
+      vote_average: 8.4,
+      vote_count: 30000,
+      imdb_id: 'tt1375666',
+      credits: {
+        cast: [],
+        crew: [
+          { name: 'Wally Pfister', job: 'Director of Photography' },
+          { name: 'Christopher Nolan', job: 'Director' },
+          { name: 'Hans Zimmer', job: 'Original Music Composer' },
+        ],
+      },
+    };
+
+    const result = mapMovieToFilmDetails(movie);
+
+    expect(result.director).toBe('Christopher Nolan');
+  });
+
+  it('returns null director when the crew has no Director', () => {
+    const movie = {
+      id: 27205,
+      title: 'Inception',
+      overview: 'A thief who steals corporate secrets.',
+      poster_path: '/abc.jpg',
+      backdrop_path: '/wide.jpg',
+      release_date: '2010-07-16',
+      vote_average: 8.4,
+      vote_count: 30000,
+      imdb_id: 'tt1375666',
+      credits: {
+        cast: [],
+        crew: [{ name: 'Hans Zimmer', job: 'Original Music Composer' }],
+      },
+    };
+
+    const result = mapMovieToFilmDetails(movie);
+
+    expect(result.director).toBe(null);
+  });
+
+  it('keeps the name and character of each cast member', () => {
+    const movie = {
+      id: 27205,
+      title: 'Inception',
+      overview: 'A thief who steals corporate secrets.',
+      poster_path: '/abc.jpg',
+      backdrop_path: '/wide.jpg',
+      release_date: '2010-07-16',
+      vote_average: 8.4,
+      vote_count: 30000,
+      imdb_id: 'tt1375666',
+      credits: {
+        cast: [
+          { name: 'Leonardo DiCaprio', character: 'Dom Cobb' },
+          { name: 'Elliot Page', character: 'Ariadne' },
+        ],
+        crew: [],
+      },
+    };
+
+    const result = mapMovieToFilmDetails(movie);
+
+    expect(result.cast).toEqual([
+      { name: 'Leonardo DiCaprio', character: 'Dom Cobb' },
+      { name: 'Elliot Page', character: 'Ariadne' },
+    ]);
+  });
+
+  it('keeps only the first six cast members', () => {
+    const movie = {
+      id: 27205,
+      title: 'Inception',
+      overview: 'A thief who steals corporate secrets.',
+      poster_path: '/abc.jpg',
+      backdrop_path: '/wide.jpg',
+      release_date: '2010-07-16',
+      vote_average: 8.4,
+      vote_count: 30000,
+      imdb_id: 'tt1375666',
+      credits: {
+        cast: [
+          { name: 'Actor 1', character: 'Role 1' },
+          { name: 'Actor 2', character: 'Role 2' },
+          { name: 'Actor 3', character: 'Role 3' },
+          { name: 'Actor 4', character: 'Role 4' },
+          { name: 'Actor 5', character: 'Role 5' },
+          { name: 'Actor 6', character: 'Role 6' },
+          { name: 'Actor 7', character: 'Role 7' },
+        ],
+        crew: [],
+      },
+    };
+
+    const result = mapMovieToFilmDetails(movie);
+
+    expect(result.cast).toHaveLength(6);
+    expect(result.cast[5].name).toBe('Actor 6');
   });
 });
