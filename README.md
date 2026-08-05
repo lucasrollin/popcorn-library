@@ -36,6 +36,95 @@ routes → controllers → services → repositories  (internal database)
 - **Lazy film persistence.** Films from TMDB are written to the database only the first time a user rates or adds one to a list.
 - **Validation and errors.** Zod validates every request body; a custom error hierarchy is serialized by a single global error handler into a consistent `{ error, message }` response.
 
+## Data model
+
+Six tables. `ListFilm` is an explicit join table rather than an implicit
+many-to-many relation, because a film's membership in a list carries data of its
+own (`addedAt`).
+
+```mermaid
+erDiagram
+    User ||--o{ Session  : "opens"
+    User ||--o{ List     : "owns"
+    User ||--o{ Rating   : "writes"
+    List ||--o{ ListFilm : "contains"
+    Film ||--o{ ListFilm : "appears in"
+    Film ||--o{ Rating   : "receives"
+
+    User {
+        string   id        PK
+        string   email     UK "anonymized on account deletion"
+        string   username  UK "anonymized on account deletion"
+        string   password     "argon2id hash"
+        string   avatar       "nullable"
+        datetime createdAt
+        datetime updatedAt
+        datetime deletedAt    "nullable - GDPR soft delete"
+    }
+
+    Session {
+        string   id        PK
+        string   tokenHash UK "SHA-256 of the cookie value"
+        string   userId    FK
+        datetime expiresAt
+        datetime createdAt
+    }
+
+    Film {
+        string id             PK
+        int    tmdbId         UK "TMDB identity, the one the API uses"
+        string imdbId            "nullable"
+        string title
+        string overview          "nullable"
+        string posterUrl         "nullable"
+        int    releaseYear       "nullable"
+        float  tmdbRating        "nullable"
+        int    tmdbVotesCount    "nullable"
+    }
+
+    List {
+        string   id          PK
+        string   userId      FK
+        string   name
+        string   description    "nullable"
+        boolean  isPublic       "defaults to false"
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    ListFilm {
+        string   id      PK
+        string   listId  FK
+        string   filmId  FK
+        datetime addedAt
+    }
+
+    Rating {
+        string   id        PK
+        string   userId    FK
+        string   filmId    FK
+        int      score        "1 to 5"
+        datetime createdAt
+        datetime updatedAt
+    }
+```
+
+Three constraints carry the modelling decisions, and none of them are expressible
+in the diagram above:
+
+- **`@@unique([userId, filmId])` on `Rating`** — a user rates a given film once.
+  Re-rating updates the existing row; rating the same score again deletes it.
+- **`@@unique([listId, filmId])` on `ListFilm`** — the same film cannot be added
+  twice to one list. The database enforces it, so the API returns `409` instead
+  of relying on a check-then-insert race.
+- **`Film` rows are created lazily** — a film is only persisted the first time
+  someone rates it or adds it to a list. Everything else is served straight from
+  TMDB, so the table stays a cache of what users actually engaged with.
+
+Every foreign key is indexed (`@@index`), and all relations use Prisma's default
+`RESTRICT` delete behaviour: cleanup order is explicit in the service layer,
+inside a transaction, rather than delegated to cascading deletes.
+
 ## Known limitations
 
 Deliberate MVP trade-offs — shipping a deployed product first, at a scale where these are harmless:
