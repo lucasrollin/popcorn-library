@@ -72,6 +72,54 @@ Three consequences worth naming:
 - **Lazy film persistence.** Films from TMDB are written to the database only the first time a user rates or adds one to a list.
 - **Validation and errors.** Zod validates every request body; a custom error hierarchy is serialized by a single global error handler into a consistent `{ error, message }` response.
 
+### Session lifecycle
+
+The token is generated once and immediately split in two: the raw value leaves in
+a cookie, only its SHA-256 digest is stored. They meet again on every later
+request.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant B as Browser
+    participant API as Express API
+    participant DB as PostgreSQL
+
+    Note over B,DB: Opening a session
+
+    B->>API: POST /api/auth/login
+    API->>DB: find user by email
+    DB-->>API: user, or nothing
+    Note over API: argon2.verify always runs, against a<br/>dummy hash when the email is unknown,<br/>so timing never reveals which<br/>addresses are registered
+    API->>API: generateToken() - 32 random bytes, hex
+    API->>API: hashToken(raw) - SHA-256
+    API->>DB: insert Session (tokenHash, expiresAt)
+    API-->>B: 200, Set-Cookie session=RAW (HttpOnly, SameSite=Lax, Secure)
+
+    Note over B,DB: Every later request
+
+    B->>API: GET /api/lists/me, cookie sent automatically
+    API->>API: hashToken(cookie value)
+    API->>DB: find session by tokenHash, join user
+    DB-->>API: session and its user
+    alt unknown, expired, or account soft-deleted
+        API-->>B: 401, and the stale session row is deleted
+    else valid
+        API-->>B: 200
+    end
+```
+
+What that buys, concretely:
+
+- **A database dump yields no usable session.** It holds digests, and SHA-256 is
+  one-way, so an attacker cannot reconstruct a cookie value from it.
+- **JavaScript cannot read the cookie.** `HttpOnly` puts it out of reach of
+  `document.cookie`, so an XSS flaw cannot exfiltrate the session.
+- **Revocation is immediate.** Every request re-reads the row, so deleting a
+  session — or soft-deleting the account — takes effect on the very next call.
+  This is exactly what a JWT would not give without extra machinery, which is why
+  the stateless argument for one does not apply here.
+
 ## Data model
 
 Six tables. `ListFilm` is an explicit join table rather than an implicit
