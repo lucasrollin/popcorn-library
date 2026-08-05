@@ -161,6 +161,49 @@ Every foreign key is indexed (`@@index`), and all relations use Prisma's default
 `RESTRICT` delete behaviour: cleanup order is explicit in the service layer,
 inside a transaction, rather than delegated to cascading deletes.
 
+## API
+
+All routes are mounted under `/api`. **Auth** is the session cookie: _required_
+rejects with `401` when it is missing or expired, _optional_ changes the response
+instead of rejecting it.
+
+| Method   | Path                                | Auth     | Description                                              |
+| -------- | ----------------------------------- | -------- | -------------------------------------------------------- |
+| `GET`    | `/api/health`                       | —        | Liveness probe, excluded from rate limiting               |
+| `POST`   | `/api/auth/register`                | —        | Create an account, `409` if email or username is taken    |
+| `POST`   | `/api/auth/login`                   | —        | Open a session, sets the httpOnly cookie                  |
+| `POST`   | `/api/auth/logout`                  | required | Close the current session                                 |
+| `GET`    | `/api/auth/me`                      | required | The signed-in user                                        |
+| `GET`    | `/api/films/search?q=`              | —        | Search TMDB, first page only                              |
+| `GET`    | `/api/films/:tmdbId`                | —        | Film details, credits included                            |
+| `GET`    | `/api/films/:tmdbId/ratings`        | —        | Every rating for a film                                   |
+| `GET`    | `/api/lists`                        | —        | All public lists                                          |
+| `GET`    | `/api/lists/me`                     | required | The signed-in user's lists                                |
+| `GET`    | `/api/lists/:id`                    | optional | One list — private lists resolve only for their owner     |
+| `POST`   | `/api/lists`                        | required | Create a list                                             |
+| `PATCH`  | `/api/lists/:id`                    | required | Rename, re-describe, or publish a list                    |
+| `DELETE` | `/api/lists/:id`                    | required | Delete a list and its entries                             |
+| `POST`   | `/api/lists/:id/films`              | required | Add a film, `409` if already in the list                  |
+| `DELETE` | `/api/lists/:id/films/:tmdbId`      | required | Remove a film from the list                               |
+| `POST`   | `/api/ratings`                      | required | Rate a film, `409` if already rated                       |
+| `PATCH`  | `/api/ratings/:id`                  | required | Change a score                                            |
+| `DELETE` | `/api/ratings/:id`                  | required | Remove a rating                                           |
+| `PATCH`  | `/api/users/me`                     | required | Update username or avatar, `409` if the username is taken |
+| `DELETE` | `/api/users/me`                     | required | Anonymize the account (GDPR), keeps no personal data      |
+| `GET`    | `/api/users/:username`              | —        | Public profile                                            |
+
+Every request body and URL parameter is validated by Zod before reaching a
+controller. Failures short-circuit to the global error handler, which serializes
+every error — expected or not — into the same shape:
+
+```json
+{ "error": "FILM_NOT_FOUND", "message": "Film not found" }
+```
+
+Two rate limiters sit in front: a strict one on `/api/auth/login` and
+`/api/auth/register` to blunt credential stuffing, and a permissive global one on
+everything else under `/api`.
+
 ## Known limitations
 
 Deliberate MVP trade-offs — shipping a deployed product first, at a scale where these are harmless:
