@@ -10,11 +10,15 @@ import { createRating, deleteRating, updateRating } from '../../services/ratingS
 import StarRating from '../../components/StarRating/StarRating';
 import AddToList from '../../components/AddToList/AddToList';
 import Loader from '../../components/Loader/Loader';
+import EmptyState from '../../components/EmptyState/EmptyState';
+import { ApiError } from '../../services/apiClient';
 
 const FilmDetail = () => {
   const [film, setFilm] = useState<FilmDetails | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // L'objet entier, pas juste .message : le rendu a besoin du statut HTTP
+  // pour distinguer un film inexistant d'une panne.
+  const [error, setError] = useState<Error | null>(null);
 
   const { tmdbId } = useParams<{ tmdbId: string }>();
 
@@ -35,7 +39,7 @@ const FilmDetail = () => {
         const data = await getFilm(Number(tmdbId));
         setFilm(data);
       } catch (err) {
-        setError((err as Error).message);
+        setError(err as Error);
       } finally {
         setLoading(false);
       }
@@ -78,7 +82,27 @@ const FilmDetail = () => {
   };
 
   if (loading) return <Loader />;
-  if (error) return <p>Error : {error}</p>;
+
+  if (error) {
+    // 404 = le film n'existe pas (permanent, l'URL est fausse). Tout le reste
+    // — 500, réseau coupé — est transitoire et mérite un « réessaie ».
+    return error instanceof ApiError && error.status === 404 ? (
+      <EmptyState
+        title="Film not found"
+        emoji="🎬"
+        message="No such title in the archive."
+        action={{ label: 'Back to search', to: '/search' }}
+      />
+    ) : (
+      <EmptyState
+        title="Something went wrong"
+        emoji="📽️"
+        message="We couldn't load this film. Please try again."
+        action={{ label: 'Back to search', to: '/search' }}
+      />
+    );
+  }
+
   if (!film) return null;
 
   return (

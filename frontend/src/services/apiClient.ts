@@ -2,6 +2,22 @@ import { useAuthStore } from '../stores/authStore';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// Miroir front des erreurs typées du backend : le serveur répond
+// { error, message } + un statut HTTP, et on garde les trois jusqu'à l'appelant.
+// Sans ça, un `new Error(message)` aplatit tout et une page ne peut plus
+// distinguer « cette ressource n'existe pas » (404) d'une panne serveur (500).
+export class ApiError extends Error {
+  status: number;
+  code: string;
+
+  constructor(status: number, code: string, message: string) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+    this.code = code;
+  }
+}
+
 const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
   const res = await fetch(`${BASE_URL}${path}`, {
     credentials: 'include',
@@ -18,7 +34,11 @@ const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
     }
 
     const body = await res.json().catch(() => null);
-    throw new Error(body?.message ?? `Request failed: ${res.status}`);
+    throw new ApiError(
+      res.status,
+      body?.error ?? 'UNKNOWN_ERROR',
+      body?.message ?? `Request failed: ${res.status}`,
+    );
   }
 
   if (res.status === 204) {
