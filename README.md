@@ -28,6 +28,42 @@ routes → controllers → services → repositories  (internal database)
 - **Repositories** are the only layer allowed to use Prisma.
 - **Clients** are the only layer allowed to call third-party APIs.
 
+### Runtime topology
+
+Four containers on a private Docker network. Nginx is the only one that
+publishes a port, so it is the single entry point to the whole stack.
+
+```mermaid
+flowchart LR
+    Browser["Browser"]
+    TMDB["TMDB API<br/>(third party)"]
+
+    subgraph net["Docker Compose network - private"]
+        Nginx["nginx<br/>reverse proxy"]
+        Frontend["frontend<br/>static SPA build"]
+        Backend["backend<br/>Express, :3000"]
+        DB[("db<br/>PostgreSQL, :5432")]
+    end
+
+    Browser -->|"port 80, the only published one"| Nginx
+    Nginx -->|"/api/*"| Backend
+    Nginx -->|"everything else"| Frontend
+    Backend -->|"Prisma"| DB
+    Backend -->|"Bearer token, never reaches the browser"| TMDB
+```
+
+Three consequences worth naming:
+
+- **PostgreSQL is unreachable from the host.** No port mapping in
+  `docker-compose.yml`; only containers on the network can dial `db:5432`.
+  Local development needs `localhost:5433` for Prisma, so that mapping lives in
+  a gitignored `docker-compose.override.yml` (see the committed `.example`).
+- **The browser never talks to TMDB.** Every call is proxied by the backend,
+  which holds the Bearer token server-side.
+- **The frontend is built, not served by Node.** Vite compiles it at image build
+  time and a second nginx serves the static files, so no JavaScript runtime ships
+  to production for the frontend.
+
 ### Key decisions
 
 - **Opaque session tokens, not JWT.** A random token is stored raw in an httpOnly cookie and SHA-256 hashed in the database. Every request validates the session against the DB (which also enforces soft-deleted accounts), so the stateless advantage of a JWT would be lost anyway.
