@@ -27,7 +27,7 @@ const main = async () => {
       imdbId: 'tt1375666',
       title: 'Inception',
       overview:
-        'Dom Cobb est un voleur expérimenté dans l’art périlleux de l’extraction : sa spécialité consiste à dérober les secrets du subconscient.',
+        'Cobb is a skilled thief, the absolute best in the dangerous art of extraction: stealing valuable secrets from deep within the subconscious during the dream state.',
       posterUrl: 'https://image.tmdb.org/t/p/w500/8IB2e4r4oVhHnANbnm7O3Tj6tF8.jpg',
       releaseYear: 2010,
       tmdbRating: 8.4,
@@ -41,7 +41,7 @@ const main = async () => {
       imdbId: 'tt0137523',
       title: 'Fight Club',
       overview:
-        'Un employé de bureau insomniaque et un fabricant de savon désabusé fondent un club de combat clandestin qui devient bien plus que cela.',
+        'An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.',
       posterUrl: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
       releaseYear: 1999,
       tmdbRating: 8.4,
@@ -51,8 +51,8 @@ const main = async () => {
 
   const list = await prisma.list.create({
     data: {
-      name: 'Mes favoris',
-      description: 'Une sélection de films à voir absolument.',
+      name: 'My favorites',
+      description: 'A selection of films worth watching.',
       isPublic: true,
       userId: alice.id,
     },
