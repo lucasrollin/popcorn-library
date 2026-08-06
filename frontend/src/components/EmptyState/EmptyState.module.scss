@@ -10,8 +10,8 @@
 }
 
 .title {
-  // margin à 0 : l'espacement vient du gap du conteneur flex, sinon la marge
-  // par défaut du h1 s'y ajoute.
+  // margin 0: the spacing comes from the flex container's gap, otherwise the
+  // h1's default margin stacks on top of it.
   margin: 0;
   font-size: $text-xl;
 }

@@ -2,10 +2,11 @@ import { useAuthStore } from '../stores/authStore';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-// Miroir front des erreurs typées du backend : le serveur répond
-// { error, message } + un statut HTTP, et on garde les trois jusqu'à l'appelant.
-// Sans ça, un `new Error(message)` aplatit tout et une page ne peut plus
-// distinguer « cette ressource n'existe pas » (404) d'une panne serveur (500).
+// Front-end mirror of the backend's typed errors: the server answers with
+// { error, message } plus an HTTP status, and all three survive up to the
+// caller. Without this, a plain `new Error(message)` flattens everything and a
+// page can no longer tell "this resource does not exist" (404) from a server
+// failure (500).
 export class ApiError extends Error {
   status: number;
   code: string;

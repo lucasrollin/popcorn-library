@@ -18,7 +18,7 @@
     position: absolute;
     top: 25%;
     left: 50%;
-    // min() : jamais plus large que 80% du viewport → pas de scroll horizontal
+    // min(): never wider than 80% of the viewport → no horizontal scroll
     width: min(360px, 80vw);
     height: min(360px, 80vw);
     transform: translateX(-50%);
@@ -47,8 +47,8 @@
 }
 
 .username {
-  // em et pas rem : la taille reste proportionnelle au tagline qui l'entoure,
-  // donc le mot grossit sans faire sauter la line-height de la phrase.
+  // em rather than rem: the size stays proportional to the surrounding
+  // tagline, so the word grows without breaking the sentence's line-height.
   font-size: 1.1em;
   font-weight: 700;
   color: $color-accent;

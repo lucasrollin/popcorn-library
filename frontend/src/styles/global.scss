@@ -12,26 +12,26 @@
 body {
   font-family: 'Inter', system-ui, sans-serif;
   color: $color-text;
-  // Halo d'accent en haut de page, sur TOUTES les pages.
-  // Dans le background de body et pas dans un ::before : le background de body
-  // est propagé au canvas par le navigateur, donc il est peint sous tout le
-  // reste — y compris le .backdrop de FilmDetail, que #root { isolation }
-  // empêche de descendre plus bas. Aucun z-index à arbitrer.
-  // Centre remonté au-dessus du viewport (-80px) : on ne voit que le bas de
-  // l'ellipse, la partie la plus douce.
+  // Accent halo at the top of every page.
+  // On body's background rather than a ::before: the browser propagates body's
+  // background to the canvas, so it is painted beneath everything else —
+  // including FilmDetail's .backdrop, which #root { isolation } keeps from
+  // going any lower. No z-index to arbitrate.
+  // The center sits above the viewport (-80px), so only the bottom of the
+  // ellipse shows — its softest part.
   background-color: $color-bg;
   background-image: radial-gradient(
     ellipse 1000px 520px at 50% -80px,
     rgba($color-accent, 0.15),
     transparent 70%
   );
-  // Sans ça le dégradé se répète en bas des pages plus hautes que le viewport.
+  // Without this the gradient repeats at the bottom of pages taller than the viewport.
   background-repeat: no-repeat;
 }
 
-// Règle de design system : tous les titres de page passent en display.
-// Sur l'élément et pas sur les classes — les 10 pages ont chacune la leur
-// (.title, .heading, .name, .username) et la règle est la même pour toutes.
+// Design-system rule: every page heading switches to the display face.
+// On the element rather than the classes — the 10 pages each have their own
+// (.title, .heading, .name, .username) and the rule is the same for all of them.
 h1 {
   font-family: $font-display;
 }

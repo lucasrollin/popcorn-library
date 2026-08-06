@@ -8,7 +8,7 @@ export const findFilmByTmdbId = async (tmdbId: number) => {
 };
 
 export const createFilm = async (data: FilmDetails) => {
-  // Champs explicites : Film n'a pas toutes les colonnes de FilmDetails (ex. backdropUrl)
+  // Explicit fields: Film does not have every FilmDetails column (e.g. backdropUrl)
   const createdFilm = await prisma.film.create({
     data: {
       tmdbId: data.tmdbId,

@@ -13,8 +13,8 @@
   font-size: $text-xl;
   line-height: 1;
 
-  // Un emoji porte ses propres couleurs : `color` n'a aucun effet dessus.
-  // Le plein/vide passe donc par un filtre sur les pixels déjà peints.
+  // An emoji carries its own colors: `color` has no effect on it.
+  // Filled/empty therefore goes through a filter on the already-painted pixels.
   filter: grayscale(1);
   opacity: 0.4;
   transition:
@@ -32,9 +32,9 @@
   opacity: 1;
 }
 
-// Le sursaut au clic. Une animation en cours écrase les déclarations normales
-// dans la cascade : le scale(1.15) du :hover est simplement ignoré pendant
-// le pop, puis reprend la main à la fin.
+// The jolt on click. A running animation outranks normal declarations in the
+// cascade: the :hover scale(1.15) is simply ignored during the pop, then takes
+// over again once it ends.
 @keyframes pop {
   0% {
     transform: scale(1) rotate(0deg);

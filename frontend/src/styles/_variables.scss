@@ -1,24 +1,25 @@
-// Couleurs — thème sombre
+// Colors — dark theme
 $color-bg: #101014;
 $color-surface: #1b1c22;
 $color-surface-hover: #26272f;
 $color-border: #2e2f38;
 $color-border-strong: #4a4c58;
-// Bordure des CONTRÔLES de formulaire. Critère WCAG 1.4.11 (non-texte) : ce
-// qui identifie un contrôle doit atteindre 3:1 avec ce qui l'entoure. Le fond
-// d'un champ ($color-bg) ne se distingue pas du panneau ($color-surface) —
-// 1,12:1 — donc la bordure est le SEUL indice qu'il y a un champ ici, et
-// $color-border n'était qu'à 1,28:1. Celle-ci tient 3,9:1 sur le fond du
-// champ et 3,5:1 sur le panneau. Décorative ailleurs $color-border suffit.
+// Border for form CONTROLS. WCAG 1.4.11 (non-text contrast): whatever
+// identifies a control must reach 3:1 against its surroundings. A field's
+// background ($color-bg) is indistinguishable from the panel ($color-surface)
+// — 1.12:1 — so the border is the ONLY cue that a field is here, and
+// $color-border only managed 1.28:1. This one holds 3.9:1 against the field
+// background and 3.5:1 against the panel. Where a border is merely decorative,
+// $color-border is enough.
 $color-border-input: #6f7180;
 $color-text: #f2f2f5;
 $color-text-muted: #9b9ca6;
-// Texte posé sur une surface TRANSLUCIDE (la nav en verre dépoli), dont le
-// fond réel dépend du contenu qui défile dessous. Sur la page d'un film, le
-// backdrop TMDB remonte à travers les 20 % de transparence de la nav :
-// $color-text-muted y tombe à 3,7:1 sur une image claire, sous le seuil AA.
-// Cette teinte tient 5,1:1 dans ce pire cas (image blanche) — mesuré, pas
-// estimé. À réserver aux surfaces translucides ; ailleurs, muted suffit.
+// Text sitting on a TRANSLUCENT surface (the frosted-glass nav), whose real
+// background depends on whatever scrolls underneath. On a film page the TMDB
+// backdrop shows through the nav's 20% transparency: $color-text-muted drops
+// to 3.7:1 over a bright image, below the AA threshold. This shade holds
+// 5.1:1 in that worst case (a white image) — measured, not estimated.
+// Reserve it for translucent surfaces; elsewhere, muted is enough.
 $color-text-on-glass: #b8b9c2;
 $color-accent: #f6c453;
 $color-accent-hover: #e3ad33;
@@ -27,7 +28,7 @@ $color-error: #ff6b6b;
 $color-error-hover: #f25555;
 $color-success: #51cf66;
 
-// Espacements — échelle base 4px
+// Spacing — 4px base scale
 $space-1: 4px;
 $space-2: 8px;
 $space-3: 12px;
@@ -36,37 +37,37 @@ $space-6: 24px;
 $space-8: 32px;
 $space-12: 48px;
 
-// Typographie
-// xl/2xl fluides : clamp(min, valeur idéale, max) — la part en rem garde
-// la taille liée au zoom navigateur, la part en vw la lie à l'écran
+// Typography
+// Fluid xl/2xl: clamp(min, ideal, max) — the rem part keeps the size tied to
+// browser zoom, the vw part ties it to the screen
 $text-sm: 0.875rem;
 $text-base: 1rem;
 $text-lg: 1.25rem;
 $text-xl: clamp(1.35rem, 1.1rem + 1.25vw, 1.75rem);
 $text-2xl: clamp(1.75rem, 1rem + 3vw, 2.5rem);
 
-// Interlignes — SANS unité : la valeur est un multiplicateur de la taille de
-// police de l'élément. Avec une unité (px/em), c'est la hauteur CALCULÉE qui
-// est héritée par les enfants, et un enfant plus gros voit ses lignes se
-// chevaucher. Le reset met déjà 1.5 sur body ; ces deux-là sont des écarts
-// délibérés : titres resserrés, texte de lecture plus aéré.
+// Line heights — UNITLESS: the value is a multiplier of the element's own font
+// size. With a unit (px/em) it is the COMPUTED height that children inherit,
+// and a larger child ends up with overlapping lines. The reset already sets
+// 1.5 on body; these two are deliberate departures: tighter headings, roomier
+// body copy.
 $leading-tight: 1.1;
 $leading-normal: 1.6;
 
-// Police display — géométrique, réservée aux titres (h1) et au wordmark.
-// Le corps reste en Inter, dessinée pour la lisibilité aux petites tailles.
+// Display face — geometric, reserved for page headings (h1) and the wordmark.
+// Body copy stays on Inter, drawn for legibility at small sizes.
 $font-display: 'Outfit', system-ui, sans-serif;
 
-// Interlettrage — en em, donc proportionnel à la taille du texte.
-// Resserrer les gros titres : à grande taille les chasses par défaut d'Inter
-// paraissent trop aérées. Réservé aux h1 / wordmark, jamais au corps de texte.
+// Letter spacing — in em, so it scales with the text size.
+// Tightens large headings: at display sizes Inter's default spacing looks too
+// loose. Reserved for h1 / wordmark, never for body copy.
 $tracking-tight: -0.02em;
 
-// Ombres — élévation (opacités fortes : sur fond sombre, une ombre légère est invisible)
+// Shadows — elevation (high opacities: on a dark background a soft shadow is invisible)
 $shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
 $shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
 
-// Rayons
+// Radii
 $radius-sm: 6px;
 $radius-md: 8px;
 $radius-lg: 12px;

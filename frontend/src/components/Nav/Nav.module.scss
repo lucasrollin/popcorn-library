@@ -79,7 +79,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      // flex-basis 100% : occupe toute la ligne, donc passe sous la marque
+      // flex-basis 100%: takes the whole line, so it wraps under the wordmark
       flex-basis: 100%;
       padding-top: $space-2;
     }

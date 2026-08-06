@@ -4,8 +4,8 @@ import styles from './EmptyState.module.scss';
 type EmptyStateProps = {
   emoji: string;
   message: string;
-  // Uniquement pour les pages dont le vide EST le contenu (la 404). Les autres
-  // appelants ont déjà leur propre <h1> plus haut — ne pas en poser un second.
+  // Only for pages where the emptiness IS the content (the 404). Every other
+  // caller already has its own <h1> further up — do not add a second one.
   title?: string;
   action?: {
     label: string;

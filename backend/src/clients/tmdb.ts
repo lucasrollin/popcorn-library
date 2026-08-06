@@ -59,13 +59,13 @@ export interface TmdbMovieDetails {
   vote_average: number;
   vote_count: number;
   imdb_id: string | null;
-  // Toujours présent : getMovieDetails demande systématiquement append_to_response=credits
+  // Always present: getMovieDetails always asks for append_to_response=credits
   credits: TmdbCredits;
 }
 
 export const getMovieDetails = async (tmdbId: number): Promise<TmdbMovieDetails | null> => {
-  // append_to_response : TMDB glisse la sous-ressource /credits dans CETTE réponse,
-  // ce qui évite un second aller-retour réseau vers /movie/:id/credits
+  // append_to_response: TMDB folds the /credits sub-resource into THIS response,
+  // which saves a second network round trip to /movie/:id/credits
   const params = new URLSearchParams({ language: 'en-US', append_to_response: 'credits' });
   const url = `${config.TMDB_BASE_URL}/movie/${tmdbId}?${params}`;
 

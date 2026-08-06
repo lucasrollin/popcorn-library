@@ -16,8 +16,8 @@ import { ApiError } from '../../services/apiClient';
 const FilmDetail = () => {
   const [film, setFilm] = useState<FilmDetails | null>(null);
   const [loading, setLoading] = useState(false);
-  // L'objet entier, pas juste .message : le rendu a besoin du statut HTTP
-  // pour distinguer un film inexistant d'une panne.
+  // The whole object, not just .message: the render needs the HTTP status to
+  // tell a missing film apart from an outage.
   const [error, setError] = useState<Error | null>(null);
 
   const { tmdbId } = useParams<{ tmdbId: string }>();
@@ -84,8 +84,8 @@ const FilmDetail = () => {
   if (loading) return <Loader />;
 
   if (error) {
-    // 404 = le film n'existe pas (permanent, l'URL est fausse). Tout le reste
-    // — 500, réseau coupé — est transitoire et mérite un « réessaie ».
+    // 404 = the film does not exist (permanent, the URL is wrong). Everything
+    // else — 500, network down — is transient and deserves a "try again".
     return error instanceof ApiError && error.status === 404 ? (
       <EmptyState
         title="Film not found"
@@ -148,8 +148,8 @@ const FilmDetail = () => {
             <section>
               <h2 className={styles.castHeading}>Cast</h2>
               <ul className={styles.cast}>
-                {/* index en key : ce casting arrive figé avec le film, il n'est
-                    jamais trié, filtré ni complété */}
+                {/* index as key: this cast list arrives frozen with the film,
+                    it is never sorted, filtered or appended to */}
                 {film.cast.map((member, index) => (
                   <li key={index}>
                     <span className={styles.castName}>{member.name}</span>
@@ -163,8 +163,8 @@ const FilmDetail = () => {
           )}
         </div>
 
-        {/* Placé en dernier dans le DOM (= ordre de lecture logique) mais remonté
-            sous l'affiche par grid-template-areas sur écran large */}
+        {/* Last in the DOM (= logical reading order) but pulled up under the
+            poster by grid-template-areas on wide screens */}
         <div className={styles.actions}>
           {user ? (
             <>

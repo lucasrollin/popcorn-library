@@ -1,11 +1,11 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-// Les deux mesures du hero, déclarées ensemble parce qu'elles se répondent.
-// Hauteur fluide : ~42 % de la largeur d'écran, bornée en haut et en bas.
+// The hero's two measurements, declared together because they answer each other.
+// Fluid height: ~42% of the screen width, clamped at both ends.
 $backdrop-height: clamp(320px, 42vw, 520px);
-// De combien le contenu remonte sur l'image — nav sticky (~72px) comprise.
-// C'est LE bouton à tourner : plus il est petit, plus l'image respire.
+// How far the content rides up over the image — sticky nav (~72px) included.
+// This is THE knob to turn: the smaller it is, the more the image breathes.
 $content-overlap: 190px;
 
 .backdrop {
@@ -22,9 +22,9 @@ $content-overlap: 190px;
     content: '';
     position: absolute;
     inset: 0;
-    // Dégradé vers le HAUT : 0 % = le bas. Opaque en bas pour que le contenu
-    // se pose sur du fond plein, presque transparent en haut pour laisser
-    // voir l'image. Le voile résiduel garde la photo dans la palette du site.
+    // Gradient pointing UP: 0% is the bottom. Opaque at the bottom so the
+    // content sits on solid background, nearly transparent at the top to let
+    // the image through. The residual veil keeps the photo in the site palette.
     background: linear-gradient(
       to top,
       $color-bg 0%,
@@ -37,23 +37,23 @@ $content-overlap: 190px;
 .film {
   display: grid;
   grid-template-columns: 300px 1fr;
-  // Les zones nommées dessinent la maquette : colonne gauche = affiche puis
-  // actions, colonne droite = le texte, qui occupe les deux rangées
+  // The named areas draw the layout: left column = poster then actions,
+  // right column = the text, which spans both rows
   grid-template-areas:
     'poster info'
     'actions info';
-  // 1fr sur la 2e rangée : elle absorbe la hauteur excédentaire du texte, donc
-  // les actions restent collées sous l'affiche au lieu de flotter au milieu
+  // 1fr on the 2nd row: it absorbs the text's excess height, so the actions
+  // stay tucked under the poster instead of floating in the middle
   grid-template-rows: auto 1fr;
   align-items: start;
   gap: $space-6 $space-8;
-  // Le contenu commence juste avant le bas de l'image et mord dessus
+  // The content starts just short of the image's bottom edge and bites into it
   margin: calc(#{$backdrop-height} - #{$content-overlap}) 0 $space-8;
 
   @include respond-to($bp-mobile) {
     grid-template-columns: 1fr;
-    // Sur une colonne on retrouve l'ordre de lecture : on découvre le film
-    // avant qu'on lui demande de le noter
+    // In a single column, reading order takes over: you discover the film
+    // before being asked to rate it
     grid-template-areas:
       'poster'
       'info'
@@ -96,7 +96,7 @@ $content-overlap: 190px;
   display: flex;
   flex-direction: column;
   gap: $space-4;
-  // Aligné sur la largeur de l'affiche pour que la colonne gauche fasse bloc
+  // Matched to the poster's width so the left column reads as one block
   max-width: 300px;
 }
 
@@ -156,8 +156,8 @@ $content-overlap: 190px;
 .cast {
   list-style: none;
   display: grid;
-  // auto-fill + minmax : autant de colonnes que la largeur en permet, sans
-  // media query — de 3 sur desktop à 1 sur mobile
+  // auto-fill + minmax: as many columns as the width allows, with no media
+  // query — from 3 on desktop down to 1 on mobile
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: $space-3 $space-4;
   max-width: 60ch;
