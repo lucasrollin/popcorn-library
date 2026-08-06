@@ -18,7 +18,7 @@ interface TmdbSearchResponse {
 }
 
 export const searchMovies = async (query: string): Promise<TmdbSearchResponse> => {
-  const params = new URLSearchParams({ query, language: 'fr-FR' });
+  const params = new URLSearchParams({ query, language: 'en-US' });
   const url = `${config.TMDB_BASE_URL}/search/movie?${params}`;
 
   const res = await fetch(url, {
@@ -66,7 +66,7 @@ export interface TmdbMovieDetails {
 export const getMovieDetails = async (tmdbId: number): Promise<TmdbMovieDetails | null> => {
   // append_to_response : TMDB glisse la sous-ressource /credits dans CETTE réponse,
   // ce qui évite un second aller-retour réseau vers /movie/:id/credits
-  const params = new URLSearchParams({ language: 'fr-FR', append_to_response: 'credits' });
+  const params = new URLSearchParams({ language: 'en-US', append_to_response: 'credits' });
   const url = `${config.TMDB_BASE_URL}/movie/${tmdbId}?${params}`;
 
   const res = await fetch(url, {
