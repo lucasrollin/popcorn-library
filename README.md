@@ -316,3 +316,11 @@ In development the frontend proxies `/api` requests to the backend, so both run 
 - ✅ CI (GitHub Actions — lint, build and unit tests for both apps)
 - ✅ Full containerization + Nginx reverse proxy
 - ⬜ Deployment (VPS)
+
+## Attribution
+
+<img src="frontend/public/tmdb-logo.svg" alt="TMDB" width="200">
+
+This website uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.
+
+All film metadata, posters and backdrops come from [The Movie Database](https://www.themoviedb.org/). The API access token stays server-side and is never exposed to the browser.
