@@ -15,6 +15,7 @@ import Profile from './pages/Profile/Profile';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Settings from './pages/Settings/Settings';
 import NotFound from './pages/NotFound/NotFound';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
   const setUser = useAuthStore((s) => s.setUser);
@@ -35,21 +36,24 @@ const App = () => {
   return (
     <BrowserRouter>
       <Nav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/films/:tmdbId" element={<FilmDetail />} />
-        <Route path="/lists/:id" element={<ListDetail />} />
-        <Route path="/public-lists" element={<PublicLists />} />
-        <Route path="/users/:username" element={<Profile />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/lists" element={<Lists />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/films/:tmdbId" element={<FilmDetail />} />
+          <Route path="/lists/:id" element={<ListDetail />} />
+          <Route path="/public-lists" element={<PublicLists />} />
+          <Route path="/users/:username" element={<Profile />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/lists" element={<Lists />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
     </BrowserRouter>
   );
 };

@@ -1,0 +1,43 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  // No margin-top: auto here — #root's flex column and main's flex: 1 already
+  // push the footer down. This margin is only the breathing room above it.
+  margin-top: $space-12;
+  padding: $space-6 0;
+  border-top: 1px solid $color-border;
+
+  @include respond-to($bp-mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-3;
+  }
+}
+
+.logoLink {
+  // Without this the flex container stretches the link to the full row height
+  // and the click target grows well past the logo it wraps.
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.logo {
+  // The file carries a viewBox but no width/height attributes, so CSS decides
+  // the size. Fixing the height is enough: width: auto follows the 273 x 35
+  // ratio on its own, so the logo can never be stretched out of proportion.
+  height: 20px;
+  width: auto;
+  // Kills the few pixels of descender space an inline image sits on.
+  display: block;
+}
+
+.disclaimer {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $text-sm;
+  line-height: $leading-normal;
+}

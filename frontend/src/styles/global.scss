@@ -37,9 +37,23 @@ h1 {
 }
 
 #root {
+  // Full height + column layout so the footer sits at the bottom of the screen
+  // on short pages (404, login) instead of floating under the content.
+  // 100dvh rather than 100vh: on mobile, vh is measured against the viewport
+  // with the address bar hidden, so 100vh overflows while the bar is showing.
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 $space-4;
+}
+
+// Takes every pixel the nav and the footer leave behind — that is what pushes
+// the footer down. Also the page's main landmark, which screen readers expose
+// as a "skip to content" target.
+main {
+  flex: 1;
 }
 
 :focus-visible {
